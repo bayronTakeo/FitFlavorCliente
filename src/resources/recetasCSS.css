@@ -1,0 +1,52 @@
+.button{
+    -fx-background-color:  #56BFAC;
+    -fx-background-radius: 5px;
+    -fx-background-position: 10px;
+    -fx-padding: 0px 0px 0px 30px;
+    -fx-font-size: 14px;
+    -fx-transition: background-size 0.3s;
+}
+.button:hover {
+    -fx-background-color: #449889;
+    -fx-font-size: 16px;
+}
+#botonEditar {
+    -fx-background-image: url('contrato.png'); 
+    -fx-background-size: 38px 26px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonEditar:hover { 
+    -fx-background-size: 42px 30px;
+}
+#botonAgregar {
+    -fx-background-image: url('agregar-boton.png'); 
+    -fx-background-size: 36px 24px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonAgregar:hover { 
+    -fx-background-size: 40px 28px;
+}
+#botonEliminar {
+    -fx-background-image: url('borrar.png'); 
+    -fx-background-size: 36px 24px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonEliminar:hover { 
+    -fx-background-size: 40px 28px;
+}
+#botonFiltros {
+    -fx-background-image: url('filtrar.png'); 
+    -fx-background-size: 36px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonFiltros :hover { 
+    -fx-background-size: 40px 28px;
+}
