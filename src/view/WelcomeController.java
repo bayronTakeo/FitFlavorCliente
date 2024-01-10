@@ -5,7 +5,6 @@
  */
 package view;
 
-import DataTransferObjects.User;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,7 +29,7 @@ public class WelcomeController {
 
     private Stage stage;
 
-    private User user;
+    // private User user;
     private static final Logger LOGGER = Logger.getLogger("WelcomeController.class");
 
     @FXML
@@ -48,10 +47,9 @@ public class WelcomeController {
         this.stage = stage;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
+    //public void setUser(User user) {
+    //this.user = user;
+    //}
     /**
      * Method that initialises the window.
      *
@@ -67,7 +65,7 @@ public class WelcomeController {
         stage.setResizable(false);
 
         // LabelUsu //
-        labelUsu.setText(user.getEmail() + " has iniciado sesion correctamente!");
+        //  labelUsu.setText(user.getEmail() + " has iniciado sesion correctamente!");
         // LabelWelcome //
         labelWelcome.setText("Muchas Gracias por elegir nuestra aplicacion");
         // btnContinue //

@@ -5,8 +5,6 @@
  */
 package view;
 
-import DataTransferObjects.Model;
-import DataTransferObjects.User;
 import exceptions.CommonException;
 import exceptions.ConnectionErrorException;
 import exceptions.MaxConnectionException;
@@ -44,7 +42,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.ModelFactory;
 
 /**
  *
@@ -183,7 +180,7 @@ public class SignUpController {
         //Para actualizar el label en caso de que sea el ultimo campo sin validar.
         textFieldDirection.setOnKeyReleased(this::updateLabel);
 
-        //Copia la contraseña y 
+        //Copia la contraseña y
         //Para actualizar el label en caso de que sea el ultimo campo sin validar.
         textFieldConfirmPassword.setOnKeyReleased(this::updateLabel);
         // Comprueba si cambia el foco.
@@ -204,8 +201,8 @@ public class SignUpController {
 
         LOGGER.info("SingUp window initialized");
     }
-    
-      /**
+
+    /**
      * Comprueba si el texto tiene menos de 30 caracteres. Si llega al maximo no
      * permite ingresar mas y consume el evento del teclado
      *
@@ -420,9 +417,9 @@ public class SignUpController {
             if (quantityValuesZero != 0) {
                 throw new CommonException("data");
             }
-            Model model = ModelFactory.getModel();
-            User user = new User(textFieldEmail.getText(), textFieldName.getText(), textFieldDirection.getText(), Integer.parseInt(textFieldCode.getText()), Integer.parseInt(textFieldPhone.getText()), textFieldPassword.getText());
-            model.doSignUp(user);
+            // Model model = ModelFactory.getModel();
+            //User user = new User(textFieldEmail.getText(), textFieldName.getText(), textFieldDirection.getText(), Integer.parseInt(textFieldCode.getText()), Integer.parseInt(textFieldPhone.getText()), textFieldPassword.getText());
+            //model.doSignUp(user);
             //Cierro la ventana actual y abro la ventana de SignIn.
             try {
                 stage.close();
@@ -442,7 +439,7 @@ public class SignUpController {
             }
 
             //Si se lanza alguna excepcion la lanzo en un alert.
-        } catch (CommonException | UserExistException | ConnectionErrorException | TimeOutException | MaxConnectionException ex) {
+        } catch (CommonException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
             alert.show();
             LOGGER.log(Level.SEVERE, ex.getMessage());

@@ -1,12 +1,9 @@
 package view;
 
-import DataTransferObjects.Model;
-import DataTransferObjects.User;
+import bussinesLogic.UsuarioFactory;
+import bussinesLogic.UsuarioInterfaz;
+import exceptions.BusinessLogicException;
 import exceptions.CommonException;
-import exceptions.ConnectionErrorException;
-import exceptions.InvalidUserException;
-import exceptions.MaxConnectionException;
-import exceptions.TimeOutException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,7 +32,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import model.ModelFactory;
+import objects.Usuario;
 
 /**
  * Establece la instancia de Stage asociada a este controlador.
@@ -141,9 +138,9 @@ public class SignInController {
 
         //Aplica la accion de ver la contraseña
         buttonShowHide.setOnAction(this::handleShowHide);
-        
+
         stage.setOnCloseRequest(this::handleExitAction);
-        
+
         stage.show();
         LOGGER.info("SingIn window initialized");
 
@@ -193,7 +190,7 @@ public class SignInController {
         helper.copyPassword(passwordSignIn, textFieldPassword);
     }
 
-     private void handleExitAction(WindowEvent event) {
+    private void handleExitAction(WindowEvent event) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to exit? This will close the app.");
         a.showAndWait();
         try {
@@ -209,6 +206,7 @@ public class SignInController {
             LOGGER.log(Level.SEVERE, msg);
         }
     }
+
     /**
      * Comprueba si el texto tiene menos de 30 caracteres. Si llega al maximo no
      * permite ingresar mas y consume el evento del teclado
@@ -281,13 +279,9 @@ public class SignInController {
                 //Avisando al usuario mas tarde con un alert de que algun dato es incorrecto.
                 throw new CommonException("data");
             }
-            Model model = ModelFactory.getModel();
-            //Instancio un usuario y le doy los valores recogidos.
-            User user = new User();
-            user.setEmail(textFieldEmail.getText());
-            user.setPassword(textFieldPassword.getText());
-            //LLamo al modelo para realizar el SignIn
-            user = model.doSignIn(user);
+            UsuarioInterfaz model = UsuarioFactory.getModelo();
+            Usuario user = model.signIn(Usuario.class, textFieldEmail.getText(), textFieldPassword.getText());
+
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
             try {
                 stage.close();
@@ -304,8 +298,8 @@ public class SignInController {
             } catch (Exception ex) {
                 Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }
-        //Si se lanza alguna excepcion la mostrare por un alert.
-        } catch (CommonException | InvalidUserException | MaxConnectionException | ConnectionErrorException | TimeOutException ex) {
+            //Si se lanza alguna excepcion la mostrare por un alert.
+        } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
             alert.show();
             LOGGER.log(Level.SEVERE, ex.getMessage());
