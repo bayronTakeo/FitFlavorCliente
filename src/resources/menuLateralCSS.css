@@ -1,0 +1,62 @@
+.button{
+    -fx-background-color:  #56BFAC;
+    -fx-background-radius: 5px;
+    -fx-background-position: 10px;
+    -fx-padding: 10px 0px 0px 44px;
+    -fx-transition: background-size 0.3s;
+    -fx-font-size: 24px;
+}
+.button:hover {
+    -fx-background-color: #449889;
+    -fx-font-size: 30px;
+}
+#botonDiario {
+    -fx-background-image: url('diario.png'); 
+    -fx-background-size: 36px 39px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonDiario:hover { 
+    -fx-background-size: 40px 44px;
+}
+#botonPrincipal {
+    -fx-background-image: url('hogar.png'); 
+    -fx-background-size: 36px 39px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonPrincipal:hover { 
+    -fx-background-size: 40px 44px;
+}
+#botonRecetas {
+    -fx-background-image: url('libro-de-cocina.png'); 
+    -fx-background-size: 36px 39px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonRecetas:hover { 
+    -fx-background-size: 40px 44px;
+}
+#botonPerfil {
+    -fx-background-image: url('usuario.png'); 
+    -fx-background-size: 36px 39px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonPerfil:hover { 
+    -fx-background-size: 40px 44px;
+}
+#botonIngredientes {
+    -fx-background-image: url('vegetales.png'); 
+    -fx-background-size: 36px 39px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonIngredientes:hover { 
+    -fx-background-size: 40px 44px;
+}
