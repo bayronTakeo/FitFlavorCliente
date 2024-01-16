@@ -23,7 +23,7 @@ public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private SimpleStringProperty user_id;
+    private SimpleIntegerProperty user_id;
 
     private SimpleStringProperty email;
 
@@ -41,8 +41,8 @@ public class Usuario implements Serializable {
 
     private SimpleObjectProperty<EnumPrivilegios> privilegio;
 
-    public Usuario(String user_id, String email, String nombreCompleto, LocalDate fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
-        this.user_id = new SimpleStringProperty(user_id);
+    public Usuario(Integer user_id, String email, String nombreCompleto, LocalDate fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+        this.user_id = new SimpleIntegerProperty(user_id);
         this.email = new SimpleStringProperty(email);
         this.nombreCompleto = new SimpleStringProperty(nombreCompleto);
         this.fechaNacimiento = new SimpleObjectProperty<>(fechaNacimiento);
@@ -54,7 +54,7 @@ public class Usuario implements Serializable {
     }
 
     public Usuario() {
-        this.user_id = new SimpleStringProperty();
+        this.user_id = new SimpleIntegerProperty();
         this.email = new SimpleStringProperty();
         this.nombreCompleto = new SimpleStringProperty();
         this.fechaNacimiento = new SimpleObjectProperty<>();
@@ -66,7 +66,7 @@ public class Usuario implements Serializable {
     }
 
     // Setters
-    public void setUser_id(String user_id) {
+    public void setUser_id(Integer user_id) {
         this.user_id.set(user_id);
     }
 
@@ -103,7 +103,7 @@ public class Usuario implements Serializable {
     }
 
     // Getters
-    public String getUser_id() {
+    public Integer getUser_id() {
         return user_id.get();
     }
 
