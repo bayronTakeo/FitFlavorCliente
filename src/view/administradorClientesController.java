@@ -13,6 +13,7 @@ import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -137,8 +138,30 @@ public class administradorClientesController {
 
                 }
         );
-        LOGGER.info("AdministradorClientes iniciado");
 
+        // Eliminar usuario
+        menuTabla.getItems()
+                .get(0).setOnAction(this::handleDeleteAction);
+        LOGGER.info("AdministradorClientes iniciado");
+    }
+
+    private void handleDeleteAction(ActionEvent action) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar este usuario?");
+        a.showAndWait();
+        try {
+            if (a.getResult().equals(ButtonType.CANCEL)) {
+                action.consume();
+            } else {
+                ClienteFactory.getModelo().eliminarCliente(((Cliente) tablaUsuarios.getSelectionModel().getSelectedItem()).getUser_id());
+                tablaUsuarios.getItems().remove(tablaUsuarios.getSelectionModel().getSelectedItem());
+                tablaUsuarios.refresh();
+            }
+        } catch (Exception e) {
+            String msg = "Error eliminando el usuario: " + e.getMessage();
+            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+            alert.show();
+            LOGGER.log(Level.SEVERE, msg);
+        }
     }
 
     private void handleExitAction(WindowEvent event) {
