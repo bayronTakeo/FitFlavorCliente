@@ -99,6 +99,7 @@ public class administradorClientesController {
         tablaUsuarios.setItems(informacionClientes);
         tablaUsuarios.setEditable(true);
 
+        //Editar columna nombreCompleto
         columnaNombre.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
         columnaNombre.setOnEditCommit(
                 (TableColumn.CellEditEvent<Cliente, String> t) -> {
@@ -112,6 +113,25 @@ public class administradorClientesController {
                         LOGGER.log(Level.SEVERE, ex.getMessage());
                         ((Cliente) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())).setNombreCompleto(t.getOldValue());
+                        tablaUsuarios.refresh();
+                    }
+
+                }
+        );
+        //Editar columna Email
+        columnaEmail.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
+        columnaEmail.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, String> t) -> {
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setEmail(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setEmail(t.getOldValue());
                         tablaUsuarios.refresh();
                     }
 
