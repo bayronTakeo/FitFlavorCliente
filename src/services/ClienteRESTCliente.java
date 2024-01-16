@@ -47,7 +47,7 @@ public class ClienteRESTCliente implements ClienteInterfaz {
         try {
             webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
         } catch (Exception ex) {
-            throw new BusinessLogicException(ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al crear el cliente" + ex.getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ public class ClienteRESTCliente implements ClienteInterfaz {
         try {
             webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete(Cliente.class);
         } catch (Exception ex) {
-            throw new BusinessLogicException(ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al eliminar el cliente" + ex.getMessage());
         }
     }
 
