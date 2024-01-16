@@ -5,9 +5,13 @@
  */
 package view;
 
+import bussinesLogic.ClienteFactory;
+import exceptions.BusinessLogicException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
@@ -20,6 +24,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.ws.rs.core.GenericType;
 import objects.Cliente;
 
 /**
@@ -80,6 +85,18 @@ public class administradorClientesController {
         columnaContrania.setCellValueFactory(new PropertyValueFactory("contrasenia"));
 
         stage.show();
+        try {
+
+            informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
+            }));
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "La informacion no ha podido ser cargada.");
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaUsuarios.refresh();
+        }
+        tablaUsuarios.setItems(informacionClientes);
+        tablaUsuarios.setEditable(true);
         LOGGER.info("SingIn window initialized");
 
     }
