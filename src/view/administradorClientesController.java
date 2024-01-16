@@ -22,6 +22,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
@@ -97,7 +98,26 @@ public class administradorClientesController {
         }
         tablaUsuarios.setItems(informacionClientes);
         tablaUsuarios.setEditable(true);
-        LOGGER.info("SingIn window initialized");
+
+        columnaNombre.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
+        columnaNombre.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, String> t) -> {
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setNombreCompleto(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setNombreCompleto(t.getOldValue());
+                        tablaUsuarios.refresh();
+                    }
+
+                }
+        );
+        LOGGER.info("AdministradorClientes iniciado");
 
     }
 
