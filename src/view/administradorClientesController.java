@@ -17,6 +17,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import objects.Cliente;
@@ -67,6 +68,16 @@ public class administradorClientesController {
         stage.setTitle("Administracion clientes");
         stage.setResizable(false);
         stage.setOnCloseRequest(this::handleExitAction);
+
+        tablaUsuarios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        columnaEmail.setCellValueFactory(new PropertyValueFactory("email"));
+        columnaNombre.setCellValueFactory(new PropertyValueFactory("nombreCompleto"));
+        columnafecha.setCellValueFactory(new PropertyValueFactory("fechaNacimiento"));
+        columnaTelefono.setCellValueFactory(new PropertyValueFactory("telefono"));
+        columnaDireccion.setCellValueFactory(new PropertyValueFactory("direccion"));
+        columnaCodPostal.setCellValueFactory(new PropertyValueFactory("codigoPostal"));
+        columnaContrania.setCellValueFactory(new PropertyValueFactory("contrasenia"));
 
         stage.show();
         LOGGER.info("SingIn window initialized");
