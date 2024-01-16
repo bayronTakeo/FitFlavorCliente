@@ -5,7 +5,7 @@
  */
 package bussinesLogic;
 
-import services.UsuarioFarcadeREST;
+import services.UsuarioRESTCliente;
 
 /**
  *
@@ -17,7 +17,7 @@ public class UsuarioFactory {
 
     public static UsuarioInterfaz getModelo() {
         if (modelo == null) {
-            modelo = new UsuarioFarcadeREST();
+            modelo = new UsuarioRESTCliente();
         }
         return modelo;
     }
