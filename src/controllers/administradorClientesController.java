@@ -7,6 +7,9 @@ package controllers;
 
 import bussinesLogic.ClienteFactory;
 import exceptions.BusinessLogicException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,12 +23,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import javax.ws.rs.core.GenericType;
 import objects.Cliente;
 
@@ -47,7 +52,7 @@ public class administradorClientesController {
     @FXML
     private TableColumn<Cliente, String> columnaNombre;
     @FXML
-    private TableColumn<Cliente, String> columnafecha;
+    private TableColumn<Cliente, Date> columnafecha;
     @FXML
     private TableColumn<Cliente, String> columnaTelefono;
     @FXML
@@ -81,6 +86,22 @@ public class administradorClientesController {
         columnaEmail.setCellValueFactory(new PropertyValueFactory("email"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory("nombreCompleto"));
         columnafecha.setCellValueFactory(new PropertyValueFactory("fechaNacimiento"));
+        columnafecha.setCellFactory(column -> {
+            TableCell<Cliente, Date> cell = new TableCell<Cliente, Date>() {
+                private SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+
+                @Override
+                protected void updateItem(Date item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (empty || item == null) {
+                        setText(null);
+                    } else {
+                        setText(format.format(item));
+                    }
+                }
+            };
+            return cell;
+        });
         columnaTelefono.setCellValueFactory(new PropertyValueFactory("telefono"));
         columnaDireccion.setCellValueFactory(new PropertyValueFactory("direccion"));
         columnaCodPostal.setCellValueFactory(new PropertyValueFactory("codigoPostal"));
@@ -194,6 +215,25 @@ public class administradorClientesController {
                     }
                 }
         );
+        columnafecha.setCellFactory(param -> new DatePickerTable());
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+
+        columnafecha.setOnEditCommit((TableColumn.CellEditEvent<Cliente, Date> t) -> {
+            try {
+
+                ((Cliente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setFechaNacimiento(dateFormatter.parse(dateFormatter.format(t.getNewValue())));
+                ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+            } catch (BusinessLogicException | ParseException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, ex.getMessage());
+                ((Cliente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setFechaNacimiento(t.getOldValue());
+                tablaUsuarios.refresh();
+            }
+        });
+        //Editar columna fechaNacimiento
         // Eliminar usuario
         menuTabla.getItems()
                 .get(0).setOnAction(this::handleDeleteAction);

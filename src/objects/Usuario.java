@@ -7,6 +7,7 @@ package objects;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -29,7 +30,7 @@ public class Usuario implements Serializable {
 
     private SimpleStringProperty nombreCompleto;
 
-    private ObjectProperty<LocalDate> fechaNacimiento;
+    private ObjectProperty<Date> fechaNacimiento;
 
     private SimpleStringProperty telefono;
 
@@ -41,7 +42,7 @@ public class Usuario implements Serializable {
 
     private SimpleObjectProperty<EnumPrivilegios> privilegio;
 
-    public Usuario(Integer user_id, String email, String nombreCompleto, LocalDate fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+    public Usuario(Integer user_id, String email, String nombreCompleto, Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
         this.user_id = new SimpleIntegerProperty(user_id);
         this.email = new SimpleStringProperty(email);
         this.nombreCompleto = new SimpleStringProperty(nombreCompleto);
@@ -78,7 +79,7 @@ public class Usuario implements Serializable {
         this.nombreCompleto.set(nombreCompleto);
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento.set(fechaNacimiento);
     }
 
@@ -115,7 +116,7 @@ public class Usuario implements Serializable {
         return nombreCompleto.get();
     }
 
-    public LocalDate getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento.get();
     }
 
