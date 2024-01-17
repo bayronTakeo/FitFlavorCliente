@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
@@ -32,6 +32,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.ws.rs.core.GenericType;
+import objects.Cliente;
 import objects.Usuario;
 
 /**
@@ -110,7 +112,8 @@ public class SignInController {
         stage.setTitle("SignIn");
         stage.setResizable(false);
         //Pone en el textFieldEmail un email, sirve para cuando viene de la ventana SignUp y ha completado exitosamente el registro
-        textFieldEmail.setText(parametro);
+        textFieldEmail.setText("prueba@gmail.com");
+        passwordSignIn.setText("1234");
         // HyperLnk //
         //Accion de dirigir a la ventana SignUp
         hyperLinkSignUp.setOnAction(this::SignUp);
@@ -280,16 +283,21 @@ public class SignInController {
                 throw new CommonException("data");
             }
             UsuarioInterfaz model = UsuarioFactory.getModelo();
-            Usuario user = model.signIn(Usuario.class, textFieldEmail.getText(), textFieldPassword.getText());
+            LOGGER.log(Level.INFO, textFieldPassword.getText());
+
+            Usuario user = model.signIn(new GenericType<Cliente>() {
+            }, textFieldEmail.getText(), textFieldPassword.getText());
+            //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
 
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
             try {
+                LOGGER.log(Level.INFO, user.toString());
                 stage.close();
                 LOGGER.info("SignIn window closed");
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/Welcome.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
                 Parent root = (Parent) loader.load();
 
-                WelcomeController controller = ((WelcomeController) loader.getController());
+                administradorClientesController controller = ((administradorClientesController) loader.getController());
 
                 controller.setStage(new Stage());
 
@@ -298,6 +306,7 @@ public class SignInController {
             } catch (Exception ex) {
                 Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             //Si se lanza alguna excepcion la mostrare por un alert.
         } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());

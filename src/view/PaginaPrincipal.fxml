@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="textBienvenido" layoutX="1062.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenido Pepe">
+         <font>
+            <Font name="System Bold" size="28.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="48.0" fitWidth="46.0" layoutX="1299.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../Reto1-Sign-Up-In-Application/src/resources/account.png" />
+         </image>
+      </ImageView>
+      <Text fx:id="textBienvenido2" layoutX="385.0" layoutY="428.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recomendado para ti">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Separator layoutX="386.0" layoutY="384.0" prefHeight="20.0" prefWidth="973.0" />
+      <TableView fx:id="tablaRecomendados" layoutX="386.0" layoutY="435.0" prefHeight="307.0" prefWidth="961.0">
+         <columns>
+            <TableColumn prefWidth="233.0" text="Nombre" />
+            <TableColumn prefWidth="195.0" text="Tipo" />
+            <TableColumn prefWidth="221.0" text="Duracion" />
+            <TableColumn prefWidth="192.0" text="Ingredientes" />
+            <TableColumn prefWidth="119.0" text="Precio" />
+         </columns>
+      </TableView>
+      <Button layoutX="1305.0" layoutY="742.0" mnemonicParsing="false" style="-fx-background-color: #56BFAC;" text="Ver" />
+      <LineChart fx:id="graficaKcalQuemadas" layoutX="385.0" layoutY="92.0" prefHeight="293.0" prefWidth="426.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Text layoutX="409.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Kcal Quemadas">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <Text layoutX="952.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tu actividad">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Text>
+      <LineChart fx:id="graficaActividad" layoutX="896.0" layoutY="92.0" prefHeight="293.0" prefWidth="426.0">
+         <xAxis>
+            <CategoryAxis side="BOTTOM" />
+         </xAxis>
+         <yAxis>
+            <NumberAxis side="LEFT" />
+         </yAxis>
+      </LineChart>
+      <ComboBox fx:id="comboMes" layoutX="714.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
+      <ComboBox fx:id="comboMes1" layoutX="1225.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
+      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
+         <children>
+            <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
+               <font>
+                  <Font name="Serif Regular" size="34.0" />
+               </font>
+            </Text>
+            <Text fill="#fcf8f8" layoutX="12.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menú">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <Separator layoutX="12.0" layoutY="188.0" prefHeight="4.0" prefWidth="288.0" />
+            <ImageView fitHeight="116.0" fitWidth="122.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="botonDiario" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonPerfil" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="366.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Perfil" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <graphic>
+                  <ImageView fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@cerrar-sesion%20(2).png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="botonPrincipal" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="192.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Principal" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+            <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="482.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</Pane>

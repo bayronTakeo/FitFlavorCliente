@@ -5,19 +5,19 @@
  */
 package bussinesLogic;
 
-import services.UsuarioRESTCliente;
+import services.ClienteRESTCliente;
 
 /**
  *
  * @author bayron
  */
-public class UsuarioFactory {
+public class ClienteFactory {
 
-    public static UsuarioInterfaz modelo;
+    public static ClienteInterfaz modelo;
 
-    public static UsuarioInterfaz getModelo() {
+    public static ClienteInterfaz getModelo() {
         if (modelo == null) {
-            modelo = new UsuarioRESTCliente();
+            modelo = new ClienteRESTCliente();
         }
         return modelo;
     }
