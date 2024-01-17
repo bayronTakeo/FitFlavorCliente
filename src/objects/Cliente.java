@@ -36,11 +36,11 @@ public class Cliente extends Usuario {
 
     // Constructor por defecto sin argumentos
     public Cliente() {
-        super();
-        this.sexo = new SimpleObjectProperty<>();
-        this.peso = new SimpleFloatProperty();
-        this.objetivo = new SimpleObjectProperty<>();
-        this.altura = new SimpleStringProperty();
+        super(0, "usuario@gmail.com", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
+        this.sexo = new SimpleObjectProperty<>(EnumSexo.HOMBRE);
+        this.peso = new SimpleFloatProperty(33);
+        this.objetivo = new SimpleObjectProperty<>(EnumObjetivo.MANTENERSE);
+        this.altura = new SimpleStringProperty("174");
     }
 
     // Setters

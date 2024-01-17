@@ -21,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableCell;
@@ -61,6 +62,8 @@ public class administradorClientesController {
     private TableColumn<Cliente, String> columnaCodPostal;
     @FXML
     private TableColumn<Cliente, String> columnaContrania;
+    @FXML
+    private Button botonAgregar;
 
     private ObservableList<Cliente> informacionClientes;
 
@@ -215,9 +218,9 @@ public class administradorClientesController {
                     }
                 }
         );
+        //Editar columna fechaNacimiento
         columnafecha.setCellFactory(param -> new DatePickerTable());
         SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
-
         columnafecha.setOnEditCommit((TableColumn.CellEditEvent<Cliente, Date> t) -> {
             try {
 
@@ -233,11 +236,29 @@ public class administradorClientesController {
                 tablaUsuarios.refresh();
             }
         });
-        //Editar columna fechaNacimiento
+        //Agregar un nuevo usuario.
+        botonAgregar.setOnAction(this::handleAgregarAction);
+
         // Eliminar usuario
         menuTabla.getItems()
                 .get(0).setOnAction(this::handleDeleteAction);
         LOGGER.info("AdministradorClientes iniciado");
+    }
+
+    private void handleAgregarAction(ActionEvent action) {
+        try {
+            Cliente client = new Cliente();
+            ClienteFactory.getModelo().crearCliente(client);
+            informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
+            }));
+            tablaUsuarios.setItems(informacionClientes);
+            tablaUsuarios.refresh();
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaUsuarios.refresh();
+        }
     }
 
     private void handleDeleteAction(ActionEvent action) {
