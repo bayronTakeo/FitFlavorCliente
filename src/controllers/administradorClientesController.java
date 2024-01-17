@@ -138,7 +138,62 @@ public class administradorClientesController {
 
                 }
         );
+        //Editar columna telefono
 
+        columnaTelefono.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
+        columnaTelefono.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, String> t) -> {
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setTelefono(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setEmail(t.getOldValue());
+                        tablaUsuarios.refresh();
+                    }
+                }
+        );
+        //Editar columna direccion
+        columnaDireccion.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
+        columnaDireccion.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, String> t) -> {
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setDireccion(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setEmail(t.getOldValue());
+                        tablaUsuarios.refresh();
+                    }
+                }
+        );
+
+        //Editar columna
+        columnaCodPostal.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
+        columnaCodPostal.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, String> t) -> {
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setCodigoPostal(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setEmail(t.getOldValue());
+                        tablaUsuarios.refresh();
+                    }
+                }
+        );
         // Eliminar usuario
         menuTabla.getItems()
                 .get(0).setOnAction(this::handleDeleteAction);
