@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
@@ -112,7 +112,8 @@ public class SignInController {
         stage.setTitle("SignIn");
         stage.setResizable(false);
         //Pone en el textFieldEmail un email, sirve para cuando viene de la ventana SignUp y ha completado exitosamente el registro
-        textFieldEmail.setText(parametro);
+        textFieldEmail.setText("prueba@gmail.com");
+        passwordSignIn.setText("1234");
         // HyperLnk //
         //Accion de dirigir a la ventana SignUp
         hyperLinkSignUp.setOnAction(this::SignUp);
@@ -287,25 +288,25 @@ public class SignInController {
             Usuario user = model.signIn(new GenericType<Cliente>() {
             }, textFieldEmail.getText(), textFieldPassword.getText());
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
-            if (user instanceof Cliente) {
-                //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
-                try {
-                    LOGGER.log(Level.INFO, user.toString());
-                    stage.close();
-                    LOGGER.info("SignIn window closed");
-                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
-                    Parent root = (Parent) loader.load();
 
-                    administradorClientesController controller = ((administradorClientesController) loader.getController());
+            //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
+            try {
+                LOGGER.log(Level.INFO, user.toString());
+                stage.close();
+                LOGGER.info("SignIn window closed");
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
+                Parent root = (Parent) loader.load();
 
-                    controller.setStage(new Stage());
+                administradorClientesController controller = ((administradorClientesController) loader.getController());
 
-                    controller.initStage(root);
-                    LOGGER.info("Welcome window opened");
-                } catch (Exception ex) {
-                    Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                controller.setStage(new Stage());
+
+                controller.initStage(root);
+                LOGGER.info("Welcome window opened");
+            } catch (Exception ex) {
+                Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             //Si se lanza alguna excepcion la mostrare por un alert.
         } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
