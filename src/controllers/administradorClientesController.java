@@ -249,6 +249,7 @@ public class administradorClientesController {
         menuTabla.getItems()
                 .get(0).setOnAction(this::DeleteAction);
         botonEliminar.setOnAction(this::DeleteAction);
+        stage.show();
         LOGGER.info("AdministradorClientes iniciado");
     }
 
