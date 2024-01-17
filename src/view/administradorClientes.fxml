@@ -49,7 +49,7 @@
             </ContextMenu>
          </contextMenu>
       </TableView>
-      <TextField layoutX="383.0" layoutY="145.0" prefHeight="40.0" prefWidth="453.0" promptText="Escribe el nombre del usuario:" />
+      <TextField fx:id="textfieldBuscar" layoutX="383.0" layoutY="145.0" prefHeight="40.0" prefWidth="453.0" promptText="Escribe el nombre del usuario:" />
       <Button fx:id="botonBuscar" layoutX="836.0" layoutY="145.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" stylesheets="@AdministradorClientesCSS.css" text="Buscar" />
       <Button fx:id="botonEliminar" layoutX="1243.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Eliminar" />
       <Button fx:id="botonAgregar" layoutX="1128.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Agregar" />

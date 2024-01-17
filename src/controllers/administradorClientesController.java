@@ -27,6 +27,7 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
@@ -63,8 +64,9 @@ public class administradorClientesController {
     @FXML
     private TableColumn<Cliente, String> columnaContrania;
     @FXML
-    private Button botonAgregar;
-
+    private Button botonAgregar, botonEliminar, botonEditar, botonBuscar;
+    @FXML
+    private TextField textfieldBuscar;
     private ObservableList<Cliente> informacionClientes;
 
     public void setStage(Stage stage) {
@@ -236,16 +238,56 @@ public class administradorClientesController {
                 tablaUsuarios.refresh();
             }
         });
+        //Buscarr un usuario
+        botonBuscar.setOnAction(this::buscarCliente);
+        //Editar un cliente
+        botonEditar.setOnAction(this::EditarAction);
         //Agregar un nuevo usuario.
-        botonAgregar.setOnAction(this::handleAgregarAction);
+        botonAgregar.setOnAction(this::AgregarAction);
 
         // Eliminar usuario
         menuTabla.getItems()
-                .get(0).setOnAction(this::handleDeleteAction);
+                .get(0).setOnAction(this::DeleteAction);
+        botonEliminar.setOnAction(this::DeleteAction);
         LOGGER.info("AdministradorClientes iniciado");
     }
 
-    private void handleAgregarAction(ActionEvent action) {
+    private void buscarCliente(ActionEvent action) {
+        LOGGER.info("Buscando clientes: ");
+        try {
+            if (!textfieldBuscar.getText().isEmpty()) {
+                informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().buscarCliente(new GenericType<List<Cliente>>() {
+                }, textfieldBuscar.getText()));
+                tablaUsuarios.setItems(informacionClientes);
+                tablaUsuarios.refresh();
+            } else {
+                informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
+                }));
+                tablaUsuarios.setItems(informacionClientes);
+                tablaUsuarios.refresh();
+            }
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaUsuarios.refresh();
+        }
+    }
+
+    private void EditarAction(ActionEvent action) {
+        // Obtiene la fila seleccionada
+        Cliente selectedCliente = (Cliente) tablaUsuarios.getSelectionModel().getSelectedItem();
+        if (selectedCliente != null) {
+            //Activar el modo edicion de la fila
+            tablaUsuarios.edit(tablaUsuarios.getSelectionModel().getSelectedIndex(), columnaEmail);
+        } else {
+            // Muestra un mensaje si no hay fila seleccionada
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione un cliente para editar.");
+            alert.show();
+        }
+    }
+
+    private void AgregarAction(ActionEvent action) {
         try {
             Cliente client = new Cliente();
             ClienteFactory.getModelo().crearCliente(client);
@@ -261,7 +303,7 @@ public class administradorClientesController {
         }
     }
 
-    private void handleDeleteAction(ActionEvent action) {
+    private void DeleteAction(ActionEvent action) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar este usuario?");
         a.showAndWait();
         try {
