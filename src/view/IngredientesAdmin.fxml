@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.RadioButton?>
@@ -16,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFF#e5e5e5FFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFF#e5e5e5FFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IngredientesAdminController">
    <children>
       <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
          <font>
@@ -28,7 +30,11 @@
             <Font name="Rockwell" size="12.0" />
          </font>
       </Text>
-      <Button fx:id="botonEliminar" layoutX="1132.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Eliminar" />
+      <Button fx:id="botonEliminar" layoutX="1132.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Eliminar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
       <Text fx:id="textBienvenido" fill="#56bfac" layoutX="397.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agregados recientemente:">
          <font>
             <Font name="System Bold Italic" size="28.0" />
@@ -48,20 +54,28 @@
             <Font name="System Bold Italic" size="28.0" />
          </font>
       </Text>
-      <TableView layoutX="378.0" layoutY="342.0" prefHeight="384.0" prefWidth="987.0">
+      <TableView fx:id="tablaIngredientes" layoutX="378.0" layoutY="342.0" prefHeight="384.0" prefWidth="987.0">
          <columns>
-            <TableColumn prefWidth="140.0" text="Tipo" />
-            <TableColumn prefWidth="163.0" text="Nombre" />
-            <TableColumn prefWidth="113.0" text="Precio" />
-            <TableColumn prefWidth="149.0" text="Kcal" />
-            <TableColumn minWidth="0.0" prefWidth="175.0" text="Carbohidratos" />
-            <TableColumn prefWidth="113.0" text="Proteinas" />
-            <TableColumn prefWidth="128.0" text="Grasas" />
+            <TableColumn fx:id="columnaTipo" prefWidth="140.0" text="Tipo" />
+            <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre" />
+            <TableColumn fx:id="columnaPrecio" prefWidth="113.0" text="Precio" />
+            <TableColumn fx:id="columnaKcal" prefWidth="149.0" text="Kcal" />
+            <TableColumn fx:id="columnaCarb" minWidth="0.0" prefWidth="175.0" text="Carbohidratos" />
+            <TableColumn fx:id="columnaProteinas" prefWidth="113.0" text="Proteinas" />
+            <TableColumn fx:id="columnaGrasas" prefWidth="128.0" text="Grasas" />
          </columns>
       </TableView>
-      <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Agregar" />
-      <Button fx:id="botonEditar" layoutX="896.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Editar" />
-      <Pane layoutX="1366.0" layoutY="-1.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
+      <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Button fx:id="botonEditar" layoutX="896.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Editar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Pane fx:id="paneFiltrar" layoutX="1366.0" layoutY="2.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
          <children>
             <Text fx:id="textBienvenido3" fill="#56bfac" layoutX="24.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros:">
                <font>
@@ -107,11 +121,15 @@
             </Text>
             <Spinner layoutX="36.0" layoutY="464.0" prefHeight="25.0" prefWidth="205.0" />
             <Button layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
-            <Button layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
+            <Button fx:id="botonCancelar" layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
          </children>
       </Pane>
-      <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Filtros" />
-      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
+      <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Filtros">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;" stylesheets="@../resources/menuLateralCSS.css">
          <children>
             <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
                <font>
@@ -126,18 +144,24 @@
             <Separator layoutX="12.0" layoutY="188.0" prefHeight="4.0" prefWidth="288.0" />
             <ImageView fitHeight="116.0" fitWidth="122.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
+                  <Image url="@../resources/wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
                </image>
             </ImageView>
             <Button fx:id="botonDiario" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="246.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="botonPerfil" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="356.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Perfil" textFill="WHITE">
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
                <font>
@@ -155,16 +179,25 @@
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="301.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
             <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="419.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
          </children>
       </Pane>

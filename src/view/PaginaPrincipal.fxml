@@ -71,8 +71,7 @@
       </LineChart>
       <ComboBox fx:id="comboMes" layoutX="714.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
       <ComboBox fx:id="comboMes1" layoutX="1225.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
-         <fx:include fx:id="menuLateral" source="MenuLateral.fxml" />
-      <Pane layoutX="380.0" layoutY="10.0" prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;" stylesheets="@../resources/menuLateralCSS.css">
+      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;" stylesheets="@../resources/menuLateralCSS.css">
          <children>
             <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
                <font>
@@ -90,7 +89,7 @@
                   <Image url="@../resources/wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
                </image>
             </ImageView>
-            <Button fx:id="botonDiario" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="246.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
+            <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="246.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -129,5 +128,6 @@
             <Separator layoutX="21.0" layoutY="692.0" prefHeight="4.0" prefWidth="288.0" />
          </children>
       </Pane>
+    
    </children>
 </Pane>

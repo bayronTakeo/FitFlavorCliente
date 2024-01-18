@@ -21,6 +21,12 @@ public class MenuLateralControlller {
     @FXML
     private Button botonPrincipal, botonEjercicio, botonRecetas, botonPerfil, botonIngredientes;
 
+    private PaginaPrincipalController paginaPrincipalController;
+
+    public void init(PaginaPrincipalController paginaPrincipalController) {
+        this.paginaPrincipalController = paginaPrincipalController;
+    }
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -29,10 +35,15 @@ public class MenuLateralControlller {
         return stage;
     }
 
-    public void initStage() {
+    public void initStage(Parent root) {
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
+        stage.setTitle("Pagina Principal");
+        stage.setResizable(false);
         LOGGER.info("ALgo hace");
         botonPerfil.setOnAction(
                 this::handleButtonPerfilAction);
+        stage.show();
     }
 
     // Elimina el método initStage
