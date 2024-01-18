@@ -1,0 +1,22 @@
+.button{
+    -fx-background-color:  #56BFAC;
+    -fx-background-radius: 5px;
+    -fx-background-position: 10px;
+    -fx-padding: 2px 0px 0px 22px;
+    -fx-transition: background-size 0.3s;
+    -fx-font-size: 16px;
+}
+.button:hover {
+    -fx-background-color: #449889;
+    -fx-font-size: 20px;
+}
+#botonBuscar {
+    -fx-background-image: url('buscar.png'); 
+    -fx-background-size: 34px 37px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: left center; 
+   
+}
+#botonBuscar:hover { 
+    -fx-background-size: 38px 42px;
+}

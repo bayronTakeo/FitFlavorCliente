@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" stylesheets="@../resources/AdministradorClientesCSS.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.administradorClientesController">
+   <children>
+      <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Text fx:id="labelInvalidName" fill="RED" layoutX="859.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="249.9999934732914">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="407.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Administracion Usuarios:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <TableView fx:id="tablaUsuarios" layoutX="383.0" layoutY="223.0" prefHeight="479.0" prefWidth="987.0" stylesheets="@../resources/AdministradorClientesCSS.css">
+         <columns>
+            <TableColumn fx:id="columnaEmail" prefWidth="140.0" text="Email" />
+            <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre completo" />
+            <TableColumn fx:id="columnafecha" prefWidth="113.0" text="Fecha Nacimiento" />
+            <TableColumn fx:id="columnaTelefono" prefWidth="125.60003662109375" text="Telefono" />
+            <TableColumn fx:id="columnaDireccion" minWidth="0.0" prefWidth="199.20001220703125" text="Direccion" />
+            <TableColumn fx:id="columnaCodPostal" prefWidth="113.0" text="Cod. Postal" />
+            <TableColumn fx:id="columnaContrania" prefWidth="128.0" text="Contraseña" />
+         </columns>
+         <contextMenu>
+            <ContextMenu fx:id="menuTabla">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Eliminar" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </TableView>
+      <TextField fx:id="textfieldBuscar" layoutX="383.0" layoutY="145.0" prefHeight="40.0" prefWidth="453.0" promptText="Escribe el nombre del usuario:" />
+      <Button fx:id="botonBuscar" layoutX="836.0" layoutY="145.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" stylesheets="@AdministradorClientesCSS.css" text="Buscar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonEliminar" layoutX="1243.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Eliminar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonAgregar" layoutX="1128.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Agregar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonEditar" layoutX="1013.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Editar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;" stylesheets="@../resources/menuLateralCSS.css">
+         <children>
+            <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
+               <font>
+                  <Font name="Serif Regular" size="34.0" />
+               </font>
+            </Text>
+            <Text fill="#fcf8f8" layoutX="12.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menú">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <Separator layoutX="12.0" layoutY="188.0" prefHeight="4.0" prefWidth="288.0" />
+            <ImageView fitHeight="116.0" fitWidth="122.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="botonPerfil" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="366.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Usuarios" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="botonPrincipal" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="192.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Principal" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
+               <font>
+                  <Font name="Circular Std Regular" size="20.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</Pane>

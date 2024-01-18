@@ -6,6 +6,8 @@
 package bussinesLogic;
 
 import exceptions.BusinessLogicException;
+import javax.ws.rs.core.GenericType;
+import objects.Usuario;
 
 /**
  *
@@ -13,5 +15,6 @@ import exceptions.BusinessLogicException;
  */
 public interface UsuarioInterfaz {
 
-    public <T> T signIn(Class<T> responseType, String email, String contrasenia) throws BusinessLogicException;
+    public <T> T signIn(GenericType<T> responseType, String emailUsr, String contraseniaUsr) throws BusinessLogicException;
+    //public <T> T signIn(String emailUsr, String contraseniaUsr) throws BusinessLogicException;
 }
