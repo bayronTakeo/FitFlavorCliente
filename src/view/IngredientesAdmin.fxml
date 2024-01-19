@@ -57,7 +57,7 @@
             <TableColumn fx:id="columnaTipo" prefWidth="140.0" text="Tipo" />
             <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre" />
             <TableColumn fx:id="columnaPrecio" prefWidth="113.0" text="Precio" />
-            <TableColumn fx:id="columnaKcal" prefWidth="149.0" text="Kcal" />
+            <TableColumn fx:id="columnaKcal" prefWidth="149.0" text="KiloCalorias" />
             <TableColumn fx:id="columnaCarb" minWidth="0.0" prefWidth="175.0" text="Carbohidratos" />
             <TableColumn fx:id="columnaProteinas" prefWidth="113.0" text="Proteinas" />
             <TableColumn fx:id="columnaGrasas" prefWidth="128.0" text="Grasas" />

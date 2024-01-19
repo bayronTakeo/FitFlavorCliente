@@ -29,7 +29,7 @@ public class Ingrediente implements Serializable {
 
     private SimpleFloatProperty precio;
 
-    private SimpleFloatProperty kCal;
+    private SimpleFloatProperty kcal;
 
     private SimpleFloatProperty carbohidratos;
 
@@ -39,12 +39,12 @@ public class Ingrediente implements Serializable {
 
     private List<Receta> listaRecetas;
 
-    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kCal, Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
+    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal, Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoIngrediente = new SimpleObjectProperty<>(tipoIngrediente);
         this.nombre = new SimpleStringProperty(nombre);
         this.precio = new SimpleFloatProperty(precio);
-        this.kCal = new SimpleFloatProperty(kCal);
+        this.kcal = new SimpleFloatProperty(kcal);
         this.carbohidratos = new SimpleFloatProperty(carbohidratos);
         this.proteinas = new SimpleFloatProperty(proteinas);
         this.grasas = new SimpleFloatProperty(grasas);
@@ -56,7 +56,7 @@ public class Ingrediente implements Serializable {
         this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
         this.nombre = new SimpleStringProperty("ejemplo");
         this.precio = new SimpleFloatProperty(1);
-        this.kCal = new SimpleFloatProperty(1);
+        this.kcal = new SimpleFloatProperty(1);
         this.carbohidratos = new SimpleFloatProperty(1);
         this.proteinas = new SimpleFloatProperty(1);
         this.grasas = new SimpleFloatProperty(1);
@@ -103,12 +103,12 @@ public class Ingrediente implements Serializable {
         this.precio.set(precio);
     }
 
-    public Float getkCal() {
-        return kCal.get();
+    public Float getKcal() {
+        return kcal.get();
     }
 
-    public void setkCal(Float kCal) {
-        this.kCal.set(kCal);
+    public void setkCal(Float kcal) {
+        this.kcal.set(kcal);
     }
 
     public Float getCarbohidratos() {
@@ -159,6 +159,9 @@ public class Ingrediente implements Serializable {
         return "Ingrediente{"
                 + "id=" + id.get()
                 + ",nombre='" + nombre.get() + '\''
+                + ",kcal='" + kcal.get() + '\''
+                + ",precio='" + precio.get() + '\''
+                + ",carb='" + carbohidratos.get() + '\''
                 + '}';
     }
 

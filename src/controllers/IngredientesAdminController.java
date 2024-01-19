@@ -102,7 +102,7 @@ public class IngredientesAdminController {
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoIngrediente"));
         columnaPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        columnaKcal.setCellValueFactory(new PropertyValueFactory<>("kCal"));
+        columnaKcal.setCellValueFactory(new PropertyValueFactory<>("kcal"));
         columnaCarb.setCellValueFactory(new PropertyValueFactory<>("carbohidratos"));
         columnaProteinas.setCellValueFactory(new PropertyValueFactory<>("proteinas"));
         columnaGrasas.setCellValueFactory(new PropertyValueFactory<>("grasas"));
@@ -117,6 +117,9 @@ public class IngredientesAdminController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaIngredientes.refresh();
 
+        }
+        for (Ingrediente i : informacionIngredientes) {
+            LOGGER.info(i.toString());
         }
         tablaIngredientes.setItems(informacionIngredientes);
         tablaIngredientes.setEditable(true);
