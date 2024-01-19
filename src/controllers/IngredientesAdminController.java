@@ -7,7 +7,6 @@ package controllers;
 
 import bussinesLogic.IngredienteFactory;
 import exceptions.BusinessLogicException;
-import javafx.util.Duration;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,12 +23,17 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
+import logicaTablas.floatFormateador;
 import objects.Ingrediente;
 import objects.TipoIngrediente;
 
@@ -51,7 +55,7 @@ public class IngredientesAdminController {
     @FXML
     private Slider sliderKcal, sliderPrecio, sliderCarb, sliderProte, sliderGrasas;
     @FXML
-    private ComboBox comboTipo;
+    private ComboBox<TipoIngrediente> comboTipo;
     @FXML
     private TableView tablaIngredientes;
     @FXML
@@ -71,6 +75,9 @@ public class IngredientesAdminController {
 
     private ObservableList<Ingrediente> informacionIngredientes;
 
+    private ObservableList<TipoIngrediente> opciones
+            = FXCollections.observableArrayList(TipoIngrediente.values());
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -89,10 +96,11 @@ public class IngredientesAdminController {
                 this::abrirMenuFiltros);
         botonCancelar.setOnAction(
                 this::cerrarMenuFiltros);
-
+        comboTipo.setItems(opciones);
         tablaIngredientes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        columnaTipo.setCellValueFactory(new PropertyValueFactory<>("tipoIngrediente"));
         columnaPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
         columnaKcal.setCellValueFactory(new PropertyValueFactory<>("kCal"));
         columnaCarb.setCellValueFactory(new PropertyValueFactory<>("carbohidratos"));
@@ -113,6 +121,78 @@ public class IngredientesAdminController {
         tablaIngredientes.setItems(informacionIngredientes);
         tablaIngredientes.setEditable(true);
 
+        //Editar columna nombre
+        columnaNombre.setCellFactory(TextFieldTableCell.<Ingrediente>forTableColumn());
+        columnaNombre.setOnEditCommit(
+                (TableColumn.CellEditEvent<Ingrediente, String> t) -> {
+                    try {
+                        ((Ingrediente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setNombre(t.getNewValue());
+                        IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                        alert.show();
+                        LOGGER.log(Level.SEVERE, ex.getMessage());
+                        ((Ingrediente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setNombre(t.getOldValue());
+                        tablaIngredientes.refresh();
+                    }
+
+                }
+        );
+        //Editar tipo de ingrediente
+        columnaTipo.setCellFactory(ComboBoxTableCell.<Ingrediente, TipoIngrediente>forTableColumn(TipoIngrediente.values()));
+        columnaTipo.setOnEditCommit(
+                (CellEditEvent<Ingrediente, TipoIngrediente> t) -> {
+
+                    Ingrediente tipoSeleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+                    TipoIngrediente valorOriginal = t.getOldValue();
+                    ComboBox<TipoIngrediente> comboBox = new ComboBox<>();
+                    comboBox.setItems(opciones);
+                    try {
+                        ((Ingrediente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setTipoIngrediente(t.getNewValue());
+                        IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+
+                        ((Ingrediente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setTipoIngrediente(valorOriginal);
+                        tablaIngredientes.refresh();
+                    }
+                });
+        //Editar columna precio
+        columnaPrecio.setCellFactory(TextFieldTableCell.<Ingrediente, Float>forTableColumn(new floatFormateador()));
+        columnaPrecio.setOnEditCommit((CellEditEvent<Ingrediente, Float> t) -> {
+            Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+            Float precio = seleccionado.getPrecio();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ingrediente) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setPrecio(t.getNewValue());
+                    IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                }
+            } catch (BusinessLogicException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(precio);
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(t.getOldValue());
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
         botonEliminar.setOnAction(this::DeleteAction);
 
         botonAgregar.setOnAction(this::AgregarAction);
@@ -130,7 +210,7 @@ public class IngredientesAdminController {
                     IngredienteFactory.getModelo().buscarFiltros(
                             new GenericType<List<Ingrediente>>() {
                     },
-                            comboTipo.getValue() != null ? TipoIngrediente.valueOf((String) comboTipo.getValue()) : null,
+                            comboTipo.getValue() != null ? comboTipo.getValue() : null,
                             null,
                             (float) sliderPrecio.getValue() != 0 ? (float) sliderPrecio.getValue() : null,
                             (float) sliderKcal.getValue() != 0 ? (float) sliderKcal.getValue() : null,
@@ -174,19 +254,22 @@ public class IngredientesAdminController {
             if (a.getResult().equals(ButtonType.CANCEL)) {
                 action.consume();
             } else {
-                // Obtén el índice del elemento seleccionado en la tabla
+                //índice del elemento seleccionado en la tabla
                 int selectedIndex = tablaIngredientes.getSelectionModel().getSelectedIndex();
 
-                // Elimina el ingrediente de la base de datos
+                // Eliminar el ingrediente de la base de datos
                 IngredienteFactory.getModelo().deleteIngrediente(((Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem()).getId());
 
-                // Elimina el ingrediente de la lista informacionIngredientes
+                // Eliminar el ingrediente de la lista informacionIngredientes
                 informacionIngredientes.remove(selectedIndex);
 
-                // Actualiza la tabla
                 tablaIngredientes.refresh();
             }
         } catch (Exception e) {
+            if (e.getMessage() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "!Primero tienes que seleccionar un cliente!");
+                alert.show();
+            }
             String msg = "Error eliminando el ingrediente: " + e.getMessage();
             Alert alert = new Alert(Alert.AlertType.ERROR, msg);
             alert.show();
