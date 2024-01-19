@@ -21,6 +21,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -45,7 +47,11 @@ public class IngredientesAdminController {
     @FXML
     private AnchorPane p;
     @FXML
-    private Button botonFiltros, botonCancelar, botonAgregar, botonEliminar, botonEditar;
+    private Button botonFiltros, botonCancelar, botonAgregar, botonEliminar, botonEditar, botonAplicar;
+    @FXML
+    private Slider sliderKcal, sliderPrecio, sliderCarb, sliderProte, sliderGrasas;
+    @FXML
+    private ComboBox comboTipo;
     @FXML
     private TableView tablaIngredientes;
     @FXML
@@ -110,8 +116,39 @@ public class IngredientesAdminController {
         botonEliminar.setOnAction(this::DeleteAction);
 
         botonAgregar.setOnAction(this::AgregarAction);
+
+        botonAplicar.setOnAction(this::buscarCliente);
         stage.show();
         LOGGER.info("Pagina principal iniciada");
+    }
+
+    private void buscarCliente(ActionEvent action) {
+        LOGGER.info("Buscando ingredientes: ");
+        try {
+
+            informacionIngredientes = FXCollections.observableArrayList(
+                    IngredienteFactory.getModelo().buscarFiltros(
+                            new GenericType<List<Ingrediente>>() {
+                    },
+                            comboTipo.getValue() != null ? TipoIngrediente.valueOf((String) comboTipo.getValue()) : null,
+                            null,
+                            (float) sliderPrecio.getValue() != 0 ? (float) sliderPrecio.getValue() : null,
+                            (float) sliderKcal.getValue() != 0 ? (float) sliderKcal.getValue() : null,
+                            (float) sliderCarb.getValue() != 0 ? (float) sliderCarb.getValue() : null,
+                            (float) sliderProte.getValue() != 0 ? (float) sliderProte.getValue() : null,
+                            (float) sliderGrasas.getValue() != 0 ? (float) sliderGrasas.getValue() : null
+                    )
+            );
+            cerrarMenuFiltros(action);
+            tablaIngredientes.setItems(informacionIngredientes);
+            tablaIngredientes.refresh();
+
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaIngredientes.refresh();
+        }
     }
 
     private void AgregarAction(ActionEvent action) {

@@ -8,6 +8,7 @@ package bussinesLogic;
 import exceptions.BusinessLogicException;
 import javax.ws.rs.core.GenericType;
 import objects.Ingrediente;
+import objects.TipoIngrediente;
 
 /**
  *
@@ -24,4 +25,6 @@ public interface IngredienteInterfaz {
     public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException;
 
     public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException;
+
+    public <T> T buscarFiltros(GenericType<T> respuesta, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal, Float carb, Float proteina, Float grasas) throws BusinessLogicException;
 }

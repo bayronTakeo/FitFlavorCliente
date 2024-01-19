@@ -10,12 +10,11 @@ import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import objects.Cliente;
 import objects.Ingrediente;
+import objects.TipoIngrediente;
 
 /**
  * Jersey REST client generated for REST resource:IngredienteFacadeREST
@@ -100,4 +99,23 @@ public class IngredienteRESTCliente implements IngredienteInterfaz {
             throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los ingredientess:" + ex.getMessage());
         }
     }
+
+    @Override
+    public <T> T buscarFiltros(GenericType<T> respuesta, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal, Float carb, Float proteina, Float grasas) throws BusinessLogicException {
+        try {
+            WebTarget resource = webTarget.path("buscarFiltros")
+                    .queryParam("tipoIngrediente", tipoIngrediente)
+                    .queryParam("nombre", nombre)
+                    .queryParam("precio", precio)
+                    .queryParam("kcal", kcal)
+                    .queryParam("carb", carb)
+                    .queryParam("proteina", proteina)
+                    .queryParam("grasas", grasas);
+
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("Error al buscar ingredientes con filtros: " + ex.getMessage());
+        }
+    }
+
 }

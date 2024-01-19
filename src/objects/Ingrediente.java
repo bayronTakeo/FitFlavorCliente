@@ -55,11 +55,11 @@ public class Ingrediente implements Serializable {
         this.id = new SimpleIntegerProperty(0);
         this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
         this.nombre = new SimpleStringProperty("ejemplo");
-        this.precio = new SimpleFloatProperty(0);
-        this.kCal = new SimpleFloatProperty(0);
-        this.carbohidratos = new SimpleFloatProperty(0);
-        this.proteinas = new SimpleFloatProperty(0);
-        this.grasas = new SimpleFloatProperty(0);
+        this.precio = new SimpleFloatProperty(1);
+        this.kCal = new SimpleFloatProperty(1);
+        this.carbohidratos = new SimpleFloatProperty(1);
+        this.proteinas = new SimpleFloatProperty(1);
+        this.grasas = new SimpleFloatProperty(1);
 
     }
 
@@ -95,7 +95,7 @@ public class Ingrediente implements Serializable {
         this.nombre.set(nombre);
     }
 
-    public float getPrecio() {
+    public Float getPrecio() {
         return precio.get();
     }
 
@@ -103,7 +103,7 @@ public class Ingrediente implements Serializable {
         this.precio.set(precio);
     }
 
-    public float getkCal() {
+    public Float getkCal() {
         return kCal.get();
     }
 
@@ -111,7 +111,7 @@ public class Ingrediente implements Serializable {
         this.kCal.set(kCal);
     }
 
-    public float getCarbohidratos() {
+    public Float getCarbohidratos() {
         return carbohidratos.get();
     }
 
@@ -119,7 +119,7 @@ public class Ingrediente implements Serializable {
         this.carbohidratos.set(carbohidratos);
     }
 
-    public float getProteinas() {
+    public Float getProteinas() {
         return proteinas.get();
     }
 
@@ -127,7 +127,7 @@ public class Ingrediente implements Serializable {
         this.proteinas.set(proteinas);
     }
 
-    public float getGrasas() {
+    public Float getGrasas() {
         return grasas.get();
     }
 
