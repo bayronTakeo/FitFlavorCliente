@@ -112,7 +112,6 @@ public class administradorClientesController {
         columnaCodPostal.setCellValueFactory(new PropertyValueFactory("codigoPostal"));
         columnaContrania.setCellValueFactory(new PropertyValueFactory("contrasenia"));
 
-        stage.show();
         try {
 
             informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {

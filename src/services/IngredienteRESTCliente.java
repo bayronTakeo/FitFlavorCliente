@@ -97,7 +97,7 @@ public class IngredienteRESTCliente implements IngredienteInterfaz {
             LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los clientes:" + ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los ingredientess:" + ex.getMessage());
         }
     }
 }

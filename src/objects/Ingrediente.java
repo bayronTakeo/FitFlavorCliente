@@ -7,6 +7,10 @@ package objects;
 
 import java.io.Serializable;
 import java.util.List;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -16,35 +20,46 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ingrediente")
 public class Ingrediente implements Serializable {
 
-    private Integer id;
-    private TipoIngrediente tipoIngrediente;
+    private static final long serialVersionUID = 1L;
 
-    private String nombre;
-    private float precio;
+    private SimpleIntegerProperty id;
+    private SimpleObjectProperty<TipoIngrediente> tipoIngrediente;
 
-    private float kCal;
+    private SimpleStringProperty nombre;
 
-    private float carbohidratos;
+    private SimpleFloatProperty precio;
 
-    private float proteinas;
+    private SimpleFloatProperty kCal;
 
-    private float grasas;
+    private SimpleFloatProperty carbohidratos;
+
+    private SimpleFloatProperty proteinas;
+
+    private SimpleFloatProperty grasas;
 
     private List<Receta> listaRecetas;
 
-    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, float precio, float kCal, float carbohidratos, float proteinas, float grasas, List<Receta> listaRecetas) {
-        this.id = id;
-        this.tipoIngrediente = tipoIngrediente;
-        this.nombre = nombre;
-        this.precio = precio;
-        this.kCal = kCal;
-        this.carbohidratos = carbohidratos;
-        this.proteinas = proteinas;
-        this.grasas = grasas;
+    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kCal, Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
+        this.id = new SimpleIntegerProperty(id);
+        this.tipoIngrediente = new SimpleObjectProperty<>(tipoIngrediente);
+        this.nombre = new SimpleStringProperty(nombre);
+        this.precio = new SimpleFloatProperty(precio);
+        this.kCal = new SimpleFloatProperty(kCal);
+        this.carbohidratos = new SimpleFloatProperty(carbohidratos);
+        this.proteinas = new SimpleFloatProperty(proteinas);
+        this.grasas = new SimpleFloatProperty(grasas);
         this.listaRecetas = listaRecetas;
     }
 
     public Ingrediente() {
+        this.id = new SimpleIntegerProperty(0);
+        this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
+        this.nombre = new SimpleStringProperty("ejemplo");
+        this.precio = new SimpleFloatProperty(0);
+        this.kCal = new SimpleFloatProperty(0);
+        this.carbohidratos = new SimpleFloatProperty(0);
+        this.proteinas = new SimpleFloatProperty(0);
+        this.grasas = new SimpleFloatProperty(0);
 
     }
 
@@ -57,67 +72,67 @@ public class Ingrediente implements Serializable {
     }
 
     public Integer getId() {
-        return id;
+        return id.get();
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.id.set(id);
     }
 
     public TipoIngrediente getTipoIngrediente() {
-        return tipoIngrediente;
+        return tipoIngrediente.get();
     }
 
     public void setTipoIngrediente(TipoIngrediente tipoIngrediente) {
-        this.tipoIngrediente = tipoIngrediente;
+        this.tipoIngrediente.set(tipoIngrediente);
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre.get();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre.set(nombre);
     }
 
     public float getPrecio() {
-        return precio;
+        return precio.get();
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
+    public void setPrecio(Float precio) {
+        this.precio.set(precio);
     }
 
     public float getkCal() {
-        return kCal;
+        return kCal.get();
     }
 
-    public void setkCal(float kCal) {
-        this.kCal = kCal;
+    public void setkCal(Float kCal) {
+        this.kCal.set(kCal);
     }
 
     public float getCarbohidratos() {
-        return carbohidratos;
+        return carbohidratos.get();
     }
 
-    public void setCarbohidratos(float carbohidratos) {
-        this.carbohidratos = carbohidratos;
+    public void setCarbohidratos(Float carbohidratos) {
+        this.carbohidratos.set(carbohidratos);
     }
 
     public float getProteinas() {
-        return proteinas;
+        return proteinas.get();
     }
 
-    public void setProteinas(float proteinas) {
-        this.proteinas = proteinas;
+    public void setProteinas(Float proteinas) {
+        this.proteinas.set(proteinas);
     }
 
     public float getGrasas() {
-        return grasas;
+        return grasas.get();
     }
 
-    public void setGrasas(float grasas) {
-        this.grasas = grasas;
+    public void setGrasas(Float grasas) {
+        this.grasas.set(grasas);
     }
 
     @Override
@@ -141,7 +156,10 @@ public class Ingrediente implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Ingrediente{"
+                + "id=" + id.get()
+                + ",nombre='" + nombre.get() + '\''
+                + '}';
     }
 
 }

@@ -5,12 +5,9 @@
  */
 package controllers;
 
-import bussinesLogic.ClienteFactory;
 import bussinesLogic.IngredienteFactory;
 import exceptions.BusinessLogicException;
-import java.text.SimpleDateFormat;
 import javafx.util.Duration;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -31,7 +28,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
-import objects.Cliente;
 import objects.Ingrediente;
 import objects.TipoIngrediente;
 
@@ -49,23 +45,23 @@ public class IngredientesAdminController {
     @FXML
     private AnchorPane p;
     @FXML
-    private Button botonFiltros, botonCancelar;
+    private Button botonFiltros, botonCancelar, botonAgregar, botonEliminar, botonEditar;
     @FXML
     private TableView tablaIngredientes;
     @FXML
-    private TableColumn<Cliente, TipoIngrediente> columnaTipo;
+    private TableColumn<Ingrediente, TipoIngrediente> columnaTipo;
     @FXML
-    private TableColumn<Cliente, String> columnaNombre;
+    private TableColumn<Ingrediente, String> columnaNombre;
     @FXML
-    private TableColumn<Cliente, Float> columnaPrecio;
+    private TableColumn<Ingrediente, Float> columnaPrecio;
     @FXML
-    private TableColumn<Cliente, Float> columnaKcal;
+    private TableColumn<Ingrediente, Float> columnaKcal;
     @FXML
-    private TableColumn<Cliente, Float> columnaCarb;
+    private TableColumn<Ingrediente, Float> columnaCarb;
     @FXML
-    private TableColumn<Cliente, Float> columnaProteinas;
+    private TableColumn<Ingrediente, Float> columnaProteinas;
     @FXML
-    private TableColumn<Cliente, Float> columnaGrasas;
+    private TableColumn<Ingrediente, Float> columnaGrasas;
 
     private ObservableList<Ingrediente> informacionIngredientes;
 
@@ -90,15 +86,13 @@ public class IngredientesAdminController {
 
         tablaIngredientes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        columnaTipo.setCellValueFactory(new PropertyValueFactory("tipoIngrediente"));
-        columnaNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
-        columnaPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
-        columnaKcal.setCellValueFactory(new PropertyValueFactory("kCal"));
-        columnaCarb.setCellValueFactory(new PropertyValueFactory("carbohidratos"));
-        columnaProteinas.setCellValueFactory(new PropertyValueFactory("proteinas"));
-        columnaGrasas.setCellValueFactory(new PropertyValueFactory("grasas"));
+        columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        columnaPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
+        columnaKcal.setCellValueFactory(new PropertyValueFactory<>("kCal"));
+        columnaCarb.setCellValueFactory(new PropertyValueFactory<>("carbohidratos"));
+        columnaProteinas.setCellValueFactory(new PropertyValueFactory<>("proteinas"));
+        columnaGrasas.setCellValueFactory(new PropertyValueFactory<>("grasas"));
 
-        stage.show();
         try {
 
             informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
@@ -108,11 +102,59 @@ public class IngredientesAdminController {
             alert.show();
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaIngredientes.refresh();
+
         }
         tablaIngredientes.setItems(informacionIngredientes);
         tablaIngredientes.setEditable(true);
 
+        botonEliminar.setOnAction(this::DeleteAction);
+
+        botonAgregar.setOnAction(this::AgregarAction);
+        stage.show();
         LOGGER.info("Pagina principal iniciada");
+    }
+
+    private void AgregarAction(ActionEvent action) {
+        try {
+            Ingrediente ingrediente = new Ingrediente();
+            IngredienteFactory.getModelo().crearIngrediente(ingrediente);
+            informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+            }));
+            tablaIngredientes.setItems(informacionIngredientes);
+            tablaIngredientes.refresh();
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaIngredientes.refresh();
+        }
+    }
+
+    private void DeleteAction(ActionEvent action) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar este ingrediente?");
+        a.showAndWait();
+        try {
+            if (a.getResult().equals(ButtonType.CANCEL)) {
+                action.consume();
+            } else {
+                // Obtén el índice del elemento seleccionado en la tabla
+                int selectedIndex = tablaIngredientes.getSelectionModel().getSelectedIndex();
+
+                // Elimina el ingrediente de la base de datos
+                IngredienteFactory.getModelo().deleteIngrediente(((Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem()).getId());
+
+                // Elimina el ingrediente de la lista informacionIngredientes
+                informacionIngredientes.remove(selectedIndex);
+
+                // Actualiza la tabla
+                tablaIngredientes.refresh();
+            }
+        } catch (Exception e) {
+            String msg = "Error eliminando el ingrediente: " + e.getMessage();
+            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+            alert.show();
+            LOGGER.log(Level.SEVERE, msg);
+        }
     }
 
     private void abrirMenuFiltros(ActionEvent event) {
