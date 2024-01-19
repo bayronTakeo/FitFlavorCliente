@@ -8,6 +8,7 @@ package services;
 import bussinesLogic.IngredienteInterfaz;
 import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
@@ -40,7 +41,7 @@ public class IngredienteRESTCliente implements IngredienteInterfaz {
 
     public IngredienteRESTCliente() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
-        webTarget = client.target(BASE_URI).path("ingrediente");
+        webTarget = client.target(BASE_URI).path("entidades.ingrediente");
     }
 
     @Override
@@ -83,5 +84,20 @@ public class IngredienteRESTCliente implements IngredienteInterfaz {
 
     public void close() {
         client.close();
+    }
+
+    @Override
+    public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException {
+        try {
+            WebTarget resource = webTarget;
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los clientes:" + ex.getMessage());
+        }
     }
 }

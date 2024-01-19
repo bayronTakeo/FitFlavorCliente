@@ -22,4 +22,6 @@ public interface IngredienteInterfaz {
     public void deleteIngrediente(Integer id) throws BusinessLogicException;
 
     public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException;
+
+    public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException;
 }
