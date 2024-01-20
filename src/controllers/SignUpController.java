@@ -5,6 +5,10 @@
  */
 package controllers;
 
+import bussinesLogic.ClienteFactory;
+import bussinesLogic.UsuarioFactory;
+import bussinesLogic.UsuarioInterfaz;
+import exceptions.BusinessLogicException;
 import exceptions.CommonException;
 import exceptions.ConnectionErrorException;
 import exceptions.MaxConnectionException;
@@ -13,6 +17,7 @@ import exceptions.UserExistException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +47,13 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.ws.rs.core.GenericType;
+import objects.Cliente;
+import objects.EnumObjetivo;
+import objects.EnumPrivilegios;
+import objects.EnumSexo;
+import objects.TipoIngrediente;
+import objects.Usuario;
 
 /**
  *
@@ -417,10 +429,11 @@ public class SignUpController {
             if (quantityValuesZero != 0) {
                 throw new CommonException("data");
             }
-            // Model model = ModelFactory.getModel();
-            //User user = new User(textFieldEmail.getText(), textFieldName.getText(), textFieldDirection.getText(), Integer.parseInt(textFieldCode.getText()), Integer.parseInt(textFieldPhone.getText()), textFieldPassword.getText());
-            //model.doSignUp(user);
-            //Cierro la ventana actual y abro la ventana de SignIn.
+
+            Cliente cliente = new Cliente(EnumSexo.HOMBRE, Float.parseFloat("60.0"), EnumObjetivo.MANTENERSE, "1.70", null, 0, textFieldEmail.getText(), textFieldName.getText(), new Date(System.currentTimeMillis()),
+                    textFieldPhone.getText(), textFieldDirection.getText(), textFieldCode.getText(), textFieldPassword.getText(), EnumPrivilegios.USUARIO);
+
+            ClienteFactory.getModelo().crearCliente(cliente);
             try {
                 stage.close();
                 LOGGER.info("SignUp window closed");
@@ -439,7 +452,7 @@ public class SignUpController {
             }
 
             //Si se lanza alguna excepcion la lanzo en un alert.
-        } catch (CommonException ex) {
+        } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
             alert.show();
             LOGGER.log(Level.SEVERE, ex.getMessage());

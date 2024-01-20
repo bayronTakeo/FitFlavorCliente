@@ -25,7 +25,8 @@ public class Cliente extends Usuario {
     private SimpleStringProperty altura;
     private List<Receta> recetasUsu;
 
-    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto, Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto,
+            Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
         super(user_id, email, nombreCompleto, fechaNacimiento, telefono, direccion, codigoPostal, contrasenia, privilegio);
         this.sexo = new SimpleObjectProperty<>(sexo);
         this.peso = new SimpleFloatProperty(peso);
