@@ -295,7 +295,41 @@ public class IngredientesAdminController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
+        //Editar columna grasas
+        columnaGrasas.setCellFactory(TextFieldTableCell.<Ingrediente, Float>forTableColumn(new floatFormateador()));
+        columnaGrasas.setOnEditCommit((CellEditEvent<Ingrediente, Float> t) -> {
+            Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+            Float precio = seleccionado.getPrecio();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ingrediente) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setGrasas(t.getNewValue());
+                    IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                }
+            } catch (BusinessLogicException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(precio);
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(t.getOldValue());
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
 
+        botonEditar.setOnAction(this::EditarAction);
         botonEliminar.setOnAction(this::DeleteAction);
 
         botonAgregar.setOnAction(this::AgregarAction);
@@ -303,6 +337,19 @@ public class IngredientesAdminController {
         botonAplicar.setOnAction(this::buscarCliente);
         stage.show();
         LOGGER.info("Pagina principal iniciada");
+    }
+
+    private void EditarAction(ActionEvent action) {
+        // Obtiene la fila seleccionada
+        Ingrediente ingredienteSeleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+        if (ingredienteSeleccionado != null) {
+            //Activar el modo edicion de la fila
+            tablaIngredientes.edit(tablaIngredientes.getSelectionModel().getSelectedIndex(), columnaNombre);
+        } else {
+            // Muestra un mensaje si no hay fila seleccionada
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione un ingrediente para editar.");
+            alert.show();
+        }
     }
 
     private void buscarCliente(ActionEvent action) {
