@@ -10,6 +10,7 @@
     -fx-background-color: #449889;
     -fx-font-size: 16px;
 }
+
 #botonEditar {
     -fx-background-image: url('contrato.png'); 
     -fx-background-size: 38px 26px;

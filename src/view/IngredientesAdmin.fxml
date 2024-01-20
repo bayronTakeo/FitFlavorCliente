@@ -93,7 +93,7 @@
             </Text>
             <ComboBox fx:id="comboTipo" layoutX="44.0" layoutY="467.0" prefHeight="25.0" prefWidth="205.0" />
             <Button fx:id="botonAplicar" layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
-            <Button fx:id="botonCancelar" layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
+            <Button fx:id="botonResetear" layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Resetear" />
             <Slider fx:id="sliderCarb" layoutX="42.0" layoutY="251.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
             <Text layoutX="38.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carbohidratos(max):">
                <font>
@@ -118,6 +118,11 @@
                   <Font size="18.0" />
                </font>
             </Text>
+            <Button fx:id="botonCerrar" layoutX="229.0" layoutY="21.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: none;" stylesheets="@../resources/ingredientesCSS.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
          </children>
       </Pane>
       <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Filtros">

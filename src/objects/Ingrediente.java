@@ -107,7 +107,7 @@ public class Ingrediente implements Serializable {
         return kcal.get();
     }
 
-    public void setkCal(Float kcal) {
+    public void setKcal(Float kcal) {
         this.kcal.set(kcal);
     }
 

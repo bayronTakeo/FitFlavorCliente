@@ -51,7 +51,7 @@ public class IngredientesAdminController {
     @FXML
     private AnchorPane p;
     @FXML
-    private Button botonFiltros, botonCancelar, botonAgregar, botonEliminar, botonEditar, botonAplicar;
+    private Button botonFiltros, botonResetear, botonAgregar, botonEliminar, botonEditar, botonAplicar, botonCerrar;
     @FXML
     private Slider sliderKcal, sliderPrecio, sliderCarb, sliderProte, sliderGrasas;
     @FXML
@@ -94,7 +94,7 @@ public class IngredientesAdminController {
 
         botonFiltros.setOnAction(
                 this::abrirMenuFiltros);
-        botonCancelar.setOnAction(
+        botonCerrar.setOnAction(
                 this::cerrarMenuFiltros);
         comboTipo.setItems(opciones);
         tablaIngredientes.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -118,9 +118,7 @@ public class IngredientesAdminController {
             tablaIngredientes.refresh();
 
         }
-        for (Ingrediente i : informacionIngredientes) {
-            LOGGER.info(i.toString());
-        }
+
         tablaIngredientes.setItems(informacionIngredientes);
         tablaIngredientes.setEditable(true);
 
@@ -196,6 +194,108 @@ public class IngredientesAdminController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
+        //Editar columna kcal
+        columnaKcal.setCellFactory(TextFieldTableCell.<Ingrediente, Float>forTableColumn(new floatFormateador()));
+        columnaKcal.setOnEditCommit((CellEditEvent<Ingrediente, Float> t) -> {
+            Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+            Float precio = seleccionado.getPrecio();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ingrediente) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setKcal(t.getNewValue());
+                    IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                }
+            } catch (BusinessLogicException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(precio);
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(t.getOldValue());
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
+
+        //Editar columna carbohidratos
+        columnaCarb.setCellFactory(TextFieldTableCell.<Ingrediente, Float>forTableColumn(new floatFormateador()));
+        columnaCarb.setOnEditCommit((CellEditEvent<Ingrediente, Float> t) -> {
+            Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+            Float precio = seleccionado.getPrecio();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ingrediente) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setCarbohidratos(t.getNewValue());
+                    IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                }
+            } catch (BusinessLogicException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(precio);
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(t.getOldValue());
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
+
+        //Editar columna proteinas
+        columnaProteinas.setCellFactory(TextFieldTableCell.<Ingrediente, Float>forTableColumn(new floatFormateador()));
+        columnaProteinas.setOnEditCommit((CellEditEvent<Ingrediente, Float> t) -> {
+            Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
+            Float precio = seleccionado.getPrecio();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ingrediente) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setProteinas(t.getNewValue());
+                    IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                }
+            } catch (BusinessLogicException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(precio);
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ingrediente) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setPrecio(t.getOldValue());
+                tablaIngredientes.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
+
         botonEliminar.setOnAction(this::DeleteAction);
 
         botonAgregar.setOnAction(this::AgregarAction);
