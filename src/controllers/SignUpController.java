@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import Encriptacion.Hash;
 import bussinesLogic.ClienteFactory;
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
@@ -14,6 +15,7 @@ import exceptions.ConnectionErrorException;
 import exceptions.MaxConnectionException;
 import exceptions.TimeOutException;
 import exceptions.UserExistException;
+import files.AsymmetricCliente;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -432,7 +434,8 @@ public class SignUpController {
 
             Cliente cliente = new Cliente(EnumSexo.HOMBRE, Float.parseFloat("60.0"), EnumObjetivo.MANTENERSE, "1.70", null, 0, textFieldEmail.getText(), textFieldName.getText(), new Date(System.currentTimeMillis()),
                     textFieldPhone.getText(), textFieldDirection.getText(), textFieldCode.getText(), textFieldPassword.getText(), EnumPrivilegios.USUARIO);
-
+            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
+            cliente.setContrasenia(Hash.hexadecimal(passwordBytes));
             ClienteFactory.getModelo().crearCliente(cliente);
             try {
                 stage.close();
