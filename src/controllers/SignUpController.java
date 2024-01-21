@@ -50,6 +50,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
+import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
 import objects.EnumObjetivo;
 import objects.EnumPrivilegios;
@@ -435,7 +436,7 @@ public class SignUpController {
             Cliente cliente = new Cliente(EnumSexo.HOMBRE, Float.parseFloat("60.0"), EnumObjetivo.MANTENERSE, "1.70", null, 0, textFieldEmail.getText(), textFieldName.getText(), new Date(System.currentTimeMillis()),
                     textFieldPhone.getText(), textFieldDirection.getText(), textFieldCode.getText(), textFieldPassword.getText(), EnumPrivilegios.USUARIO);
             byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
-            cliente.setContrasenia(Hash.hexadecimal(passwordBytes));
+            cliente.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
             ClienteFactory.getModelo().crearCliente(cliente);
             try {
                 stage.close();

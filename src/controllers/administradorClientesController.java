@@ -5,8 +5,10 @@
  */
 package controllers;
 
+import Encriptacion.Hash;
 import bussinesLogic.ClienteFactory;
 import exceptions.BusinessLogicException;
+import files.AsymmetricCliente;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +36,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import javax.ws.rs.core.GenericType;
+import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
 
 /**
@@ -290,6 +293,8 @@ public class administradorClientesController {
     private void AgregarAction(ActionEvent action) {
         try {
             Cliente client = new Cliente();
+            byte[] passwordBytes = new AsymmetricCliente().cipher("abcd*1234");
+            client.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
             ClienteFactory.getModelo().crearCliente(client);
             informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
             }));

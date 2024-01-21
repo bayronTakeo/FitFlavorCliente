@@ -1,6 +1,5 @@
 package files;
 
-import com.google.common.io.ByteStreams;
 import static com.google.common.io.ByteStreams.toByteArray;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class AsymmetricCliente {
     public byte[] decrypt(byte[] mensaje) {
         byte[] decodedMessage = null;
         try {
-            byte fileKey[] = fileReader("./MyHealthyDiet-Server/src/java/files/Private.key");
+            byte fileKey[] = fileReader("./FitFlavorServidor/src/java/files/Private.key");
             KeyFactory keyFactory = KeyFactory.getInstance("RSA");
             PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(fileKey);
             PrivateKey privateKey = keyFactory.generatePrivate(pkcs8EncodedKeySpec);
