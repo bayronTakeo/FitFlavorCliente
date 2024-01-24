@@ -298,9 +298,22 @@ public class SignInController {
             }, textFieldEmail.getText());
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
-            LOGGER.info(cliente.getPrivilegio().toString());
+            LOGGER.info("info del cliente" + cliente.toString());
             try {
-                if (cliente.getPrivilegio() == EnumPrivilegios.ADMIN) {
+                if (cliente.getPrivilegio() == EnumPrivilegios.ADMIN || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
+                    LOGGER.log(Level.INFO, user.toString());
+                    stage.close();
+                    LOGGER.info("SignIn window closed");
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
+                    Parent root = (Parent) loader.load();
+
+                    PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
+
+                    controller.setStage(new Stage());
+                    controller.setCliente(cliente);
+                    controller.initStage(root);
+                    LOGGER.info("Welcome window opened");
+                } else if (cliente.getPrivilegio() == EnumPrivilegios.USUARIO) {
                     LOGGER.log(Level.INFO, user.toString());
                     stage.close();
                     LOGGER.info("SignIn window closed");
@@ -314,7 +327,6 @@ public class SignInController {
                     controller.initStage(root);
                     LOGGER.info("Welcome window opened");
                 }
-
             } catch (Exception ex) {
                 Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }

@@ -89,11 +89,11 @@ public class IngredienteRESTCliente implements IngredienteInterfaz {
     public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            LOGGER.info("URL de la solicitud: {0}" + resource.getUri().toString());
             int statusCode = resource.request().get().getStatus();
-            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            LOGGER.info("Código de estado HTTP: {0}" + statusCode);
             String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta ingredientes: {0}", responseContent);
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los ingredientess:" + ex.getMessage());

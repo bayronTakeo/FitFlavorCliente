@@ -7,6 +7,7 @@ package objects;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -39,7 +40,10 @@ public class Ingrediente implements Serializable {
 
     private List<Receta> listaRecetas;
 
-    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal, Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
+    private SimpleObjectProperty<Cliente> cliente;
+
+    public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal,
+            Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoIngrediente = new SimpleObjectProperty<>(tipoIngrediente);
         this.nombre = new SimpleStringProperty(nombre);
@@ -49,9 +53,10 @@ public class Ingrediente implements Serializable {
         this.proteinas = new SimpleFloatProperty(proteinas);
         this.grasas = new SimpleFloatProperty(grasas);
         this.listaRecetas = listaRecetas;
+
     }
 
-    public Ingrediente() {
+    public Ingrediente(Cliente cliente) {
         this.id = new SimpleIntegerProperty(0);
         this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
         this.nombre = new SimpleStringProperty("ejemplo");
@@ -60,7 +65,27 @@ public class Ingrediente implements Serializable {
         this.carbohidratos = new SimpleFloatProperty(1);
         this.proteinas = new SimpleFloatProperty(1);
         this.grasas = new SimpleFloatProperty(1);
+        this.cliente = new SimpleObjectProperty<>(cliente);
+    }
 
+    public Ingrediente() {
+        this.id = new SimpleIntegerProperty();
+        this.tipoIngrediente = new SimpleObjectProperty<>();
+        this.nombre = new SimpleStringProperty();
+        this.precio = new SimpleFloatProperty();
+        this.kcal = new SimpleFloatProperty();
+        this.carbohidratos = new SimpleFloatProperty();
+        this.proteinas = new SimpleFloatProperty();
+        this.grasas = new SimpleFloatProperty();
+        this.cliente = new SimpleObjectProperty<>();
+    }
+
+    public Cliente getClient() {
+        return cliente.get();
+    }
+
+    public void setClient(Cliente cliente) {
+        this.cliente.set(cliente);
     }
 
     public List<Receta> getListaRecetas() {
@@ -137,18 +162,24 @@ public class Ingrediente implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 0;
-        hash += (super.getClass() != null ? getClass().hashCode() : 0);
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Cliente)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Cliente other = (Cliente) object;
-        if ((super.getClass() == null && other.getClass() != null) || (super.getClass() != null && !super.getClass().equals(other.getClass()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ingrediente other = (Ingrediente) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;

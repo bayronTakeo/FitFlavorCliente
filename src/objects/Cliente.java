@@ -1,6 +1,6 @@
 package objects;
 
-import java.time.LocalDate;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import javafx.beans.property.SimpleFloatProperty;
@@ -15,7 +15,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Bayron
  */
 @XmlRootElement(name = "cliente")
-public class Cliente extends Usuario {
+public class Cliente extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -112,7 +112,22 @@ public class Cliente extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Cliente{"
+                + "user_id=" + getUser_id()
+                + ", email='" + getEmail() + '\''
+                + ", nombreCompleto='" + getNombreCompleto() + '\''
+                + ", fechaNacimiento=" + getFechaNacimiento()
+                + ", telefono='" + getTelefono() + '\''
+                + ", direccion='" + getDireccion() + '\''
+                + ", codigoPostal='" + getCodigoPostal() + '\''
+                + ", contrasenia='" + getContrasenia() + '\''
+                + ", privilegio=" + getPrivilegio()
+                + ", sexo=" + sexo.get()
+                + ", peso=" + peso.get()
+                + ", objetivo=" + objetivo.get()
+                + ", altura='" + altura.get() + '\''
+                + ", recetasUsu=" + recetasUsu
+                + '}';
     }
 
 }

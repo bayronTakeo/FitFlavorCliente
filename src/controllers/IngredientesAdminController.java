@@ -21,6 +21,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableColumn.CellEditEvent;
@@ -34,6 +35,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import objects.Cliente;
 import objects.Ingrediente;
 import objects.TipoIngrediente;
 
@@ -45,6 +47,8 @@ public class IngredientesAdminController {
 
     private Stage stage;
     private static final Logger LOGGER = Logger.getLogger("IngredientesAdminController.class");
+
+    private Cliente cliente;
 
     @FXML
     private Pane paneFiltrar;
@@ -73,6 +77,8 @@ public class IngredientesAdminController {
     @FXML
     private TableColumn<Ingrediente, Float> columnaGrasas;
 
+    @FXML
+    private Label labelPrecio, labelKcal, labelProteinas, labelGrasas, labelCab;
     private ObservableList<Ingrediente> informacionIngredientes;
 
     private ObservableList<TipoIngrediente> opciones
@@ -82,16 +88,41 @@ public class IngredientesAdminController {
         this.stage = stage;
     }
 
-    public Stage getStage() {
-        return stage;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
+        Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Pagina Principal");
         stage.setResizable(false);
 
+        // Configurar un ChangeListener para el Slider
+        sliderPrecio.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el texto del Label cuando cambia el valor del Slider
+            labelPrecio.setText(" " + newValue.intValue());
+        });
+        sliderCarb.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el texto del Label cuando cambia el valor del Slider
+            labelCab.setText(" " + newValue.intValue());
+        });
+        sliderGrasas.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el texto del Label cuando cambia el valor del Slider
+            labelGrasas.setText(" " + newValue.intValue());
+        });
+        sliderKcal.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el texto del Label cuando cambia el valor del Slider
+            labelKcal.setText(" " + newValue.intValue());
+        });
+        sliderProte.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Actualizar el texto del Label cuando cambia el valor del Slider
+            labelProteinas.setText(" " + newValue.intValue());
+        });
+
+        botonResetear.setOnAction(
+                this::resetearFiltros);
         botonFiltros.setOnAction(
                 this::abrirMenuFiltros);
         botonCerrar.setOnAction(
@@ -339,6 +370,18 @@ public class IngredientesAdminController {
         LOGGER.info("Pagina principal iniciada");
     }
 
+    private void resetearFiltros(ActionEvent action) {
+        // Establecer los valores iniciales de los sliders
+        sliderPrecio.setValue(0);
+        sliderKcal.setValue(0);
+        sliderCarb.setValue(0);
+        sliderProte.setValue(0);
+        sliderGrasas.setValue(0);
+
+        // Deseleccionar el ComboBox
+        comboTipo.getSelectionModel().clearSelection();
+    }
+
     private void EditarAction(ActionEvent action) {
         // Obtiene la fila seleccionada
         Ingrediente ingredienteSeleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
@@ -383,7 +426,8 @@ public class IngredientesAdminController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Ingrediente ingrediente = new Ingrediente();
+            LOGGER.info(cliente.getEmail());
+            Ingrediente ingrediente = new Ingrediente(cliente);
             IngredienteFactory.getModelo().crearIngrediente(ingrediente);
             informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
             }));

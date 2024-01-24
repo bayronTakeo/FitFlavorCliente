@@ -26,6 +26,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -47,6 +48,7 @@ public class administradorClientesController {
 
     private Stage stage;
 
+    private Cliente cliente;
     private static final Logger LOGGER = Logger.getLogger("administradorClientesController.class");
     @FXML
     private ContextMenu menuTabla;
@@ -70,14 +72,15 @@ public class administradorClientesController {
     private Button botonAgregar, botonEliminar, botonEditar, botonBuscar;
     @FXML
     private TextField textfieldBuscar;
+
     private ObservableList<Cliente> informacionClientes;
 
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public Stage getStage() {
-        return stage;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public void initStage(Parent root) {

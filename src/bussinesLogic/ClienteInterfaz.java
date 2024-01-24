@@ -15,7 +15,7 @@ import objects.Cliente;
  */
 public interface ClienteInterfaz {
 
-    public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException;
+    public <T> T buscarPorId(GenericType<T> responseType, String id) throws BusinessLogicException;
 
     public void crearCliente(Cliente cliente) throws BusinessLogicException;
 

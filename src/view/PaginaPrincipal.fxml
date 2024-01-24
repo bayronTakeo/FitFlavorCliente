@@ -70,7 +70,7 @@
       </LineChart>
       <ComboBox fx:id="comboMes" layoutX="714.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
       <ComboBox fx:id="comboMes1" layoutX="1225.0" layoutY="64.0" prefHeight="25.0" prefWidth="97.0" promptText="mes" />
-      <fx:include source="MenuLateralAdmin.fxml" />
+      <fx:include fx:id="menuLateral" source="MenuLateralAdmin.fxml" />
     
    </children>
 </Pane>
