@@ -82,7 +82,8 @@ public class administradorClientesController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-
+        Stage stage = new Stage();
+        stage.setScene(scene);
         stage.setScene(scene);
 
         stage.setTitle("Administracion clientes");

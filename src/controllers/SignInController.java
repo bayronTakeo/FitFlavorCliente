@@ -1,5 +1,7 @@
 package controllers;
 
+import bussinesLogic.ClienteFactory;
+import bussinesLogic.ClienteInterfaz;
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
 import exceptions.BusinessLogicException;
@@ -36,6 +38,7 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
+import objects.EnumPrivilegios;
 import objects.Usuario;
 
 /**
@@ -285,26 +288,33 @@ public class SignInController {
                 throw new CommonException("data");
             }
             UsuarioInterfaz model = UsuarioFactory.getModelo();
+            ClienteInterfaz modelC = ClienteFactory.getModelo();
             LOGGER.log(Level.INFO, textFieldPassword.getText());
             byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
             Usuario user = model.signIn(new GenericType<Cliente>() {
             }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
+
+            Cliente cliente = modelC.buscarCliente(new GenericType<Cliente>() {
+            }, textFieldEmail.getText());
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
-
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
+            LOGGER.info(cliente.getPrivilegio().toString());
             try {
-                LOGGER.log(Level.INFO, user.toString());
-                stage.close();
-                LOGGER.info("SignIn window closed");
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
-                Parent root = (Parent) loader.load();
+                if (cliente.getPrivilegio() == EnumPrivilegios.ADMIN) {
+                    LOGGER.log(Level.INFO, user.toString());
+                    stage.close();
+                    LOGGER.info("SignIn window closed");
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
+                    Parent root = (Parent) loader.load();
 
-                PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
+                    PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
 
-                controller.setStage(new Stage());
+                    controller.setStage(new Stage());
+                    controller.setCliente(cliente);
+                    controller.initStage(root);
+                    LOGGER.info("Welcome window opened");
+                }
 
-                controller.initStage(root);
-                LOGGER.info("Welcome window opened");
             } catch (Exception ex) {
                 Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }

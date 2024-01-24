@@ -1,6 +1,5 @@
 package controllers;
 
-import controllers.administradorClientesController;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +10,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MenuLateralControlller {
@@ -20,37 +21,17 @@ public class MenuLateralControlller {
 
     @FXML
     private Button botonPrincipal, botonEjercicio, botonRecetas, botonPerfil, botonIngredientes;
-
-    private PaginaPrincipalController paginaPrincipalController;
-
-    public void init(PaginaPrincipalController paginaPrincipalController) {
-        this.paginaPrincipalController = paginaPrincipalController;
-    }
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
-    public Stage getStage() {
-        return stage;
-    }
-
-    public void initStage(Parent root) {
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.setTitle("Pagina Principal");
-        stage.setResizable(false);
-        LOGGER.info("ALgo hace");
-        botonPerfil.setOnAction(
-                this::handleButtonPerfilAction);
-        stage.show();
-    }
+    @FXML
+    private Pane menuPane;
+    @FXML
+    private MenuBar menuBar;
 
     // Elimina el método initStage
     @FXML
-    private void handleButtonPerfilAction(ActionEvent event) {
+    public void handleButtonClientsAction(ActionEvent event) {
         try {
             LOGGER.info("Entrando");
+            ((Stage) this.menuPane.getScene().getWindow()).close();
             // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
             Parent root = (Parent) loader.load();

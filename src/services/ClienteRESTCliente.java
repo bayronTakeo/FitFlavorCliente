@@ -97,10 +97,16 @@ public class ClienteRESTCliente implements ClienteInterfaz {
     }
 
     @Override
-    public <T> T buscarCliente(GenericType<T> respuesta, String valor) throws BusinessLogicException {
+    public <T> T buscarCliente(GenericType<T> respuesta, String usrValor) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("busqueda/{0}", new Object[]{valor}));
+            LOGGER.info("Intentnado buscar cliente");
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("busqueda/{0}", new Object[]{usrValor}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("No se encontro ningun cliente.");

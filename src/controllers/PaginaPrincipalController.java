@@ -18,6 +18,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import objects.Cliente;
 
 /**
  *
@@ -27,11 +28,16 @@ public class PaginaPrincipalController {
 
     private Stage stage;
 
+    private Cliente cliente;
     MenuLateralControlller menuLateralController;
 
     @FXML
     private Button botonPrincipal, botonEjercicio, botonRecetas, botonPerfil, botonIngredientes;
     private static final Logger LOGGER = Logger.getLogger("PaginaPrincipalController.class");
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -47,11 +53,10 @@ public class PaginaPrincipalController {
         stage.setTitle("Pagina Principal");
         stage.setResizable(false);
 
-        botonPerfil.setOnAction(
-                this::abrirUsuarios);
-        botonIngredientes.setOnAction(
-                this::abrirIngredientes);
-
+//        botonPerfil.setOnAction(
+        //              this::abrirUsuarios);
+        //botonIngredientes.setOnAction(
+        // this::abrirIngredientes);
         // Inicializa el controlador del menú lateral antes de usarlo
         stage.show();
         LOGGER.info("Pagina principal iniciada");
