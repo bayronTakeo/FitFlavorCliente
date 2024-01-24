@@ -34,15 +34,15 @@
             <Font name="System Bold Italic" size="28.0" />
          </font>
       </Text>
-      <TableView layoutX="378.0" layoutY="332.0" prefHeight="384.0" prefWidth="987.0">
+      <TableView fx:id="tablaRecetas" layoutX="378.0" layoutY="332.0" prefHeight="384.0" prefWidth="987.0">
         <columns>
-          <TableColumn prefWidth="99.0" text="Tipo" />
-          <TableColumn prefWidth="96.0" text="Nombre" />
-            <TableColumn prefWidth="133.0" text="Duracion" />
-            <TableColumn prefWidth="353.0" text="Ingredientes" />
-            <TableColumn minWidth="0.0" prefWidth="109.0" text="Precio" />
-            <TableColumn prefWidth="103.0" text="Es vegetariano" />
-            <TableColumn prefWidth="88.0" text="Es vegano" />
+          <TableColumn fx:id="columnaTipo" prefWidth="99.0" text="Tipo" />
+          <TableColumn fx:id="columnaNombre" prefWidth="96.0" text="Nombre" />
+            <TableColumn fx:id="columnaDuracion" prefWidth="133.0" text="Duracion" />
+            <TableColumn fx:id="columnaIngredientes" prefWidth="353.0" text="Ingredientes" />
+            <TableColumn fx:id="columnaPrecio" minWidth="0.0" prefWidth="109.0" text="Precio" />
+            <TableColumn fx:id="columnaVegetariano" prefWidth="103.0" text="Es vegetariano" />
+            <TableColumn fx:id="columnaVegano" prefWidth="88.0" text="Es vegano" />
         </columns>
       </TableView>
       <Button fx:id="botonAgregar" layoutX="1151.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Agregar" />

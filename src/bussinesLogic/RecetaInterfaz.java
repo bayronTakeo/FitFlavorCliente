@@ -8,6 +8,8 @@ package bussinesLogic;
 import exceptions.BusinessLogicException;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
+import objects.Receta;
 
 /**
  *
@@ -23,9 +25,10 @@ public interface RecetaInterfaz {
 
     public <T> T precio_XML(Class<T> responseType, String precio) throws BusinessLogicException;
 
-    public void edit_XML(Object requestEntity) throws BusinessLogicException;
+    public void actualizarReceta(Receta receta) throws BusinessLogicException;
 
     public void create_XML(Object requestEntity) throws BusinessLogicException;
     
+    public <T> T listaRecetas(GenericType<T> respuesta) throws BusinessLogicException;
 
 }

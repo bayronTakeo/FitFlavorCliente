@@ -6,19 +6,12 @@
 package objects;
 
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleFloatProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -29,130 +22,130 @@ public class Receta implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Integer id;
+    private SimpleIntegerProperty id;
 
-    private TipoReceta tipoReceta;
+    private SimpleObjectProperty<TipoReceta> tipoReceta;
 
-    private String nombre;
+    private SimpleStringProperty nombre;
 
-    private float duracion;
+    private SimpleFloatProperty duracion;
 
-    private boolean esVegetariano;
+    private SimpleBooleanProperty esVegetariano;
 
-    private boolean esVegano;
+    private SimpleBooleanProperty esVegano;
 
-    private float precio;
+    private SimpleFloatProperty precio;
 
-    private String pasos;
+    private SimpleStringProperty pasos;
 
-    private List<Ingrediente> ingredientes;
+    private SimpleObjectProperty<Ingrediente> ingredientes;
 
-    private List<Diario> listaDiariosR;
+    private SimpleObjectProperty<Diario> listaDiariosR;
 
-    private Cliente cliente;
+   
 
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
-    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, List<Ingrediente> ingredientes, List<Diario> listaDiariosR) {
-        this.id = id;
-        this.tipoReceta = tipoReceta;
-        this.nombre = nombre;
-        this.duracion = duracion;
-        this.esVegetariano = esVegetariano;
-        this.esVegano = esVegano;
-        this.precio = precio;
+    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, SimpleObjectProperty<Ingrediente> ingredientes, SimpleObjectProperty<Diario> listaDiariosR) {
+        this.id = new SimpleIntegerProperty(id);
+        this.tipoReceta = new SimpleObjectProperty(tipoReceta);
+        this.nombre = new SimpleStringProperty(nombre);
+        this.duracion = new SimpleFloatProperty(duracion);
+        this.esVegetariano = new SimpleBooleanProperty(esVegetariano);
+        this.esVegano = new SimpleBooleanProperty(esVegano);
+        this.precio = new SimpleFloatProperty(precio);
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
     }
 
     public Receta() {
-
-    }
-
-    public List<Diario> getListaDiariosR() {
-        return listaDiariosR;
-    }
-
-    public void setListaDiariosR(List<Diario> listaDiariosR) {
+        this.id = new SimpleIntegerProperty();
+        this.tipoReceta = new SimpleObjectProperty();
+        this.nombre = new SimpleStringProperty();
+        this.duracion = new SimpleFloatProperty();
+        this.esVegetariano = new SimpleBooleanProperty();
+        this.esVegano = new SimpleBooleanProperty();
+        this.precio = new SimpleFloatProperty();
+        this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Integer getId() {
-        return id;
+        return id.get();
     }
 
-    public String getPasos() {
-        return pasos;
-    }
-
-    public void setPasos(String pasos) {
-        this.pasos = pasos;
+    public void setId(Integer id) {
+        this.id.set(id);
     }
 
     public TipoReceta getTipoReceta() {
-        return tipoReceta;
+        return tipoReceta.get();
     }
 
     public void setTipoReceta(TipoReceta tipoReceta) {
-        this.tipoReceta = tipoReceta;
+        this.tipoReceta.set(tipoReceta);
     }
 
     public String getNombre() {
-        return nombre;
+        return nombre.get();
     }
 
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre.set(nombre);
     }
 
-    public float getDuracion() {
-        return duracion;
+    public Float getDuracion() {
+        return duracion.get();
     }
 
-    public void setDuracion(float duracion) {
-        this.duracion = duracion;
+    public void setDuracion(Float duracion) {
+        this.duracion.set(duracion);
     }
 
-    public boolean isEsVegetariano() {
-        return esVegetariano;
+    public Boolean getEsVegetariano() {
+        return esVegetariano.get();
     }
 
-    public void setEsVegetariano(boolean esVegetariano) {
-        this.esVegetariano = esVegetariano;
+    public void setEsVegetariano(Boolean esVegetariano) {
+        this.esVegetariano.set(esVegetariano);
     }
 
-    public boolean isEsVegano() {
-        return esVegano;
+    public Boolean getEsVegano() {
+        return esVegano.get();
     }
 
-    public void setEsVegano(boolean esVegano) {
-        this.esVegano = esVegano;
+    public void setEsVegano(Boolean esVegano) {
+        this.esVegano.set(esVegano);
     }
 
-    public float getPrecio() {
-        return precio;
+    public Float getPrecio() {
+        return precio.get();
     }
 
-    public void setPrecio(float precio) {
-        this.precio = precio;
+    public void setPrecio(Float precio) {
+        this.precio.set(precio);
     }
 
-    public List<Ingrediente> getIngredientes() {
+    public String getPasos() {
+        return pasos.get();
+    }
+
+    public void setPasos(String pasos) {
+        this.pasos.set(pasos);
+    }
+
+    public SimpleObjectProperty<Ingrediente> getIngredientes() {
         return ingredientes;
     }
 
-    public void setIngredientes(List<Ingrediente> ingredientes) {
+    public void setIngredientes(SimpleObjectProperty<Ingrediente> ingredientes) {
         this.ingredientes = ingredientes;
+    }
+
+    public SimpleObjectProperty<Diario> getListaDiariosR() {
+        return listaDiariosR;
+    }
+
+    public void setListaDiariosR(SimpleObjectProperty<Diario> listaDiariosR) {
+        this.listaDiariosR = listaDiariosR;
     }
 
     @Override

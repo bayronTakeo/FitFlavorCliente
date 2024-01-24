@@ -6,7 +6,6 @@
 package bussinesLogic;
 
 import services.RecetaFacadeREST;
-import services.UsuarioFarcadeREST;
 
 /**
  *
