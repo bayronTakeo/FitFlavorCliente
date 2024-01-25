@@ -27,7 +27,7 @@ public interface RecetaInterfaz {
 
     public void actualizarReceta(Receta receta) throws BusinessLogicException;
 
-    public void create_XML(Object requestEntity) throws BusinessLogicException;
+    public void crearReceta(Object requestEntity) throws BusinessLogicException;
     
     public <T> T listaRecetas(GenericType<T> respuesta) throws BusinessLogicException;
 

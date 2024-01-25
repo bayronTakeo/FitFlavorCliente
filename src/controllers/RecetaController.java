@@ -5,19 +5,25 @@
  */
 package controllers;
 
+import bussinesLogic.ClienteFactory;
 import bussinesLogic.RecetaFactory;
 import exceptions.BusinessLogicException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -25,6 +31,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import objects.Cliente;
 import objects.Receta;
 
 /**
@@ -36,6 +43,8 @@ public class RecetaController {
     private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("RecetaController.class");
+    @FXML
+    private ContextMenu menuTabla;
     @FXML
     private TableView tablaRecetas;
     @FXML
@@ -81,11 +90,11 @@ public class RecetaController {
         columnaTipo.setCellValueFactory(new PropertyValueFactory("tipoReceta"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         columnaDuracion.setCellValueFactory(new PropertyValueFactory("duracion"));
-        columnaIngrediente.setCellValueFactory(new PropertyValueFactory("ingredientes"));
+        //columnaIngrediente.setCellValueFactory(new PropertyValueFactory("ingredientes"));
         columnaPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
-        columnaVegetariano.setCellValueFactory(new PropertyValueFactory("vegetariano"));
-        columnaVegano.setCellValueFactory(new PropertyValueFactory("Vegano"));
-        columnaPasos.setCellValueFactory(new PropertyValueFactory("pasos"));
+        columnaVegetariano.setCellValueFactory(new PropertyValueFactory("esVegetariano"));
+        columnaVegano.setCellValueFactory(new PropertyValueFactory("esVegano"));
+        //columnaPasos.setCellValueFactory(new PropertyValueFactory("pasos"));
 
         stage.show();
 
@@ -101,7 +110,7 @@ public class RecetaController {
         }
         tablaRecetas.setItems(informacionRecetas);
         tablaRecetas.setEditable(true);
-        
+
         //Editar columna nombre
         columnaNombre.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
         columnaNombre.setOnEditCommit(
@@ -120,8 +129,8 @@ public class RecetaController {
                     }
                 }
         );
-        
-         //Editar columna pasos
+
+        //Editar columna pasos
         columnaNombre.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
         columnaNombre.setOnEditCommit(
                 (TableColumn.CellEditEvent<Receta, String> t) -> {
@@ -139,7 +148,7 @@ public class RecetaController {
                     }
                 }
         );
-        
+
         //Editar columna duracion
         columnaDuracion.setCellFactory(TextFieldTableCell.<Receta, Float>forTableColumn(new floatFormateador()));
         columnaDuracion.setOnEditCommit((CellEditEvent<Receta, Float> t) -> {
@@ -153,7 +162,7 @@ public class RecetaController {
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
                     alert.show();
-                    informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().lista(new GenericType<List<Receta>>() {
+                    informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
                     }));
                     tablaRecetas.setItems(informacionRecetas);
                 }
@@ -173,7 +182,7 @@ public class RecetaController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
-        
+
         //Editar columna precio
         columnaPrecio.setCellFactory(TextFieldTableCell.<Receta, Float>forTableColumn(new floatFormateador()));
         columnaPrecio.setOnEditCommit((CellEditEvent<Receta, Float> t) -> {
@@ -187,7 +196,7 @@ public class RecetaController {
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
                     alert.show();
-                    informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().lista(new GenericType<List<Receta>>() {
+                    informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
                     }));
                     tablaRecetas.setItems(informacionRecetas);
                 }
@@ -207,6 +216,54 @@ public class RecetaController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
+    }
+
+    private void EditarAction(ActionEvent action) {
+        // Obtiene la fila seleccionada
+        Receta selectedReceta = (Receta) tablaRecetas.getSelectionModel().getSelectedItem();
+        if (selectedReceta != null) {
+            //Activar el modo edicion de la fila
+            tablaRecetas.edit(tablaRecetas.getSelectionModel().getSelectedIndex(), columnaNombre);
+        } else {
+            // Muestra un mensaje si no hay fila seleccionada
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione una receta para editar.");
+            alert.show();
+        }
+    }
+
+    private void AgregarAction(ActionEvent action) {
+        try {
+            Receta re = new Receta();
+            RecetaFactory.getModelo().crearReceta(re);
+            informacionRecetas = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Receta>>() {
+            }));
+            tablaRecetas.setItems(informacionRecetas);
+            tablaRecetas.refresh();
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaRecetas.refresh();
+        }
+    }
+
+    private void DeleteAction(ActionEvent action) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar esta receta?");
+        a.showAndWait();
+        try {
+            if (a.getResult().equals(ButtonType.CANCEL)) {
+                action.consume();
+            } else {
+                ClienteFactory.getModelo().eliminarCliente(((Cliente) tablaRecetas.getSelectionModel().getSelectedItem()).getUser_id());
+                tablaRecetas.getItems().remove(tablaRecetas.getSelectionModel().getSelectedItem());
+                tablaRecetas.refresh();
+            }
+        } catch (Exception e) {
+            String msg = "Error eliminando la receta: " + e.getMessage();
+            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+            alert.show();
+            LOGGER.log(Level.SEVERE, msg);
+        }
     }
 
     private void handleExitAction(WindowEvent event) {

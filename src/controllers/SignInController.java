@@ -294,12 +294,13 @@ public class SignInController {
                 LOGGER.log(Level.INFO, user.toString());
                 stage.close();
                 LOGGER.info("SignIn window closed");
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/Recetas.fxml"));
                 Parent root = (Parent) loader.load();
 
-                 administradorClientesController controller = ((administradorClientesController) loader.getController());
+                 RecetaController controller = ((RecetaController) loader.getController());
 
-                controller.setStage(new Stage());
+
+                 controller.setStage(new Stage());
 
                 controller.initStage(root);
                 LOGGER.info("Welcome window opened");
