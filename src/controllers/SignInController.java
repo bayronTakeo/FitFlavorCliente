@@ -73,6 +73,7 @@ public class SignInController {
     @FXML
     private ImageView imageViewButton;
 
+    private SesionCliente sesionCliente;
     private Color customColorGreen = Color.web("#14FF0D");
     String opc;
     //Map para verificar que campos estan validados. 0 es que no esta validado y si se cambia a 1 es que esta validado.
@@ -296,6 +297,8 @@ public class SignInController {
 
             Cliente cliente = modelC.buscarCliente(new GenericType<Cliente>() {
             }, textFieldEmail.getText());
+            sesionCliente = SesionCliente.getInstance();
+            sesionCliente.setCliente(cliente);
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
             LOGGER.info("info del cliente" + cliente.toString());
@@ -310,7 +313,7 @@ public class SignInController {
                     PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
 
                     controller.setStage(new Stage());
-                    controller.setCliente(cliente);
+                    controller.setSesionCliente(sesionCliente);
                     controller.initStage(root);
                     LOGGER.info("Welcome window opened");
                 } else if (cliente.getPrivilegio() == EnumPrivilegios.USUARIO) {
@@ -323,7 +326,7 @@ public class SignInController {
                     PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
 
                     controller.setStage(new Stage());
-                    controller.setCliente(cliente);
+                    controller.setSesionCliente(sesionCliente);
                     controller.initStage(root);
                     LOGGER.info("Welcome window opened");
                 }

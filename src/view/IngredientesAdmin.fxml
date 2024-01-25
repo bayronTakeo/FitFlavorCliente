@@ -133,6 +133,6 @@
             <URL value="@recetasCSS.css" />
             <URL value="@../resources/recetasCSS.css" />
          </stylesheets></Button>
-      <fx:include source="MenuLateralAdmin.fxml" />
+     <fx:include fx:id="menuLateral"  source="MenuLateralAdmin.fxml" />
    </children>
 </Pane>
