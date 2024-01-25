@@ -14,6 +14,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import objects.Ejercicio;
+import objects.TipoIntensidad;
 
 /**
  * Jersey REST client generated for REST resource:EjercicioFacadeREST
@@ -90,12 +91,11 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             throw new BusinessLogicException("No se pudo encontrar ningun ejercicio de ese tipo");
         }    
     }
-
-    @Override
-    public <T> T listaIntensidad(GenericType<T> respuesta, String intensidad) throws BusinessLogicException {
+    
+    public <T> T listaIntensidad(GenericType<T> respuesta, String tipoIntensidad) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("busquedaIntensidad/{0}", new Object[]{intensidad}));
+            resource = resource.path(java.text.MessageFormat.format("busquedaIntensidad/{0}", new Object[]{tipoIntensidad}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("No se pudo encontrar ningun ejercicio con ese nivel de intensidad");

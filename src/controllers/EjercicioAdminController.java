@@ -19,20 +19,25 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
+import logicaTablas.floatFormateador;
 import objects.Cliente;
 import objects.Ejercicio;
 import objects.TipoEjercicio;
+import objects.TipoIntensidad;
 
 /**
  *
@@ -55,29 +60,35 @@ public class EjercicioAdminController {
     @FXML
     private TableColumn<Ejercicio, String> columnaDescripcion;
     @FXML
-    private TableColumn<Ejercicio, String> columnaDuracion;
+    private TableColumn<Ejercicio, Float> columnaDuracion;
     @FXML
     private TableColumn<Ejercicio, String> columnaKcalQuemadas;
     @FXML
-    private TableColumn<Ejercicio, String> columnaIntensidad;
+    private TableColumn<Ejercicio, TipoIntensidad> columnaTipoIntensidad;
     @FXML
     private ComboBox comboTipo;
     @FXML
     private ComboBox comboIntensidad;
     @FXML
     private Spinner spinnerDuracion;
+    @FXML
+    private Button botonEditar;
+    @FXML
+    private Button botonAgregar;
+    @FXML
+    private Button botonEliminar;
+    @FXML
+    private Button botonFiltros;
+    
 
     private ObservableList<Ejercicio> informacionEjercicios;
 
-    public Stage getStage() {
-        return stage;
-    }
+    private ObservableList<TipoEjercicio> opciones
+            = FXCollections.observableArrayList(TipoEjercicio.values());
+    
+    private ObservableList<TipoIntensidad> opcionesIntensidad
+            = FXCollections.observableArrayList(TipoIntensidad.values());
 
-    /**
-     * Establece la instancia de Stage asociada a este controlador.
-     *
-     * @param stage La instancia de Stage que se asignará a este controlador.
-     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -89,6 +100,9 @@ public class EjercicioAdminController {
 
         stage.setTitle("Administracion Ejercicios");
         stage.setResizable(false);
+        
+        
+        
         stage.setOnCloseRequest(this::handleExitAction);
 
         tablaEjercicios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -98,7 +112,7 @@ public class EjercicioAdminController {
         columnaDescripcion.setCellValueFactory(new PropertyValueFactory("descripcion"));
         columnaDuracion.setCellValueFactory(new PropertyValueFactory("duracion"));
         columnaKcalQuemadas.setCellValueFactory(new PropertyValueFactory("kcalQuemadas"));
-        columnaIntensidad.setCellValueFactory(new PropertyValueFactory("intensidad"));
+        columnaTipoIntensidad.setCellValueFactory(new PropertyValueFactory("tipoIntensidad"));
 
         stage.show();
         try {
@@ -111,6 +125,8 @@ public class EjercicioAdminController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaEjercicios.refresh();
         }
+        
+         
         tablaEjercicios.setItems(informacionEjercicios);
         tablaEjercicios.setEditable(true);
 
@@ -135,29 +151,28 @@ public class EjercicioAdminController {
         );
 
         //Editar columna tipoEjercicio
-        /*
-        columnaNombre.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
-        columnaNombre.setOnEditCommit(
-                (TableColumn.CellEditEvent<Ejercicio, String> t) -> {
+        columnaTipoEjercicio.setCellFactory(ComboBoxTableCell.<Ejercicio, TipoEjercicio>forTableColumn(TipoEjercicio.values()));
+        columnaTipoEjercicio.setOnEditCommit(
+                (CellEditEvent<Ejercicio, TipoEjercicio> t) -> {
+
+                    Ejercicio tipoSeleccionado = (Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem();
+                    TipoEjercicio valorOriginal = t.getOldValue();
+                    ComboBox<TipoEjercicio> comboBox = new ComboBox<>();
+                    comboBox.setItems(opciones);
                     try {
                         ((Ejercicio) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())).setTipoEjercicio(t.getNewValue());
                         EjercicioFactory.getModelo().actualizarEjercicio((Ejercicio) t.getTableView().getSelectionModel().getSelectedItem());
                     } catch (BusinessLogicException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-                        alert.show();
-                        LOGGER.log(Level.SEVERE, ex.getMessage());
+
                         ((Ejercicio) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setTipoEjercicio(t.getOldValue());
+                                t.getTablePosition().getRow())).setTipoEjercicio(valorOriginal);
                         tablaEjercicios.refresh();
                     }
-
-                }
-        );
-         */
+                });
         //Editar columna Descripcion
-        columnaNombre.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
-        columnaNombre.setOnEditCommit(
+        columnaDescripcion.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
+        columnaDescripcion.setOnEditCommit(
                 (TableColumn.CellEditEvent<Ejercicio, String> t) -> {
                     try {
                         ((Ejercicio) t.getTableView().getItems().get(
@@ -176,31 +191,41 @@ public class EjercicioAdminController {
         );
 
         //Editar columna Duracion
-        /*
-        columnaDuracion.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
-        columnaDuracion.setOnEditCommit(
-                (TableColumn.CellEditEvent<Cliente, String> t) -> {
-                    try {
-                        ((Ejercicio) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setDuracion(t.getNewValue());
-                        EjercicioFactory.getModelo().actualizarEjercicio((Ejercicio) t.getTableView().getSelectionModel().getSelectedItem());
-                    } catch (BusinessLogicException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-                        alert.show();
-                        LOGGER.log(Level.SEVERE, ex.getMessage());
-                        ((Ejercicio) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setDuracion(t.getOldValue());
-                        tablaEjercicios.refresh();
-                    }
-
+        columnaDuracion.setCellFactory(TextFieldTableCell.<Ejercicio, Float>forTableColumn(new floatFormateador()));
+        columnaDuracion.setOnEditCommit((CellEditEvent<Ejercicio, Float> t) -> {
+            Ejercicio seleccionado = (Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem();
+            Float duracion = seleccionado.getDuracion();
+            try {
+                if (t.getNewValue() <= 9999) {
+                    ((Ejercicio) t.getTableView().getItems().get(
+                            t.getTablePosition().getRow())).setDuracion(t.getNewValue());
+                    EjercicioFactory.getModelo().actualizarEjercicio((Ejercicio) t.getTableView().getSelectionModel().getSelectedItem());
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionEjercicios = FXCollections.observableArrayList(EjercicioFactory.getModelo().findAll(new GenericType<List<Ejercicio>>() {
+                    }));
+                    tablaEjercicios.setItems(informacionEjercicios);
                 }
-        );
-
-
-         */
+            } catch (BusinessLogicException ex) {
+                ((Ejercicio) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setDuracion(duracion);
+                tablaEjercicios.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Error en el servidor" + ex.getMessage());
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            } catch (NullPointerException ex) {
+                ((Ejercicio) t.getTableView().getItems().get(
+                        t.getTablePosition().getRow())).setDuracion(t.getOldValue());
+                tablaEjercicios.refresh();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Este campo solo admite números!");
+                alert.show();
+                LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
+            }
+        });
         //Editar columna KcalQuemadas
-        columnaNombre.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
-        columnaNombre.setOnEditCommit(
+        columnaKcalQuemadas.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
+        columnaKcalQuemadas.setOnEditCommit(
                 (TableColumn.CellEditEvent<Ejercicio, String> t) -> {
                     try {
                         ((Ejercicio) t.getTableView().getItems().get(
@@ -218,30 +243,28 @@ public class EjercicioAdminController {
                 }
         );
 
-        //Editar columna Intensidad
-        columnaNombre.setCellFactory(TextFieldTableCell.<Ejercicio>forTableColumn());
-        columnaNombre.setOnEditCommit(
-                (TableColumn.CellEditEvent<Ejercicio, String> t) -> {
+        //Editar columna TipoIntensidad
+        columnaTipoIntensidad.setCellFactory(ComboBoxTableCell.<Ejercicio, TipoIntensidad>forTableColumn(TipoIntensidad.values()));
+        columnaTipoIntensidad.setOnEditCommit(
+                (CellEditEvent<Ejercicio, TipoIntensidad> t) -> {
+
+                    Ejercicio tipoSeleccionado = (Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem();
+                    TipoIntensidad valorOriginal = t.getOldValue();
+                    ComboBox<TipoIntensidad> comboBox = new ComboBox<>();
+                    comboBox.setItems(opcionesIntensidad);
                     try {
                         ((Ejercicio) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setIntensidad(t.getNewValue());
+                                t.getTablePosition().getRow())).setTipoIntensidad(t.getNewValue());
                         EjercicioFactory.getModelo().actualizarEjercicio((Ejercicio) t.getTableView().getSelectionModel().getSelectedItem());
                     } catch (BusinessLogicException ex) {
-                        Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
-                        alert.show();
-                        LOGGER.log(Level.SEVERE, ex.getMessage());
+
                         ((Ejercicio) t.getTableView().getItems().get(
-                                t.getTablePosition().getRow())).setIntensidad(t.getOldValue());
+                                t.getTablePosition().getRow())).setTipoIntensidad(valorOriginal);
                         tablaEjercicios.refresh();
                     }
+                });
 
-                }
-        );
-
-        // Eliminar Ejercicio
-        menuTabla.getItems()
-                .get(0).setOnAction(this::handleDeleteAction);
-        LOGGER.info("AdministradorEjercicio iniciado");
+        
 
     }
 

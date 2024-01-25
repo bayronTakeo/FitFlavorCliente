@@ -19,7 +19,7 @@ public interface EjercicioInterfaz {
 
     public <T> T listaPorTipo(GenericType<T> respuesta, String tipo) throws BusinessLogicException;
 
-    public <T> T listaIntensidad(GenericType<T> respuesta, String intensidad) throws BusinessLogicException;
+    public <T> T listaIntensidad(GenericType<T> respuesta, String tipoIntensidad) throws BusinessLogicException;
 
     public void actualizarEjercicio(Ejercicio ejercicio) throws BusinessLogicException;
 

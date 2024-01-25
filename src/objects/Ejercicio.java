@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author gaizka
  */
 @XmlRootElement(name = "ejercicio")
-public class Ejercicio extends Usuario{
+public class Ejercicio implements Serializable{
     
     private static final long serialVersionUID = 1L;
     
@@ -40,16 +40,16 @@ public class Ejercicio extends Usuario{
     
     private SimpleStringProperty kcalQuemadas;
     
-    private SimpleStringProperty intensidad;
+    private SimpleObjectProperty<TipoIntensidad> tipoIntensidad;
 
-    public Ejercicio(Integer ejercicio_id, String nombre, TipoEjercicio tipoEjercicio, String descripcion, Float duracion, String kcalQuemadas, String intensidad) {
+    public Ejercicio(Integer ejercicio_id, String nombre, TipoEjercicio tipoEjercicio, String descripcion, Float duracion, String kcalQuemadas, TipoIntensidad tipoIntensidad) {
         this.ejercicio_id = new SimpleIntegerProperty(ejercicio_id);
         this.nombre = new SimpleStringProperty(nombre);
         this.tipoEjercicio = new SimpleObjectProperty<>(tipoEjercicio);
         this.descripcion = new SimpleStringProperty(descripcion);
         this.duracion = new SimpleFloatProperty(duracion);
         this.kcalQuemadas = new SimpleStringProperty(kcalQuemadas);
-        this.intensidad = new SimpleStringProperty(intensidad);
+        this.tipoIntensidad = new SimpleObjectProperty<>(tipoIntensidad);
     }
     
     public Ejercicio() {
@@ -59,7 +59,7 @@ public class Ejercicio extends Usuario{
         this.descripcion = new SimpleStringProperty();
         this.duracion = new SimpleFloatProperty();
         this.kcalQuemadas = new SimpleStringProperty();
-        this.intensidad = new SimpleStringProperty();
+        this.tipoIntensidad = new SimpleObjectProperty<>();
     }
 
     //Setters
@@ -89,8 +89,8 @@ public class Ejercicio extends Usuario{
         this.kcalQuemadas.set(kcalQuemadas);
     }
     
-    public void setIntensidad(String intensidad) {
-        this.intensidad.set(intensidad);
+    public void setTipoIntensidad(TipoIntensidad tipoIntensidad) {
+        this.tipoIntensidad.set(tipoIntensidad);
     }
     
     //Getters
@@ -118,8 +118,8 @@ public class Ejercicio extends Usuario{
         return kcalQuemadas.get();
     }
 
-    public String getIntensidad() {
-        return intensidad.get();
+    public TipoIntensidad getTipoIntensidad() {
+        return tipoIntensidad.get();
     }
 
     @Override
@@ -151,7 +151,7 @@ public class Ejercicio extends Usuario{
                 + ", descripcion=" + descripcion
                 + ", duracion=" + duracion
                 + ", kcalQuemadas='" + kcalQuemadas + '\''
-                + ", intensidad=" + intensidad
+                + ", tipoIntensidad=" + tipoIntensidad
                 + '}';
     }
 }

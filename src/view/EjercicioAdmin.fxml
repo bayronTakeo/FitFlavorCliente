@@ -58,7 +58,7 @@
             <TableColumn fx:id="columnaDescripcion" prefWidth="113.0" text="Descripcion" />
             <TableColumn fx:id="columnaDuracion" prefWidth="149.0" text="Duracion" />
             <TableColumn fx:id="columnaKcalQuemadas" minWidth="0.0" prefWidth="175.0" text="KcalQuemadas" />
-            <TableColumn fx:id="columnaIntensidad" prefWidth="163.0" text="Intensidad" />
+            <TableColumn fx:id="columnaTipoIntensidad" prefWidth="163.0" text="TIpoIntensidad" />
          </columns>
       </TableView>
       <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
