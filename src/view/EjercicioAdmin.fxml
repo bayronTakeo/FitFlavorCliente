@@ -58,7 +58,7 @@
             <TableColumn fx:id="columnaDescripcion" prefWidth="113.0" text="Descripcion" />
             <TableColumn fx:id="columnaDuracion" prefWidth="149.0" text="Duracion" />
             <TableColumn fx:id="columnaKcalQuemadas" minWidth="0.0" prefWidth="175.0" text="KcalQuemadas" />
-            <TableColumn fx:id="columnaTipoIntensidad" prefWidth="163.0" text="TIpoIntensidad" />
+            <TableColumn fx:id="columnaTipoIntensidad" prefWidth="163.0" text="TipoIntensidad" />
          </columns>
       </TableView>
       <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
@@ -96,8 +96,8 @@
                </font>
             </Text>
             <Spinner fx:id="spinnerDuracion" layoutX="36.0" layoutY="464.0" prefHeight="25.0" prefWidth="205.0" />
-            <Button layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
-            <Button layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
+            <Button fx:id="botonAplicar" layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
+            <Button fx:id="botonCerrar" layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
          </children>
       </Pane>
       <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Filtros">

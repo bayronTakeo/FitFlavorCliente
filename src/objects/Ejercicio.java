@@ -54,12 +54,12 @@ public class Ejercicio implements Serializable{
     
     public Ejercicio() {
         this.ejercicio_id = new SimpleIntegerProperty();
-        this.nombre = new SimpleStringProperty();
-        this.tipoEjercicio = new SimpleObjectProperty<>();
-        this.descripcion = new SimpleStringProperty();
+        this.nombre = new SimpleStringProperty("NombreEjercicio");
+        this.tipoEjercicio = new SimpleObjectProperty<>(TipoEjercicio.Brazo);
+        this.descripcion = new SimpleStringProperty("Descripcion");
         this.duracion = new SimpleFloatProperty();
-        this.kcalQuemadas = new SimpleStringProperty();
-        this.tipoIntensidad = new SimpleObjectProperty<>();
+        this.kcalQuemadas = new SimpleStringProperty("kcalQuemadas");
+        this.tipoIntensidad = new SimpleObjectProperty<>(TipoIntensidad.Alta);
     }
 
     //Setters

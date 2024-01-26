@@ -11,6 +11,7 @@ import exceptions.BusinessLogicException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,8 +31,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
 import objects.Cliente;
@@ -47,8 +50,10 @@ public class EjercicioAdminController {
 
     private Stage stage;
 
-    private static final Logger LOGGER = Logger.getLogger("EjercicioAdminCOntroller.class");
+    private static final Logger LOGGER = Logger.getLogger("EjercicioAdminController.class");
 
+    @FXML
+    private Pane paneFiltrar;
     @FXML
     private ContextMenu menuTabla;
     @FXML
@@ -72,20 +77,13 @@ public class EjercicioAdminController {
     @FXML
     private Spinner spinnerDuracion;
     @FXML
-    private Button botonEditar;
-    @FXML
-    private Button botonAgregar;
-    @FXML
-    private Button botonEliminar;
-    @FXML
-    private Button botonFiltros;
-    
+    private Button botonEditar, botonAgregar, botonEliminar, botonFiltros, botonCerrar, botonAplicar;
 
     private ObservableList<Ejercicio> informacionEjercicios;
 
     private ObservableList<TipoEjercicio> opciones
             = FXCollections.observableArrayList(TipoEjercicio.values());
-    
+
     private ObservableList<TipoIntensidad> opcionesIntensidad
             = FXCollections.observableArrayList(TipoIntensidad.values());
 
@@ -100,10 +98,11 @@ public class EjercicioAdminController {
 
         stage.setTitle("Administracion Ejercicios");
         stage.setResizable(false);
-        
-        
-        
         stage.setOnCloseRequest(this::handleExitAction);
+        botonFiltros.setOnAction(
+                this::abrirMenuFiltros);
+        botonCerrar.setOnAction(
+                this::cerrarMenuFiltros);
 
         tablaEjercicios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -125,8 +124,7 @@ public class EjercicioAdminController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaEjercicios.refresh();
         }
-        
-         
+
         tablaEjercicios.setItems(informacionEjercicios);
         tablaEjercicios.setEditable(true);
 
@@ -263,28 +261,106 @@ public class EjercicioAdminController {
                         tablaEjercicios.refresh();
                     }
                 });
+        //Editar un ejercicio
+        botonEditar.setOnAction(this::EditarAction);
+        //Agregar un nuevo ejercicio.
+        botonAgregar.setOnAction(this::AgregarAction);
 
-        
+        // Eliminar Ejercicio
+        botonEliminar.setOnAction(this::DeleteAction);
+        //botonAplicar.setOnAction(this::buscarEjercicio);
+
+        stage.show();
+        LOGGER.info("Administracion Ejercicios iniciado");
 
     }
 
-    private void handleDeleteAction(ActionEvent action) {
+    private void EditarAction(ActionEvent action) {
+        // Obtiene la fila seleccionada
+        Ejercicio selectedEjercicio = (Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem();
+        if (selectedEjercicio != null) {
+            //Activar el modo edicion de la fila
+            tablaEjercicios.edit(tablaEjercicios.getSelectionModel().getSelectedIndex(), columnaNombre);
+        } else {
+            // Muestra un mensaje si no hay fila seleccionada
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione un ejercicio para editar.");
+            alert.show();
+        }
+    }
+
+    private void AgregarAction(ActionEvent action) {
+        try {
+            Ejercicio ingrediente = new Ejercicio();
+            EjercicioFactory.getModelo().crearEjercicio(ingrediente);
+            informacionEjercicios = FXCollections.observableArrayList(EjercicioFactory.getModelo().findAll(new GenericType<List<Ejercicio>>() {
+            }));
+            tablaEjercicios.setItems(informacionEjercicios);
+            tablaEjercicios.refresh();
+        } catch (BusinessLogicException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaEjercicios.refresh();
+        }
+    }
+    
+    private void DeleteAction(ActionEvent action) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar este ejercicio?");
         a.showAndWait();
         try {
             if (a.getResult().equals(ButtonType.CANCEL)) {
                 action.consume();
             } else {
+                //índice del elemento seleccionado en la tabla
+                int selectedIndex = tablaEjercicios.getSelectionModel().getSelectedIndex();
+
+                // Eliminar el ejercicio de la base de datos
                 EjercicioFactory.getModelo().eliminarEjercicio(((Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem()).getEjercicio_id());
-                tablaEjercicios.getItems().remove(tablaEjercicios.getSelectionModel().getSelectedItem());
+
+                // Ejercicio el ingrediente de la lista informacionIngredientes
+                informacionEjercicios.remove(selectedIndex);
+
                 tablaEjercicios.refresh();
             }
         } catch (Exception e) {
+            if (e.getMessage() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "!Primero tienes que seleccionar un ejercicio!");
+                alert.show();
+            }
             String msg = "Error eliminando el ejercicio: " + e.getMessage();
             Alert alert = new Alert(Alert.AlertType.ERROR, msg);
             alert.show();
             LOGGER.log(Level.SEVERE, msg);
         }
+    }
+
+    private void abrirMenuFiltros(ActionEvent event) {
+        botonFiltros.setVisible(false);
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.5));
+        slide.setNode(paneFiltrar);
+
+        slide.setToX(-286);
+        slide.play();
+        slide.setOnFinished((ActionEvent e) -> {
+
+        });
+        LOGGER.info("aqui llega");
+
+    }
+
+    private void cerrarMenuFiltros(ActionEvent event) {
+        TranslateTransition slide = new TranslateTransition();
+        slide.setDuration(Duration.seconds(0.5));
+        slide.setNode(paneFiltrar);
+
+        slide.setToX(286);
+        slide.play();
+        slide.setOnFinished((ActionEvent e) -> {
+            botonFiltros.setVisible(true);
+        });
+        LOGGER.info("aqui llega");
+
     }
 
     private void handleExitAction(WindowEvent event) {
