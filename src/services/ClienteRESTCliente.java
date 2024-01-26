@@ -10,7 +10,6 @@ import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -71,20 +70,16 @@ public class ClienteRESTCliente implements ClienteInterfaz {
     }
 
     @Override
-    public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException {
+    public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
-            int statusCode = resource.request().get().getStatus();
-            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
-            String responseContent = resource.request().get(String.class);
-            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los clientes:" + ex.getMessage());
+            throw new BusinessLogicException("No se encontro ningun cliente" + ex.getMessage());
         }
     }
-
+    
     @Override
     public <T> T buscarPorTelefono(GenericType<T> respuesta, int telefono) throws BusinessLogicException {
         try {
@@ -114,13 +109,17 @@ public class ClienteRESTCliente implements ClienteInterfaz {
     }
 
     @Override
-    public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException {
+    public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("No se encontro ningun cliente" + ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los clientes:" + ex.getMessage());
         }
     }
 

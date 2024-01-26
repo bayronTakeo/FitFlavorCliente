@@ -5,16 +5,9 @@
  */
 package controllers;
 
-import Encriptacion.Hash;
 import bussinesLogic.ClienteFactory;
-import bussinesLogic.UsuarioFactory;
-import bussinesLogic.UsuarioInterfaz;
 import exceptions.BusinessLogicException;
 import exceptions.CommonException;
-import exceptions.ConnectionErrorException;
-import exceptions.MaxConnectionException;
-import exceptions.TimeOutException;
-import exceptions.UserExistException;
 import files.AsymmetricCliente;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -49,14 +42,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
 import objects.EnumObjetivo;
 import objects.EnumPrivilegios;
 import objects.EnumSexo;
-import objects.TipoIngrediente;
-import objects.Usuario;
 
 /**
  *

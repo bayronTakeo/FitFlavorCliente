@@ -27,7 +27,7 @@
             <Image url="@../resources/wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
          </image>
       </ImageView>
-      <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
+      <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" onAction="#abrirEjercicios" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
          <font>
             <Font name="Circular Std Regular" size="20.0" />
          </font>

@@ -39,7 +39,6 @@ import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Admin;
 import objects.Cliente;
-import objects.EnumPrivilegios;
 import objects.Usuario;
 
 /**
