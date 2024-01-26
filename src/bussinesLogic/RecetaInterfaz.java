@@ -17,18 +17,18 @@ import objects.Receta;
  */
 public interface RecetaInterfaz {
 
-    public <T> T lista(Class<T> responseType) throws BusinessLogicException;
-
-    public <T> T vegano(Class<T> responseType, String esVegano) throws BusinessLogicException;
-
-    public <T> T vegetariano_XML(Class<T> responseType, String esVegetariano) throws BusinessLogicException;
-
-    public <T> T precio_XML(Class<T> responseType, String precio) throws BusinessLogicException;
-
-    public void actualizarReceta(Receta receta) throws BusinessLogicException;
-
-    public void crearReceta(Object requestEntity) throws BusinessLogicException;
-    
     public <T> T listaRecetas(GenericType<T> respuesta) throws BusinessLogicException;
+
+    public <T> T vegano(GenericType<T> respuesta, String esVegano) throws BusinessLogicException;
+
+    public <T> T vegetariano(GenericType<T> respuesta, String esVegetariano) throws BusinessLogicException;
+
+    public <T> T precio(GenericType<T> respuesta, String precio) throws BusinessLogicException;
+
+    public void updateReceta(Receta receta) throws BusinessLogicException;
+
+    public void createReceta(Receta receta) throws BusinessLogicException;
+
+    public void deleteReceta(Integer id) throws BusinessLogicException;
 
 }

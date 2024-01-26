@@ -23,15 +23,14 @@ public class Cliente extends Usuario {
     private SimpleFloatProperty peso;
     private SimpleObjectProperty<EnumObjetivo> objetivo;
     private SimpleStringProperty altura;
-    private List<Receta> recetasUsu;
-
+    
     public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto, Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
         super(user_id, email, nombreCompleto, fechaNacimiento, telefono, direccion, codigoPostal, contrasenia, privilegio);
         this.sexo = new SimpleObjectProperty<>(sexo);
         this.peso = new SimpleFloatProperty(peso);
         this.objetivo = new SimpleObjectProperty<>(objetivo);
         this.altura = new SimpleStringProperty(altura);
-        this.recetasUsu = recetasUsu;
+       
     }
 
     // Constructor por defecto sin argumentos
@@ -48,10 +47,7 @@ public class Cliente extends Usuario {
         this.sexo.set(sexo);
     }
 
-    public void setRecetasUsu(List<Receta> recetasUsu) {
-        this.recetasUsu = recetasUsu;
-    }
-
+   
     public void setPeso(float peso) {
         this.peso.set(peso);
     }
@@ -65,9 +61,7 @@ public class Cliente extends Usuario {
     }
 
     // Getters
-    public List<Receta> getRecetasUsu() {
-        return recetasUsu;
-    }
+   
 
     public static long getSerialVersionUID() {
         return serialVersionUID;

@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import bussinesLogic.ClienteFactory;
 import bussinesLogic.RecetaFactory;
 import exceptions.BusinessLogicException;
 import java.util.List;
@@ -31,7 +30,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
-import objects.Cliente;
 import objects.Receta;
 
 /**
@@ -116,10 +114,12 @@ public class RecetaController {
         columnaNombre.setOnEditCommit(
                 (TableColumn.CellEditEvent<Receta, String> t) -> {
                     try {
+                        LOGGER.info("llega");
                         ((Receta) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())).setNombre(t.getNewValue());
-                        RecetaFactory.getModelo().actualizarReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
+                        RecetaFactory.getModelo().updateReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
                     } catch (BusinessLogicException ex) {
+                        LOGGER.info("Entra");
                         Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
                         alert.show();
                         LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -130,14 +130,15 @@ public class RecetaController {
                 }
         );
 
+
         //Editar columna pasos
-        columnaNombre.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
+       /* col.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
         columnaNombre.setOnEditCommit(
                 (TableColumn.CellEditEvent<Receta, String> t) -> {
                     try {
                         ((Receta) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())).setPasos(t.getNewValue());
-                        RecetaFactory.getModelo().actualizarReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
+                        RecetaFactory.getModelo().updateReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
                     } catch (BusinessLogicException ex) {
                         Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
                         alert.show();
@@ -147,7 +148,7 @@ public class RecetaController {
                         tablaRecetas.refresh();
                     }
                 }
-        );
+        );*/
 
         //Editar columna duracion
         columnaDuracion.setCellFactory(TextFieldTableCell.<Receta, Float>forTableColumn(new floatFormateador()));
@@ -158,7 +159,7 @@ public class RecetaController {
                 if (t.getNewValue() <= 9999) {
                     ((Receta) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setDuracion(t.getNewValue());
-                    RecetaFactory.getModelo().actualizarReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
+                    RecetaFactory.getModelo().updateReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
                     alert.show();
@@ -192,7 +193,7 @@ public class RecetaController {
                 if (t.getNewValue() <= 9999) {
                     ((Receta) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setPrecio(t.getNewValue());
-                    RecetaFactory.getModelo().actualizarReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
+                    RecetaFactory.getModelo().updateReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
                     alert.show();
@@ -216,6 +217,17 @@ public class RecetaController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
+      
+        botonEditar.setOnAction(this::EditarAction);
+        //Agregar una nueva receta.
+        botonAgregar.setOnAction(this::AgregarAction);
+
+        // Eliminar receta
+      /*  menuTabla.getItems()
+                .get(0).setOnAction(this::DeleteAction);
+        botonEliminar.setOnAction(this::DeleteAction);*/
+        stage.show();
+        LOGGER.info("Recetas iniciado");
     }
 
     private void EditarAction(ActionEvent action) {
@@ -234,8 +246,8 @@ public class RecetaController {
     private void AgregarAction(ActionEvent action) {
         try {
             Receta re = new Receta();
-            RecetaFactory.getModelo().crearReceta(re);
-            informacionRecetas = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Receta>>() {
+            RecetaFactory.getModelo().createReceta(re);
+            informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
             }));
             tablaRecetas.setItems(informacionRecetas);
             tablaRecetas.refresh();
@@ -247,18 +259,29 @@ public class RecetaController {
         }
     }
 
-    private void DeleteAction(ActionEvent action) {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar esta receta?");
+   private void DeleteAction(ActionEvent action) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar esta receta");
         a.showAndWait();
         try {
             if (a.getResult().equals(ButtonType.CANCEL)) {
                 action.consume();
             } else {
-                ClienteFactory.getModelo().eliminarCliente(((Cliente) tablaRecetas.getSelectionModel().getSelectedItem()).getUser_id());
-                tablaRecetas.getItems().remove(tablaRecetas.getSelectionModel().getSelectedItem());
+                //índice del elemento seleccionado en la tabla
+                int selectedIndex = tablaRecetas.getSelectionModel().getSelectedIndex();
+
+                // Eliminar el ejercicio de la base de datos
+                RecetaFactory.getModelo().deleteReceta(((Receta) tablaRecetas.getSelectionModel().getSelectedItem()).getId());
+
+                // Ejercicio el ingrediente de la lista informacionIngredientes
+                informacionRecetas.remove(selectedIndex);
+
                 tablaRecetas.refresh();
             }
         } catch (Exception e) {
+            if (e.getMessage() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "!Primero tienes que seleccionar una receta!");
+                alert.show();
+            }
             String msg = "Error eliminando la receta: " + e.getMessage();
             Alert alert = new Alert(Alert.AlertType.ERROR, msg);
             alert.show();

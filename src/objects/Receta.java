@@ -6,6 +6,7 @@
 package objects;
 
 import java.io.Serializable;
+import java.util.Objects;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author paula
  */
-@XmlRootElement(name = "recetas")
+@XmlRootElement(name = "receta")
 public class Receta implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +44,10 @@ public class Receta implements Serializable {
     private SimpleObjectProperty<Diario> listaDiariosR;
 
    
+   
 
-    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, SimpleObjectProperty<Ingrediente> ingredientes, SimpleObjectProperty<Diario> listaDiariosR) {
+    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio,
+            SimpleObjectProperty<Ingrediente> ingredientes, SimpleObjectProperty<Diario> listaDiariosR) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoReceta = new SimpleObjectProperty(tipoReceta);
         this.nombre = new SimpleStringProperty(nombre);
@@ -54,20 +57,23 @@ public class Receta implements Serializable {
         this.precio = new SimpleFloatProperty(precio);
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
+        
     }
-
+    
     public Receta() {
         this.id = new SimpleIntegerProperty();
         this.tipoReceta = new SimpleObjectProperty();
-        this.nombre = new SimpleStringProperty();
+        this.nombre = new SimpleStringProperty("NombreReceta");
         this.duracion = new SimpleFloatProperty();
         this.esVegetariano = new SimpleBooleanProperty();
         this.esVegano = new SimpleBooleanProperty();
         this.precio = new SimpleFloatProperty();
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
+        
     }
 
+    
     public Integer getId() {
         return id.get();
     }
@@ -156,16 +162,24 @@ public class Receta implements Serializable {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Cliente)) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
             return false;
         }
-        Cliente other = (Cliente) object;
-        if ((super.getClass() == null && other.getClass() != null) || (super.getClass() != null && !super.getClass().equals(other.getClass()))) {
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Receta other = (Receta) obj;
+        if (!Objects.equals(this.id, other.id)) {
             return false;
         }
         return true;
     }
+
+    
 
     @Override
     public String toString() {
