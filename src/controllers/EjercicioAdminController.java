@@ -321,7 +321,7 @@ public class EjercicioAdminController {
                 int selectedIndex = tablaEjercicios.getSelectionModel().getSelectedIndex();
 
                 // Eliminar el ejercicio de la base de datos
-                EjercicioFactory.getModelo().eliminarEjercicio(((Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem()).getEjercicio_id());
+                EjercicioFactory.getModelo().eliminarEjercicio(((Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem()).getId());
 
                 // Ejercicio el ingrediente de la lista informacionIngredientes
                 informacionEjercicios.remove(selectedIndex);

@@ -14,7 +14,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import objects.Ejercicio;
-import objects.TipoIntensidad;
 
 /**
  * Jersey REST client generated for REST resource:EjercicioFacadeREST
@@ -29,15 +28,15 @@ import objects.TipoIntensidad;
  *
  * @author gaizka
  */
-public class EjercicioRESTCliente implements EjercicioInterfaz{
+public class EjercicioRESTCliente implements EjercicioInterfaz {
 
     private WebTarget webTarget;
     private Client client;
     private final ResourceBundle bundle = ResourceBundle.getBundle("files.URL");
     private final String BASE_URI = bundle.getString("BASE_URI");
-    
+
     private Logger LOGGER = Logger.getLogger(UsuarioRESTCliente.class.getName());
-    
+
     public EjercicioRESTCliente() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("entidades.ejercicio");
@@ -51,7 +50,7 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             throw new BusinessLogicException("Ha ocurrido un error al crear el ejercicio");
         }
     }
-    
+
     @Override
     public void actualizarEjercicio(Ejercicio ejercicio) throws BusinessLogicException {
         try {
@@ -60,7 +59,7 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             throw new BusinessLogicException("Ha ocurrido un error intentando editar el ejercicio:" + ex.getMessage());
         }
     }
-    
+
     @Override
     public void eliminarEjercicio(Integer id) throws BusinessLogicException {
         try {
@@ -69,9 +68,9 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             throw new BusinessLogicException("Ha ocurrido un error al eliminar el ejercicio" + ex.getMessage());
         }
     }
-    
+
     @Override
-    public <T> T buscarPorId(GenericType<T> respuesta,String id) throws BusinessLogicException {
+    public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
             resource = resource.path(java.text.MessageFormat.format("{0}", new Object[]{id}));
@@ -89,9 +88,9 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("No se pudo encontrar ningun ejercicio de ese tipo");
-        }    
+        }
     }
-    
+
     public <T> T listaIntensidad(GenericType<T> respuesta, String tipoIntensidad) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
@@ -99,7 +98,7 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("No se pudo encontrar ningun ejercicio con ese nivel de intensidad");
-        }    
+        }
     }
 
     @Override
@@ -114,9 +113,9 @@ public class EjercicioRESTCliente implements EjercicioInterfaz{
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los ejercicios:" + ex.getMessage());
-        }    
+        }
     }
-    
+
     public void close() {
         client.close();
     }

@@ -99,7 +99,7 @@ public class Ejercicio implements Serializable {
     }
 
     //Setters
-    public void setEjercicio_id(Integer id) {
+    public void setId(Integer id) {
         this.id.set(id);
     }
 
@@ -128,7 +128,7 @@ public class Ejercicio implements Serializable {
     }
 
     //Getters
-    public Integer getEjercicio_id() {
+    public Integer getId() {
         return id.get();
     }
 
