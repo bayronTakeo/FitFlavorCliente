@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import bussinesLogic.ClienteFactory;
 import bussinesLogic.EjercicioFactory;
 import exceptions.BusinessLogicException;
 import java.util.List;
@@ -37,10 +36,11 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
-import objects.Cliente;
+import objects.Admin;
 import objects.Ejercicio;
 import objects.TipoEjercicio;
 import objects.TipoIntensidad;
+import objects.Usuario;
 
 /**
  *
@@ -51,6 +51,8 @@ public class EjercicioAdminController {
     private Stage stage;
 
     private static final Logger LOGGER = Logger.getLogger("EjercicioAdminController.class");
+
+    private Usuario usuario;
 
     @FXML
     private Pane paneFiltrar;
@@ -89,6 +91,10 @@ public class EjercicioAdminController {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public void initStage(Parent root) {
@@ -290,8 +296,8 @@ public class EjercicioAdminController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Ejercicio ingrediente = new Ejercicio();
-            EjercicioFactory.getModelo().crearEjercicio(ingrediente);
+            Ejercicio ejercicio = new Ejercicio((Admin) usuario);
+            EjercicioFactory.getModelo().crearEjercicio(ejercicio);
             informacionEjercicios = FXCollections.observableArrayList(EjercicioFactory.getModelo().findAll(new GenericType<List<Ejercicio>>() {
             }));
             tablaEjercicios.setItems(informacionEjercicios);

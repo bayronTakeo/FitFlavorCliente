@@ -41,7 +41,7 @@ public class MenuLateralControlller {
             Parent root = (Parent) loader.load();
 
             EjercicioAdminController controller = ((EjercicioAdminController) loader.getController());
-
+            controller.setUsuario(cliente2);
             controller.setStage(stage);
 
             controller.initStage(root);
