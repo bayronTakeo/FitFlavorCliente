@@ -35,9 +35,11 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import objects.Admin;
 import objects.Cliente;
 import objects.Ingrediente;
 import objects.TipoIngrediente;
+import objects.Usuario;
 
 /**
  *
@@ -48,7 +50,7 @@ public class IngredientesAdminController {
     private Stage stage;
     private static final Logger LOGGER = Logger.getLogger("IngredientesAdminController.class");
 
-    private Cliente cliente;
+    private Usuario cliente;
 
     @FXML
     private Pane paneFiltrar;
@@ -88,7 +90,7 @@ public class IngredientesAdminController {
         this.stage = stage;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 
@@ -427,7 +429,7 @@ public class IngredientesAdminController {
     private void AgregarAction(ActionEvent action) {
         try {
             LOGGER.info(cliente.getEmail());
-            Ingrediente ingrediente = new Ingrediente();
+            Ingrediente ingrediente = new Ingrediente((Admin) cliente);
             IngredienteFactory.getModelo().crearIngrediente(ingrediente);
             informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
             }));

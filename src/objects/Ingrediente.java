@@ -8,6 +8,7 @@ package objects;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -21,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "ingrediente")
 public class Ingrediente implements Serializable {
 
+    private static final Logger LOGGER = Logger.getLogger("Ingrediente.class");
     private static final long serialVersionUID = 1L;
 
     private SimpleIntegerProperty id;
@@ -56,7 +58,7 @@ public class Ingrediente implements Serializable {
         this.admin = new SimpleObjectProperty<>(admin);
     }
 
-    public Ingrediente() {
+    public Ingrediente(Admin admin) {
         this.id = new SimpleIntegerProperty(0);
         this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
         this.nombre = new SimpleStringProperty("ejemplo");
@@ -65,10 +67,12 @@ public class Ingrediente implements Serializable {
         this.carbohidratos = new SimpleFloatProperty(1);
         this.proteinas = new SimpleFloatProperty(1);
         this.grasas = new SimpleFloatProperty(1);
-        this.admin = new SimpleObjectProperty<>();
+        this.admin = new SimpleObjectProperty<>(admin);
+        LOGGER.info(this.toString());
+
     }
 
-    /*    public Ingrediente() {
+    public Ingrediente() {
         this.id = new SimpleIntegerProperty();
         this.tipoIngrediente = new SimpleObjectProperty<>();
         this.nombre = new SimpleStringProperty();
@@ -78,7 +82,8 @@ public class Ingrediente implements Serializable {
         this.proteinas = new SimpleFloatProperty();
         this.grasas = new SimpleFloatProperty();
         this.admin = new SimpleObjectProperty<>();
-    }*/
+    }
+
     public Admin getAdmin() {
         return admin.get();
     }
@@ -192,6 +197,7 @@ public class Ingrediente implements Serializable {
                 + ",kcal='" + kcal.get() + '\''
                 + ",precio='" + precio.get() + '\''
                 + ",carb='" + carbohidratos.get() + '\''
+                + ",usu='" + admin.get() + '\''
                 + '}';
     }
 

@@ -5,7 +5,6 @@
  */
 package controllers;
 
-import Encriptacion.Hash;
 import bussinesLogic.ClienteFactory;
 import exceptions.BusinessLogicException;
 import files.AsymmetricCliente;
@@ -26,7 +25,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -35,10 +33,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import javafx.util.Callback;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
+import objects.Usuario;
 
 /**
  *
@@ -48,7 +46,7 @@ public class administradorClientesController {
 
     private Stage stage;
 
-    private Cliente cliente;
+    private Usuario cliente;
     private static final Logger LOGGER = Logger.getLogger("administradorClientesController.class");
     @FXML
     private ContextMenu menuTabla;
@@ -79,7 +77,7 @@ public class administradorClientesController {
         this.stage = stage;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 

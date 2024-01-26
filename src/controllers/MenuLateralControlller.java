@@ -12,13 +12,14 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import objects.Cliente;
+import objects.Usuario;
 
 public class MenuLateralControlller {
 
     private Stage stage;
     private SesionCliente sesionCliente = SesionCliente.getInstance();
 
-    private Cliente cliente2 = sesionCliente.getCliente();
+    private Usuario cliente2 = sesionCliente.getCliente();
     private static final Logger LOGGER = Logger.getLogger("MenuLateralControlller.class");
 
     @FXML

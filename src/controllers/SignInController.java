@@ -37,6 +37,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
+import objects.Admin;
 import objects.Cliente;
 import objects.EnumPrivilegios;
 import objects.Usuario;
@@ -292,15 +293,16 @@ public class SignInController {
             ClienteInterfaz modelC = ClienteFactory.getModelo();
             LOGGER.log(Level.INFO, textFieldPassword.getText());
 
-            Cliente cliente = modelC.buscarCliente(new GenericType<Cliente>() {
-            }, textFieldEmail.getText());
+            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
+            Usuario user = model.signIn(new GenericType<Cliente>() {
+            }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
             sesionCliente = SesionCliente.getInstance();
-            sesionCliente.setCliente(cliente);
+            sesionCliente.setCliente(user);
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
-            LOGGER.info("info del cliente" + cliente.toString());
+
             try {
-                if (cliente.getPrivilegio() == EnumPrivilegios.ADMIN || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
+                if (user instanceof Admin || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
 
                     stage.close();
                     LOGGER.info("SignIn window closed");
@@ -313,7 +315,7 @@ public class SignInController {
                     controller.setSesionCliente(sesionCliente);
                     controller.initStage(root);
                     LOGGER.info("Welcome window opened");
-                } else if (cliente.getPrivilegio() == EnumPrivilegios.USUARIO) {
+                } else {
 
                     stage.close();
                     LOGGER.info("SignIn window closed");

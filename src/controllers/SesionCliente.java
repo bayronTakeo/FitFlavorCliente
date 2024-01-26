@@ -6,6 +6,7 @@
 package controllers;
 
 import objects.Cliente;
+import objects.Usuario;
 
 /**
  *
@@ -15,7 +16,7 @@ public class SesionCliente {
 
     private static SesionCliente instance = null;
 
-    private Cliente cliente;
+    private Usuario cliente;
 
     public static SesionCliente getInstance() {
         if (instance == null) {
@@ -24,11 +25,11 @@ public class SesionCliente {
         return instance;
     }
 
-    public void setCliente(Cliente cliente) {
+    public void setCliente(Usuario cliente) {
         this.cliente = cliente;
     }
 
-    public Cliente getCliente() {
+    public Usuario getCliente() {
         return cliente;
     }
 }

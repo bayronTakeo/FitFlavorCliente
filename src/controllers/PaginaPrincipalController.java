@@ -13,7 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import objects.Cliente;
+import objects.Usuario;
 
 /**
  *
@@ -25,7 +25,7 @@ public class PaginaPrincipalController {
 
     private SesionCliente sesionCliente = SesionCliente.getInstance();
 
-    Cliente cliente = sesionCliente.getCliente();
+    Usuario cliente = sesionCliente.getCliente();
 
     @FXML
     private final MenuLateralControlller menulateralController = new MenuLateralControlller();
