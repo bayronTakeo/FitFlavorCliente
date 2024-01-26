@@ -291,9 +291,6 @@ public class SignInController {
             UsuarioInterfaz model = UsuarioFactory.getModelo();
             ClienteInterfaz modelC = ClienteFactory.getModelo();
             LOGGER.log(Level.INFO, textFieldPassword.getText());
-            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
-            Usuario user = model.signIn(new GenericType<Cliente>() {
-            }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
 
             Cliente cliente = modelC.buscarCliente(new GenericType<Cliente>() {
             }, textFieldEmail.getText());
@@ -304,7 +301,7 @@ public class SignInController {
             LOGGER.info("info del cliente" + cliente.toString());
             try {
                 if (cliente.getPrivilegio() == EnumPrivilegios.ADMIN || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
-                    LOGGER.log(Level.INFO, user.toString());
+
                     stage.close();
                     LOGGER.info("SignIn window closed");
                     FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
@@ -317,7 +314,7 @@ public class SignInController {
                     controller.initStage(root);
                     LOGGER.info("Welcome window opened");
                 } else if (cliente.getPrivilegio() == EnumPrivilegios.USUARIO) {
-                    LOGGER.log(Level.INFO, user.toString());
+
                     stage.close();
                     LOGGER.info("SignIn window closed");
                     FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));

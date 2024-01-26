@@ -40,10 +40,10 @@ public class Ingrediente implements Serializable {
 
     private List<Receta> listaRecetas;
 
-    private SimpleObjectProperty<Cliente> cliente;
+    private SimpleObjectProperty<Admin> admin;
 
     public Ingrediente(Integer id, TipoIngrediente tipoIngrediente, String nombre, Float precio, Float kcal,
-            Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas) {
+            Float carbohidratos, Float proteinas, Float grasas, List<Receta> listaRecetas, Admin admin) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoIngrediente = new SimpleObjectProperty<>(tipoIngrediente);
         this.nombre = new SimpleStringProperty(nombre);
@@ -53,10 +53,10 @@ public class Ingrediente implements Serializable {
         this.proteinas = new SimpleFloatProperty(proteinas);
         this.grasas = new SimpleFloatProperty(grasas);
         this.listaRecetas = listaRecetas;
-
+        this.admin = new SimpleObjectProperty<>(admin);
     }
 
-    public Ingrediente(Cliente cliente) {
+    public Ingrediente() {
         this.id = new SimpleIntegerProperty(0);
         this.tipoIngrediente = new SimpleObjectProperty<>(TipoIngrediente.Carne);
         this.nombre = new SimpleStringProperty("ejemplo");
@@ -65,10 +65,10 @@ public class Ingrediente implements Serializable {
         this.carbohidratos = new SimpleFloatProperty(1);
         this.proteinas = new SimpleFloatProperty(1);
         this.grasas = new SimpleFloatProperty(1);
-        this.cliente = new SimpleObjectProperty<>(cliente);
+        this.admin = new SimpleObjectProperty<>();
     }
 
-    public Ingrediente() {
+    /*    public Ingrediente() {
         this.id = new SimpleIntegerProperty();
         this.tipoIngrediente = new SimpleObjectProperty<>();
         this.nombre = new SimpleStringProperty();
@@ -77,15 +77,14 @@ public class Ingrediente implements Serializable {
         this.carbohidratos = new SimpleFloatProperty();
         this.proteinas = new SimpleFloatProperty();
         this.grasas = new SimpleFloatProperty();
-        this.cliente = new SimpleObjectProperty<>();
+        this.admin = new SimpleObjectProperty<>();
+    }*/
+    public Admin getAdmin() {
+        return admin.get();
     }
 
-    public Cliente getClient() {
-        return cliente.get();
-    }
-
-    public void setClient(Cliente cliente) {
-        this.cliente.set(cliente);
+    public void setAdmin(Admin admin) {
+        this.admin.set(admin);
     }
 
     public List<Receta> getListaRecetas() {

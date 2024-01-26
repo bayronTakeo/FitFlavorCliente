@@ -427,7 +427,7 @@ public class IngredientesAdminController {
     private void AgregarAction(ActionEvent action) {
         try {
             LOGGER.info(cliente.getEmail());
-            Ingrediente ingrediente = new Ingrediente(cliente);
+            Ingrediente ingrediente = new Ingrediente();
             IngredienteFactory.getModelo().crearIngrediente(ingrediente);
             informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
             }));

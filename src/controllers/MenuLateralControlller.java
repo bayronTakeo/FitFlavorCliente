@@ -70,7 +70,7 @@ public class MenuLateralControlller {
             // controller.setCliente(cliente);
             // Llama a initStage después de configurar el cliente
             controller.setStage(stage);
-
+            controller.setCliente(cliente2);
             controller.initStage(root);
         } catch (IOException | IllegalStateException ex) {
             // Si hay un error al intentar cambiar la vista, muestra una alerta.
