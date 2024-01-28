@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1"  fx:controller="controllers.DiarioController" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.DiarioController">
    <children>
       <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
          <font>
@@ -34,13 +30,13 @@
             <TableColumn minWidth="0.0" prefWidth="76.0" text="Añadir" />
          </columns>
       </TableView>
-      <TableView layoutX="844.0" layoutY="89.0" prefHeight="310.0" prefWidth="526.0">
+      <TableView fx:id="tablaDiarioEjercicios" layoutX="844.0" layoutY="89.0" prefHeight="310.0" prefWidth="526.0">
          <columns>
-            <TableColumn prefWidth="85.0" text="Nombre" />
-            <TableColumn prefWidth="83.0" text="Duración" />
-            <TableColumn prefWidth="139.0" text="KcalQuemadas" />
-            <TableColumn prefWidth="146.0" text="Descripcion" />
-            <TableColumn prefWidth="67.0" text="Añadir" />
+            <TableColumn fx:id="columnaNombre" prefWidth="85.0" text="Nombre" />
+            <TableColumn fx:id="columnaDuracion" prefWidth="83.0" text="Duración" />
+            <TableColumn fx:id="columnaKcalQuemadas" prefWidth="139.0" text="KcalQuemadas" />
+            <TableColumn fx:id="columnaDescripcion" prefWidth="146.0" text="Descripcion" />
+            <TableColumn fx:id="columnaAñadir" prefWidth="67.0" text="Añadir" />
          </columns>
       </TableView>
       <PieChart layoutX="368.0" layoutY="399.0" prefHeight="278.0" prefWidth="405.0" title="Resumen comidas:" />

@@ -119,7 +119,6 @@ public class EjercicioAdminController {
         columnaKcalQuemadas.setCellValueFactory(new PropertyValueFactory("kcalQuemadas"));
         columnaTipoIntensidad.setCellValueFactory(new PropertyValueFactory("tipoIntensidad"));
 
-        stage.show();
         try {
 
             informacionEjercicios = FXCollections.observableArrayList(EjercicioFactory.getModelo().findAll(new GenericType<List<Ejercicio>>() {
