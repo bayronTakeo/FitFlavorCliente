@@ -319,7 +319,7 @@ public class EjercicioAdminController {
             } else {
                 //índice del elemento seleccionado en la tabla
                 int selectedIndex = tablaEjercicios.getSelectionModel().getSelectedIndex();
-
+                LOGGER.info(String.valueOf(selectedIndex));
                 // Eliminar el ejercicio de la base de datos
                 EjercicioFactory.getModelo().eliminarEjercicio(((Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem()).getId());
 
