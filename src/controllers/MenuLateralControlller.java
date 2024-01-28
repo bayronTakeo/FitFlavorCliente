@@ -23,12 +23,34 @@ public class MenuLateralControlller {
     private static final Logger LOGGER = Logger.getLogger("MenuLateralControlller.class");
 
     @FXML
-    private Button botonPrincipal, botonEjercicio, botonRecetas, botonPerfil, botonIngredientes;
+    private Button botonPrincipal, botonEjercicio, botonRecetas, botonPerfil, botonIngredientes, botonDiario;
     @FXML
     private Pane menuLateral;
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    public void abrirDiario(ActionEvent event) {
+        try {
+            LOGGER.info("Entrando");
+            ((Stage) this.menuLateral.getScene().getWindow()).close();
+            // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/Diario.fxml"));
+            Parent root = (Parent) loader.load();
+
+            DiarioController controller = ((DiarioController) loader.getController());
+            controller.setUsuario(cliente2);
+            controller.setStage(stage);
+
+            controller.initStage(root);
+        } catch (IOException | IllegalStateException ex) {
+            // Si hay un error al intentar cambiar la vista, muestra una alerta.
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, "Error al intentar abrir la ventana de clientes: {0}", ex.getMessage());
+        }
     }
 
     @FXML
