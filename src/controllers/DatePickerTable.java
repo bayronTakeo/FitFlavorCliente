@@ -13,7 +13,7 @@ public class DatePickerTable extends TableCell<Cliente, Date> {
 
     private DatePicker datePicker;
     private Date originalValue;
-    private SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
+    private final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd-MM-yyyy");
 
     DatePickerTable() {
     }

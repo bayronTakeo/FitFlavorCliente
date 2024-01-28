@@ -6,17 +6,20 @@
 package objects;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javax.persistence.Temporal;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Esta clase guarda una lista de dias, ejercicios y recetas
  *
  * @author bayron
  */
+@XmlRootElement(name = "diario")
 public class Diario implements Serializable {
 
     private static final long serialVersionUID = 1L;

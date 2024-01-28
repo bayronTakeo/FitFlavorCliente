@@ -7,6 +7,9 @@ package services;
 
 import bussinesLogic.DiarioInterfaz;
 import exceptions.BusinessLogicException;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,7 +17,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
 import objects.Diario;
-import objects.Ingrediente;
 
 /**
  * Jersey REST client generated for REST resource:DiarioFacadeREST
@@ -84,6 +86,18 @@ public class DiarioRESTCliente implements DiarioInterfaz {
             webTarget.path(java.text.MessageFormat.format("{0}", new Object[]{id})).request().delete(Diario.class);
         } catch (Exception ex) {
             throw new BusinessLogicException("Ha ocurrido un error al eliminar el diario: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public <T> T buscarPorFecha(GenericType<T> respuesta, String fecha, Integer cliente) throws BusinessLogicException {
+        try {
+
+            WebTarget resource = webTarget;
+            resource = resource.path(java.text.MessageFormat.format("buscarPorFecha/{0}/{1}", new Object[]{fecha, cliente}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("No se encontró ningún diario: " + ex.getMessage());
         }
     }
 

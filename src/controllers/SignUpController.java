@@ -123,6 +123,13 @@ public class SignUpController {
         stage.setTitle("SignUp");
         stage.setResizable(false);
 
+        textFieldCode.setText("123");
+        textFieldDirection.setText("asd");
+        textFieldEmail.setText("prueba@gmail.com");
+        textFieldPhone.setText("658475214");
+        textFieldName.setText("prueba");
+        password.setText("abcd*1234");
+        confirmPassword.setText("abcd*1234");
         // HyperLnk //
         //Accion de dirigir a la ventana de SignUp
         hyperLinkSignIn.setOnAction(this::SignIn);

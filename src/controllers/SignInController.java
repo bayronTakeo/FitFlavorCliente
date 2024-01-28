@@ -119,7 +119,8 @@ public class SignInController {
         stage.setResizable(false);
         //Pone en el textFieldEmail un email, sirve para cuando viene de la ventana SignUp y ha completado exitosamente el registro
         textFieldEmail.setText("prueba@gmail.com");
-        passwordSignIn.setText("1234");
+        passwordSignIn.setText("abcd*1234");
+        textFieldPassword.setText("abcd*1234");
         // HyperLnk //
         //Accion de dirigir a la ventana SignUp
         hyperLinkSignUp.setOnAction(this::SignUp);

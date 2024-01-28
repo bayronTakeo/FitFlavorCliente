@@ -6,7 +6,10 @@
 package bussinesLogic;
 
 import exceptions.BusinessLogicException;
+import java.time.LocalDate;
+import java.util.Date;
 import javax.ws.rs.core.GenericType;
+import objects.Cliente;
 import objects.Diario;
 
 /**
@@ -22,4 +25,6 @@ public interface DiarioInterfaz {
     public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException;
 
     public void deleteIngrediente(Integer id) throws BusinessLogicException;
+
+    public <T> T buscarPorFecha(GenericType<T> respuesta, String fecha, Integer cliente) throws BusinessLogicException;
 }
