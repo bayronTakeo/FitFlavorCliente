@@ -22,9 +22,13 @@ public interface DiarioInterfaz {
 
     public <T> T findAll(GenericType<T> respuesta) throws BusinessLogicException;
 
+    public void actualizarDiario(Diario diario) throws BusinessLogicException;
+
     public <T> T buscarPorId(GenericType<T> respuesta, String id) throws BusinessLogicException;
 
     public void deleteIngrediente(Integer id) throws BusinessLogicException;
 
     public <T> T buscarPorFecha(GenericType<T> respuesta, String fecha, Integer cliente) throws BusinessLogicException;
+
+    public <T> T buscarEjercicio(GenericType<T> respuesta, String fecha, Integer cliente, Integer ejercicio) throws BusinessLogicException;
 }

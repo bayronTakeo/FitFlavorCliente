@@ -6,11 +6,8 @@
 package objects;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javax.persistence.Temporal;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -27,7 +24,7 @@ public class Diario implements Serializable {
      * Campo identificador para el Diario.
      */
 
-    private SimpleIntegerProperty id;
+    private Integer id;
     /**
      * Lista de Ejercicios.
      */
@@ -39,7 +36,7 @@ public class Diario implements Serializable {
 
     private List<Receta> listaRecetas;
 
-    private SimpleObjectProperty<Cliente> cliente;
+    private Cliente cliente;
 
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date dia;
@@ -47,16 +44,20 @@ public class Diario implements Serializable {
     private String comentarios;
 
     public Diario(Integer id, List<Ejercicio> listaEjercicios, List<Receta> listaRecetas, Cliente cliente, Date dia, String comentarios) {
-        this.id = new SimpleIntegerProperty(id);
+        this.id = id;
         this.listaEjercicios = listaEjercicios;
         this.listaRecetas = listaRecetas;
-        this.cliente = new SimpleObjectProperty<>(cliente);
+        this.cliente = cliente;
         this.dia = dia;
         this.comentarios = comentarios;
     }
 
+    public Diario() {
+        this.listaEjercicios = listaEjercicios;
+    }
+
     public Cliente getCliente() {
-        return cliente.get();
+        return cliente;
     }
 
     public Date getDia() {
@@ -68,7 +69,7 @@ public class Diario implements Serializable {
     }
 
     public void setCliente(Cliente cliente) {
-        this.cliente.set(cliente);
+        this.cliente = cliente;
     }
 
     public void setDia(Date dia) {
@@ -79,15 +80,12 @@ public class Diario implements Serializable {
         this.comentarios = comentarios;
     }
 
-    public Diario() {
-    }
-
     /**
      *
      * @return the id
      */
     public Integer getId() {
-        return id.get();
+        return id;
     }
 
     /**
@@ -95,7 +93,7 @@ public class Diario implements Serializable {
      * @param id the id to be set
      */
     public void setId(Integer id) {
-        this.id.set(id);
+        this.id = id;
     }
 
     /**
@@ -150,7 +148,7 @@ public class Diario implements Serializable {
     public String toString() {
         return "Diario{"
                 + "id=" + id
-                + ", cliente=" + (cliente != null ? cliente.get() : "null")
+                + ", cliente=" + (cliente != null ? cliente : "null")
                 + ", dia=" + dia
                 + ", comentarios='" + comentarios + '\''
                 + ", listaEjercicios=" + listaEjercicios

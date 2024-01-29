@@ -92,9 +92,10 @@ public class DiarioRESTCliente implements DiarioInterfaz {
     @Override
     public <T> T buscarPorFecha(GenericType<T> respuesta, String fecha, Integer cliente) throws BusinessLogicException {
         try {
-
             WebTarget resource = webTarget;
             resource = resource.path(java.text.MessageFormat.format("buscarPorFecha/{0}/{1}", new Object[]{fecha, cliente}));
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("No se encontró ningún diario: " + ex.getMessage());
@@ -103,6 +104,27 @@ public class DiarioRESTCliente implements DiarioInterfaz {
 
     public void close() {
         client.close();
+    }
+
+    @Override
+    public <T> T buscarEjercicio(GenericType<T> respuesta, String fecha, Integer cliente, Integer ejercicio) throws BusinessLogicException {
+        try {
+            WebTarget resource = webTarget;
+            resource = resource.path(java.text.MessageFormat.format("buscarEjercicio/{0}/{1}/{2}", new Object[]{fecha, cliente, ejercicio}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("No se encontró ningún diario: " + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarDiario(Diario diario) throws BusinessLogicException {
+        try {
+            LOGGER.info("Entrando a editar diario: " + diario.toString());
+            webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(diario, javax.ws.rs.core.MediaType.APPLICATION_XML), Diario.class);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("Ha ocurrido un error intentando editar el cliente:" + ex.getMessage());
+        }
     }
 
 }
