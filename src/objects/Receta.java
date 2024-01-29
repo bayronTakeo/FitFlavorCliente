@@ -6,6 +6,7 @@
 package objects;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleFloatProperty;
@@ -39,15 +40,15 @@ public class Receta implements Serializable {
 
     private SimpleStringProperty pasos;
 
-    private SimpleObjectProperty<Ingrediente> ingredientes;
+    private List<Ingrediente> ingredientes;
 
-    private SimpleObjectProperty<Diario> listaDiariosR;
+    private List<Diario> listaDiariosR;
 
    
    
 
-    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio,
-            SimpleObjectProperty<Ingrediente> ingredientes, SimpleObjectProperty<Diario> listaDiariosR) {
+    public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, String pasos,
+            List<Ingrediente> ingredientes, List<Diario> listaDiariosR) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoReceta = new SimpleObjectProperty(tipoReceta);
         this.nombre = new SimpleStringProperty(nombre);
@@ -55,6 +56,7 @@ public class Receta implements Serializable {
         this.esVegetariano = new SimpleBooleanProperty(esVegetariano);
         this.esVegano = new SimpleBooleanProperty(esVegano);
         this.precio = new SimpleFloatProperty(precio);
+        this.pasos = new SimpleStringProperty(pasos);
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
         
@@ -62,12 +64,13 @@ public class Receta implements Serializable {
     
     public Receta() {
         this.id = new SimpleIntegerProperty();
-        this.tipoReceta = new SimpleObjectProperty();
+        this.tipoReceta = new SimpleObjectProperty(TipoReceta.Entrante);
         this.nombre = new SimpleStringProperty("NombreReceta");
         this.duracion = new SimpleFloatProperty();
-        this.esVegetariano = new SimpleBooleanProperty();
-        this.esVegano = new SimpleBooleanProperty();
-        this.precio = new SimpleFloatProperty();
+        this.esVegetariano = new SimpleBooleanProperty(false);
+        this.esVegano = new SimpleBooleanProperty(false);
+        this.precio = new SimpleFloatProperty(22);
+        this.pasos = new SimpleStringProperty("gg");
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
         
@@ -138,19 +141,19 @@ public class Receta implements Serializable {
         this.pasos.set(pasos);
     }
 
-    public SimpleObjectProperty<Ingrediente> getIngredientes() {
+    public List<Ingrediente> getIngredientes() {
         return ingredientes;
     }
 
-    public void setIngredientes(SimpleObjectProperty<Ingrediente> ingredientes) {
+    public void setIngredientes(List<Ingrediente> ingredientes) {
         this.ingredientes = ingredientes;
     }
 
-    public SimpleObjectProperty<Diario> getListaDiariosR() {
+    public List<Diario> getListaDiariosR() {
         return listaDiariosR;
     }
 
-    public void setListaDiariosR(SimpleObjectProperty<Diario> listaDiariosR) {
+    public void setListaDiariosR(List<Diario> listaDiariosR) {
         this.listaDiariosR = listaDiariosR;
     }
 
@@ -183,7 +186,18 @@ public class Receta implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+       return "Receta{" +
+            "id=" + id.get() +
+            ", tipoReceta=" + tipoReceta.get() +
+            ", nombre='" + nombre.get() + '\'' +
+            ", duracion=" + duracion.get() +
+            ", esVegetariano=" + esVegetariano.get() +
+            ", esVegano=" + esVegano.get() +
+            ", precio=" + precio.get() +
+            ", pasos='" + pasos.get() + '\'' +
+            ", ingredientes=" + ingredientes +
+            ", listaDiariosR=" + listaDiariosR +
+            '}'; 
     }
 
 }

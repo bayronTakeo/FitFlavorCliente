@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import objects.Ingrediente;
 import objects.Receta;
 
 /**
@@ -52,7 +53,7 @@ public class RecetaController {
     @FXML
     private TableColumn<Receta, Float> columnaDuracion;
     @FXML
-    private TableColumn<Receta, String> columnaIngrediente;
+    private TableColumn<Receta, List> columnaIngrediente;
     @FXML
     private TableColumn<Receta, String> columnaPasos;
     @FXML
@@ -66,6 +67,7 @@ public class RecetaController {
 
     private ObservableList<Receta> informacionRecetas;
 
+    private List<Ingrediente> ingredientes;
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -88,11 +90,12 @@ public class RecetaController {
         columnaTipo.setCellValueFactory(new PropertyValueFactory("tipoReceta"));
         columnaNombre.setCellValueFactory(new PropertyValueFactory("nombre"));
         columnaDuracion.setCellValueFactory(new PropertyValueFactory("duracion"));
-        //columnaIngrediente.setCellValueFactory(new PropertyValueFactory("ingredientes"));
+
+//         columnaIngrediente.setCellValueFactory(new PropertyValueFactory("ingredientes"));
         columnaPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         columnaVegetariano.setCellValueFactory(new PropertyValueFactory("esVegetariano"));
         columnaVegano.setCellValueFactory(new PropertyValueFactory("esVegano"));
-        //columnaPasos.setCellValueFactory(new PropertyValueFactory("pasos"));
+        columnaPasos.setCellValueFactory(new PropertyValueFactory("pasos"));
 
         stage.show();
 
@@ -106,6 +109,16 @@ public class RecetaController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaRecetas.refresh();
         }
+        for(Receta receta : informacionRecetas) {
+            LOGGER.info("Entra al for");
+            if(receta.getIngredientes().size() != 0) {
+                  LOGGER.info("Entra al if");
+                ingredientes = receta.getIngredientes();
+            }
+        }
+        for(Ingrediente ing : ingredientes) { 
+            LOGGER.info(ing.toString());
+        }
         tablaRecetas.setItems(informacionRecetas);
         tablaRecetas.setEditable(true);
 
@@ -114,12 +127,10 @@ public class RecetaController {
         columnaNombre.setOnEditCommit(
                 (TableColumn.CellEditEvent<Receta, String> t) -> {
                     try {
-                        LOGGER.info("llega");
                         ((Receta) t.getTableView().getItems().get(
                                 t.getTablePosition().getRow())).setNombre(t.getNewValue());
                         RecetaFactory.getModelo().updateReceta((Receta) t.getTableView().getSelectionModel().getSelectedItem());
                     } catch (BusinessLogicException ex) {
-                        LOGGER.info("Entra");
                         Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
                         alert.show();
                         LOGGER.log(Level.SEVERE, ex.getMessage());
@@ -130,10 +141,9 @@ public class RecetaController {
                 }
         );
 
-
         //Editar columna pasos
-       /* col.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
-        columnaNombre.setOnEditCommit(
+        columnaPasos.setCellFactory(TextFieldTableCell.<Receta>forTableColumn());
+        columnaPasos.setOnEditCommit(
                 (TableColumn.CellEditEvent<Receta, String> t) -> {
                     try {
                         ((Receta) t.getTableView().getItems().get(
@@ -148,7 +158,7 @@ public class RecetaController {
                         tablaRecetas.refresh();
                     }
                 }
-        );*/
+        );
 
         //Editar columna duracion
         columnaDuracion.setCellFactory(TextFieldTableCell.<Receta, Float>forTableColumn(new floatFormateador()));
@@ -217,15 +227,15 @@ public class RecetaController {
                 LOGGER.log(Level.SEVERE, "Error al intentar actualizar", ex.getMessage());
             }
         });
-      
+
         botonEditar.setOnAction(this::EditarAction);
         //Agregar una nueva receta.
         botonAgregar.setOnAction(this::AgregarAction);
 
         // Eliminar receta
-      /*  menuTabla.getItems()
-                .get(0).setOnAction(this::DeleteAction);
-        botonEliminar.setOnAction(this::DeleteAction);*/
+//        menuTabla.getItems()
+//                .get(0).setOnAction(this::DeleteAction);
+        botonEliminar.setOnAction(this::DeleteAction);
         stage.show();
         LOGGER.info("Recetas iniciado");
     }
@@ -259,22 +269,15 @@ public class RecetaController {
         }
     }
 
-   private void DeleteAction(ActionEvent action) {
+    private void DeleteAction(ActionEvent action) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de que quieres eliminar esta receta");
         a.showAndWait();
         try {
             if (a.getResult().equals(ButtonType.CANCEL)) {
                 action.consume();
             } else {
-                //índice del elemento seleccionado en la tabla
-                int selectedIndex = tablaRecetas.getSelectionModel().getSelectedIndex();
-
-                // Eliminar el ejercicio de la base de datos
                 RecetaFactory.getModelo().deleteReceta(((Receta) tablaRecetas.getSelectionModel().getSelectedItem()).getId());
-
-                // Ejercicio el ingrediente de la lista informacionIngredientes
-                informacionRecetas.remove(selectedIndex);
-
+                tablaRecetas.getItems().remove(tablaRecetas.getSelectionModel().getSelectedItem());
                 tablaRecetas.refresh();
             }
         } catch (Exception e) {

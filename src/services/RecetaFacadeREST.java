@@ -50,16 +50,17 @@ public class RecetaFacadeREST implements RecetaInterfaz {
     public <T> T vegano(GenericType<T> respuesta, String esVegano) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("busquedaTelefono/{0}", new Object[]{esVegano}));
+            resource = resource.path(java.text.MessageFormat.format("vegano/{0}", new Object[]{esVegano}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("No se pudo encontrar ningun usuario con ese telefono");
+            throw new BusinessLogicException("No se pudo encontrar ninguna receta vegana");
         }
     }
 
     @Override
     public void updateReceta(Receta receta) throws BusinessLogicException {
         try {
+            LOGGER.info("Entra updateReceta" + receta.toString());
             webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(receta, javax.ws.rs.core.MediaType.APPLICATION_XML), Receta.class);
         } catch (Exception ex) {
             throw new BusinessLogicException("Ha ocurrido un error intentando editar el receta:" + ex.getMessage());
@@ -69,9 +70,10 @@ public class RecetaFacadeREST implements RecetaInterfaz {
     @Override
     public void createReceta(Receta receta) throws BusinessLogicException {
         try {
+            LOGGER.info("creaar: " + receta.toString());
             webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_XML).post(javax.ws.rs.client.Entity.entity(receta, javax.ws.rs.core.MediaType.APPLICATION_XML), Receta.class);
         } catch (Exception ex) {
-            throw new BusinessLogicException("Ha ocurrido un error al crear el cliente" + ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al crear la receta" + ex.getMessage());
         }
     }
 
@@ -86,7 +88,7 @@ public class RecetaFacadeREST implements RecetaInterfaz {
             LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los :" + ex.getMessage());
+            throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de las recetas :" + ex.getMessage());
         }
     }
 
@@ -94,10 +96,10 @@ public class RecetaFacadeREST implements RecetaInterfaz {
     public <T> T vegetariano(GenericType<T> respuesta, String esVegetariano) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("busquedaTelefono/{0}", new Object[]{esVegetariano}));
+            resource = resource.path(java.text.MessageFormat.format("vegetariano/{0}", new Object[]{esVegetariano}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("No se pudo encontrar ningun usuario con ese telefono");
+            throw new BusinessLogicException("No se pudo encontrar ninguna receta vegetariana");
         }
     }
 
@@ -105,10 +107,10 @@ public class RecetaFacadeREST implements RecetaInterfaz {
     public <T> T precio(GenericType<T> respuesta, String precio) throws BusinessLogicException {
         try {
             WebTarget resource = webTarget;
-            resource = resource.path(java.text.MessageFormat.format("busquedaTelefono/{0}", new Object[]{precio}));
+            resource = resource.path(java.text.MessageFormat.format("precio/{0}", new Object[]{precio}));
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
-            throw new BusinessLogicException("No se pudo encontrar ningun usuario con ese telefono");
+            throw new BusinessLogicException("No se pudo encontrar ninguna receta");
         }
     }
 
