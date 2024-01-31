@@ -453,6 +453,10 @@ public class IngredientesAdminController {
                 //índice del elemento seleccionado en la tabla
                 int selectedIndex = tablaIngredientes.getSelectionModel().getSelectedIndex();
 
+                Ingrediente ingrediente = IngredienteFactory.getModelo().buscarPorId(new GenericType<Ingrediente>() {
+                }, ((Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem()).getId().toString());
+                ingrediente.setAdmin(null);
+                IngredienteFactory.getModelo().updateIngrediente(ingrediente);
                 // Eliminar el ingrediente de la base de datos
                 IngredienteFactory.getModelo().deleteIngrediente(((Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem()).getId());
 
