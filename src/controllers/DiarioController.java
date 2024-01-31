@@ -10,30 +10,25 @@ import bussinesLogic.EjercicioFactory;
 import exceptions.BusinessLogicException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import static java.time.temporal.TemporalQueries.localDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Observable;
-import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableColumn.CellEditEvent;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
 import objects.Cliente;
@@ -119,25 +114,59 @@ public class DiarioController {
             SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(param.getValue() != null && diario != null && diario.getListaEjercicios() != null
                     && diario.getListaEjercicios().stream().anyMatch(infoEjercicio -> param.getValue().getId().equals(infoEjercicio.getId())));
             Ejercicio ejercicio = param.getValue();
-            if (booleanProperty.getValue()) {
-                ejerciciosEnDiario.add(ejercicio);
-            }
+
             booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
 
                 LOGGER.info("Estado del checkbox para el ejercicio " + ejercicio.getNombre() + ": " + newValue);
                 try {
                     if (newValue) {
-
                         ejerciciosEnDiario.add(ejercicio);
+                        if (diario.getId() == null) {
+                            LOGGER.info("Entra al id null");
+                            ZoneId zoneId = ZoneId.systemDefault();
+                            // Combinar LocalDate con LocalTime a medianoche
+                            Date date = Date.from(fechaDiario.getValue().atStartOfDay(zoneId).toInstant());
+                            diario.setDia(date);
+                            diario.setCliente((Cliente) cliente);
+
+                            diario.setListaEjercicios(ejerciciosEnDiario);
+                            diario.setComentarios("prueba");
+                            ejerciciosEnDiario.forEach((ejer) -> {
+                                LOGGER.info("datos dentro de if null" + ejer.toString());
+                            });
+                        }
+                        ejerciciosEnDiario.forEach((ejer) -> {
+                            LOGGER.info("datos dentro de if" + ejer.toString());
+                        });
                         diario.setListaEjercicios(ejerciciosEnDiario);
-                        diario.setComentarios("prueba");
                         DiarioFactory.getModelo().actualizarDiario(diario);
 
+                        String fecha = fechaDiario.getValue().toString();
+                        diario = DiarioFactory.getModelo().buscarPorFecha(new GenericType<Diario>() {
+                        }, fecha, cliente.getUser_id());
+
+//                        Ejercicio ejer = EjercicioFactory.getModelo().buscarPorId(new GenericType<Ejercicio>() {
+//                        }, ejercicio.getId().toString());
+//                        List<Diario> diarios = new ArrayList<>();
+//                        diarios.add(diario);
+//                        ejer.setListaDiariosE(diarios);
+//                        EjercicioFactory.getModelo().actualizarEjercicio(ejer);
+//                        LOGGER.info(ejercicio.toString());
+//                        List<Diario> diarios = new ArrayList<>();
+//                        diarios.add(diario);
+//                        ejercicio.setListaDiariosE(diarios);
+//                        EjercicioFactory.getModelo().actualizarEjercicio(ejercicio);
                     } else {
-                        tablaDiarioEjercicios.refresh();
-                        LOGGER.info("Entra al else ");
+                        for (Ejercicio ejer : ejerciciosEnDiario) {
+                            LOGGER.info("datos dentro de else" + ejer.toString());
+                        }
                         ejerciciosEnDiario.remove(ejercicio);
+
+                        LOGGER.info("Entra al else ");
+
+                        diario.setListaEjercicios(ejerciciosEnDiario);
                         DiarioFactory.getModelo().actualizarDiario(diario);
+                        tablaDiarioEjercicios.refresh();
                     }
                 } catch (BusinessLogicException ex) {
                     Logger.getLogger(DiarioController.class.getName()).log(Level.SEVERE, null, ex);
@@ -163,14 +192,18 @@ public class DiarioController {
     public void recogerDiario(ObservableValue observable, LocalDate viejaFecha, LocalDate nuevaFecha) {
         if (nuevaFecha != null) {
             //Try para llamar al metodo que recoge el diario
+
             try {
+                LOGGER.info("Entra a recoger!");
                 String fecha = fechaDiario.getValue().toString();
 
                 diario = DiarioFactory.getModelo().buscarPorFecha(new GenericType<Diario>() {
                 }, fecha, cliente.getUser_id());
-                LOGGER.info("info del diario: " + diario.toString());
+                ejerciciosEnDiario = diario.getListaEjercicios();
+                LOGGER.info(diario.toString());
                 tablaDiarioEjercicios.refresh();
             } catch (BusinessLogicException ex) {
+                ejerciciosEnDiario.clear();
                 diario = new Diario();
                 tablaDiarioEjercicios.refresh();
             }

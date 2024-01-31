@@ -322,7 +322,7 @@ public class EjercicioAdminController {
                 // Eliminar el ejercicio de la base de datos
                 EjercicioFactory.getModelo().eliminarEjercicio(((Ejercicio) tablaEjercicios.getSelectionModel().getSelectedItem()).getId());
 
-                // Ejercicio el ingrediente de la lista informacionIngredientes
+                // Ejercicio el  de la lista informacionIngredientes
                 informacionEjercicios.remove(selectedIndex);
 
                 tablaEjercicios.refresh();
