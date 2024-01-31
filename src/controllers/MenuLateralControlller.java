@@ -11,7 +11,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import objects.Cliente;
 import objects.Usuario;
 
 public class MenuLateralControlller {
@@ -29,6 +28,28 @@ public class MenuLateralControlller {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    public void abrirRecetas(ActionEvent event) {
+        try {
+            LOGGER.info("Entrando");
+            ((Stage) this.menuLateral.getScene().getWindow()).close();
+            // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/Recetas.fxml"));
+            Parent root = (Parent) loader.load();
+
+            RecetaController controller = ((RecetaController) loader.getController());
+            //controller.setUsuario(cliente2);
+            controller.setStage(stage);
+
+            controller.initStage(root);
+        } catch (IOException | IllegalStateException ex) {
+            // Si hay un error al intentar cambiar la vista, muestra una alerta.
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, "Error al intentar abrir la ventana de clientes: {0}", ex.getMessage());
+        }
     }
 
     @FXML
@@ -99,7 +120,7 @@ public class MenuLateralControlller {
     }
 
     @FXML
-    public void abrirRecetas(ActionEvent event) {
+    public void abrirIngredientes(ActionEvent event) {
         try {
             LOGGER.info("Llega bien a ingreeeeee" + cliente2.getEmail());
             LOGGER.info("Entrando");

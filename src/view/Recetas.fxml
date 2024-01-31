@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.TableColumn?>
@@ -18,7 +18,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecetaController">
    <children>
-      <Button fx:id="botonEliminar" layoutX="1261.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Eliminar" />
+      <Button fx:id="botonEliminar" layoutX="1261.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Eliminar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
       <Text fx:id="textBienvenido" fill="#56bfac" layoutX="387.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recomendadas para ti:">
          <font>
             <Font name="System Bold Italic" size="28.0" />
@@ -46,13 +50,21 @@
             <TableColumn fx:id="columnaVegano" prefWidth="291.1998291015625" text="Es vegano" />
         </columns>
       </TableView>
-      <Button fx:id="botonAgregar" layoutX="1151.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Agregar" />
+      <Button fx:id="botonAgregar" layoutX="1151.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
       <ImageView fitHeight="34.0" fitWidth="46.0" layoutX="1054.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@contrato.png" />
          </image>
       </ImageView>
-      <Button fx:id="botonEditar" layoutX="1036.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Editar" />
+      <Button fx:id="botonEditar" layoutX="1036.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Editar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
       <Pane layoutX="1352.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
          <children>
             <Text fx:id="textBienvenido3" fill="#56bfac" layoutX="24.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros:">
@@ -102,67 +114,6 @@
             <Button layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
          </children>
       </Pane>
-      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
-         <children>
-            <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
-               <font>
-                  <Font name="Serif Regular" size="34.0" />
-               </font>
-            </Text>
-            <Text fill="#fcf8f8" layoutX="12.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menú">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
-            <Separator layoutX="12.0" layoutY="188.0" prefHeight="4.0" prefWidth="288.0" />
-            <ImageView fitHeight="116.0" fitWidth="122.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="botonDiario" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonPerfil" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="366.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Perfil" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@cerrar-sesion%20(2).png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="botonPrincipal" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="192.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Principal" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="482.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
+      <fx:include fx:id="menuLateral" source="MenuLateralAdmin.fxml" />
    </children>
 </Pane>

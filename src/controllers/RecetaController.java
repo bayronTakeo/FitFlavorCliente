@@ -68,6 +68,7 @@ public class RecetaController {
     private ObservableList<Receta> informacionRecetas;
 
     private List<Ingrediente> ingredientes;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -78,7 +79,7 @@ public class RecetaController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-
+        Stage stage = new Stage();
         stage.setScene(scene);
 
         stage.setTitle("Recetas");
@@ -109,16 +110,16 @@ public class RecetaController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaRecetas.refresh();
         }
-        for(Receta receta : informacionRecetas) {
+        for (Receta receta : informacionRecetas) {
             LOGGER.info("Entra al for");
-            if(receta.getIngredientes().size() != 0) {
-                  LOGGER.info("Entra al if");
+            if (receta.getIngredientes().size() != 0) {
+                LOGGER.info("Entra al if");
                 ingredientes = receta.getIngredientes();
             }
         }
-        for(Ingrediente ing : ingredientes) { 
-            LOGGER.info(ing.toString());
-        }
+//        for (Ingrediente ing : ingredientes) {
+//            LOGGER.info(ing.toString());
+//        }
         tablaRecetas.setItems(informacionRecetas);
         tablaRecetas.setEditable(true);
 

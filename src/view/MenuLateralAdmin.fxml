@@ -66,7 +66,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="300.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
+      <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" onAction="#abrirRecetas" prefHeight="63.0" prefWidth="300.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
          <font>
             <Font name="Circular Std Regular" size="20.0" />
          </font>
@@ -74,7 +74,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" onAction="#abrirRecetas" prefHeight="63.0" prefWidth="300.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
+      <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" onAction="#abrirIngredientes" prefHeight="63.0" prefWidth="300.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
          <font>
             <Font name="Circular Std Regular" size="20.0" />
          </font>

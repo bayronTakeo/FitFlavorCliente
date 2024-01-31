@@ -157,9 +157,7 @@ public class DiarioController {
 //                        ejercicio.setListaDiariosE(diarios);
 //                        EjercicioFactory.getModelo().actualizarEjercicio(ejercicio);
                     } else {
-                        for (Ejercicio ejer : ejerciciosEnDiario) {
-                            LOGGER.info("datos dentro de else" + ejer.toString());
-                        }
+                        LOGGER.info(ejercicio.toString());
                         ejerciciosEnDiario.remove(ejercicio);
 
                         LOGGER.info("Entra al else ");
