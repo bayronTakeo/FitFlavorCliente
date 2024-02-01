@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package view;
+package controllers;
 
+import bussinesLogic.ClienteFactory;
+import exceptions.BusinessLogicException;
 import exceptions.CommonException;
-import exceptions.ConnectionErrorException;
-import exceptions.MaxConnectionException;
-import exceptions.TimeOutException;
-import exceptions.UserExistException;
+import files.AsymmetricCliente;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +42,11 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.xml.bind.DatatypeConverter;
+import objects.Cliente;
+import objects.EnumObjetivo;
+import objects.EnumPrivilegios;
+import objects.EnumSexo;
 
 /**
  *
@@ -118,6 +123,13 @@ public class SignUpController {
         stage.setTitle("SignUp");
         stage.setResizable(false);
 
+        textFieldCode.setText("123");
+        textFieldDirection.setText("asd");
+        textFieldEmail.setText("prueba@gmail.com");
+        textFieldPhone.setText("658475214");
+        textFieldName.setText("prueba");
+        password.setText("abcd*1234");
+        confirmPassword.setText("abcd*1234");
         // HyperLnk //
         //Accion de dirigir a la ventana de SignUp
         hyperLinkSignIn.setOnAction(this::SignIn);
@@ -417,10 +429,12 @@ public class SignUpController {
             if (quantityValuesZero != 0) {
                 throw new CommonException("data");
             }
-            // Model model = ModelFactory.getModel();
-            //User user = new User(textFieldEmail.getText(), textFieldName.getText(), textFieldDirection.getText(), Integer.parseInt(textFieldCode.getText()), Integer.parseInt(textFieldPhone.getText()), textFieldPassword.getText());
-            //model.doSignUp(user);
-            //Cierro la ventana actual y abro la ventana de SignIn.
+
+            Cliente cliente = new Cliente(EnumSexo.HOMBRE, Float.parseFloat("60.0"), EnumObjetivo.MANTENERSE, "1.70", null, 0, textFieldEmail.getText(), textFieldName.getText(), new Date(System.currentTimeMillis()),
+                    textFieldPhone.getText(), textFieldDirection.getText(), textFieldCode.getText(), textFieldPassword.getText(), EnumPrivilegios.USUARIO);
+            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
+            cliente.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
+            ClienteFactory.getModelo().crearCliente(cliente);
             try {
                 stage.close();
                 LOGGER.info("SignUp window closed");
@@ -439,7 +453,7 @@ public class SignUpController {
             }
 
             //Si se lanza alguna excepcion la lanzo en un alert.
-        } catch (CommonException ex) {
+        } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
             alert.show();
             LOGGER.log(Level.SEVERE, ex.getMessage());

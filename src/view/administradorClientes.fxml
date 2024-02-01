@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" stylesheets="@../resources/AdministradorClientesCSS.css" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.administradorClientesController">
+   <children>
+      <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Text fx:id="labelInvalidName" fill="RED" layoutX="859.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="249.9999934732914">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="407.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Administracion Usuarios:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <TableView fx:id="tablaUsuarios" layoutX="383.0" layoutY="223.0" prefHeight="479.0" prefWidth="987.0" stylesheets="@../resources/AdministradorClientesCSS.css">
+         <columns>
+            <TableColumn fx:id="columnaEmail" prefWidth="140.0" text="Email" />
+            <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre completo" />
+            <TableColumn fx:id="columnafecha" prefWidth="113.0" text="Fecha Nacimiento" />
+            <TableColumn fx:id="columnaTelefono" prefWidth="125.60003662109375" text="Telefono" />
+            <TableColumn fx:id="columnaDireccion" minWidth="0.0" prefWidth="199.20001220703125" text="Direccion" />
+            <TableColumn fx:id="columnaCodPostal" prefWidth="113.0" text="Cod. Postal" />
+            <TableColumn fx:id="columnaContrania" prefWidth="128.0" text="Contraseña" />
+         </columns>
+         <contextMenu>
+            <ContextMenu fx:id="menuTabla">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Eliminar" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
+      </TableView>
+      <TextField fx:id="textfieldBuscar" layoutX="383.0" layoutY="145.0" prefHeight="40.0" prefWidth="453.0" promptText="Escribe el nombre del usuario:" />
+      <Button fx:id="botonBuscar" layoutX="836.0" layoutY="145.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="102.0" stylesheets="@AdministradorClientesCSS.css" text="Buscar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonEliminar" layoutX="1243.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Eliminar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonAgregar" layoutX="1128.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Agregar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <Button fx:id="botonEditar" layoutX="1013.0" layoutY="147.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Editar">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
+      <fx:include source="MenuLateralAdmin.fxml" />
+   </children>
+</Pane>

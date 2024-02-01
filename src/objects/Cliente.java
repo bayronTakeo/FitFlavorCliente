@@ -1,10 +1,11 @@
 package objects;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javafx.beans.property.SimpleFloatProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -13,38 +14,44 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Bayron
  */
-@XmlRootElement
-public class Cliente extends Usuario {
+@XmlRootElement(name = "cliente")
+public class Cliente extends Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private SimpleObjectProperty<EnumSexo> sexo;
     private SimpleFloatProperty peso;
     private SimpleObjectProperty<EnumObjetivo> objetivo;
-    private SimpleIntegerProperty altura;
+    private SimpleStringProperty altura;
     private List<Receta> recetasUsu;
 
-    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, int altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto, LocalDate fechaNacimiento, int telefono, String direccion, int codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto,
+            Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+
         super(user_id, email, nombreCompleto, fechaNacimiento, telefono, direccion, codigoPostal, contrasenia, privilegio);
         this.sexo = new SimpleObjectProperty<>(sexo);
         this.peso = new SimpleFloatProperty(peso);
         this.objetivo = new SimpleObjectProperty<>(objetivo);
-        this.altura = new SimpleIntegerProperty(altura);
+        this.altura = new SimpleStringProperty(altura);
         this.recetasUsu = recetasUsu;
     }
 
     // Constructor por defecto sin argumentos
     public Cliente() {
-        super();
+        super(0, "usuario@gmail.com", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
+        this.sexo = new SimpleObjectProperty<>(EnumSexo.HOMBRE);
+        this.peso = new SimpleFloatProperty(33);
+        this.objetivo = new SimpleObjectProperty<>(EnumObjetivo.MANTENERSE);
+        this.altura = new SimpleStringProperty("174");
     }
 
     // Setters
-    public void setSexo(EnumSexo sexo) {
-        this.sexo.set(sexo);
-    }
-
     public void setRecetasUsu(List<Receta> recetasUsu) {
         this.recetasUsu = recetasUsu;
+    }
+
+    public void setSexo(EnumSexo sexo) {
+        this.sexo.set(sexo);
     }
 
     public void setPeso(float peso) {
@@ -55,17 +62,13 @@ public class Cliente extends Usuario {
         this.objetivo.set(objetivo);
     }
 
-    public void setAltura(int altura) {
+    public void setAltura(String altura) {
         this.altura.set(altura);
     }
 
     // Getters
     public List<Receta> getRecetasUsu() {
         return recetasUsu;
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
     }
 
     public EnumSexo getSexo() {
@@ -80,7 +83,7 @@ public class Cliente extends Usuario {
         return objetivo.get();
     }
 
-    public int getAltura() {
+    public String getAltura() {
         return altura.get();
     }
 
@@ -106,7 +109,21 @@ public class Cliente extends Usuario {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Cliente{"
+                + "user_id=" + getUser_id()
+                + ", email='" + getEmail() + '\''
+                + ", nombreCompleto='" + getNombreCompleto() + '\''
+                + ", fechaNacimiento=" + getFechaNacimiento()
+                + ", telefono='" + getTelefono() + '\''
+                + ", direccion='" + getDireccion() + '\''
+                + ", codigoPostal='" + getCodigoPostal() + '\''
+                + ", contrasenia='" + getContrasenia() + '\''
+                + ", privilegio=" + getPrivilegio()
+                + ", sexo=" + sexo.get()
+                + ", peso=" + peso.get()
+                + ", objetivo=" + objetivo.get()
+                + ", altura='" + altura.get() + '\''
+                + '}';
     }
 
 }

@@ -1,9 +1,12 @@
-package view;
+package controllers;
 
+import bussinesLogic.ClienteFactory;
+import bussinesLogic.ClienteInterfaz;
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
 import exceptions.BusinessLogicException;
 import exceptions.CommonException;
+import files.AsymmetricCliente;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,6 +35,10 @@ import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import javax.ws.rs.core.GenericType;
+import javax.xml.bind.DatatypeConverter;
+import objects.Admin;
+import objects.Cliente;
 import objects.Usuario;
 
 /**
@@ -66,6 +73,7 @@ public class SignInController {
     @FXML
     private ImageView imageViewButton;
 
+    private SesionCliente sesionCliente;
     private Color customColorGreen = Color.web("#14FF0D");
     String opc;
     //Map para verificar que campos estan validados. 0 es que no esta validado y si se cambia a 1 es que esta validado.
@@ -110,7 +118,9 @@ public class SignInController {
         stage.setTitle("SignIn");
         stage.setResizable(false);
         //Pone en el textFieldEmail un email, sirve para cuando viene de la ventana SignUp y ha completado exitosamente el registro
-        textFieldEmail.setText(parametro);
+        textFieldEmail.setText("prueba@gmail.com");
+        passwordSignIn.setText("abcd*1234");
+        textFieldPassword.setText("abcd*1234");
         // HyperLnk //
         //Accion de dirigir a la ventana SignUp
         hyperLinkSignUp.setOnAction(this::SignUp);
@@ -280,24 +290,49 @@ public class SignInController {
                 throw new CommonException("data");
             }
             UsuarioInterfaz model = UsuarioFactory.getModelo();
-            Usuario user = model.signIn(Usuario.class, textFieldEmail.getText(), textFieldPassword.getText());
+            ClienteInterfaz modelC = ClienteFactory.getModelo();
+            LOGGER.log(Level.INFO, textFieldPassword.getText());
 
+            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
+            Usuario user = model.signIn(new GenericType<Cliente>() {
+            }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
+            sesionCliente = SesionCliente.getInstance();
+            sesionCliente.setCliente(user);
+            //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
+
             try {
-                stage.close();
-                LOGGER.info("SignIn window closed");
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/Welcome.fxml"));
-                Parent root = (Parent) loader.load();
+                if (user instanceof Admin || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
 
-                WelcomeController controller = ((WelcomeController) loader.getController());
+                    stage.close();
+                    LOGGER.info("SignIn window closed");
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
+                    Parent root = (Parent) loader.load();
 
-                controller.setStage(new Stage());
+                    PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
 
-                controller.initStage(root);
-                LOGGER.info("Welcome window opened");
+                    controller.setStage(new Stage());
+                    controller.setSesionCliente(sesionCliente);
+                    controller.initStage(root);
+                    LOGGER.info("Welcome window opened");
+                } else {
+
+                    stage.close();
+                    LOGGER.info("SignIn window closed");
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/PaginaPrincipal.fxml"));
+                    Parent root = (Parent) loader.load();
+
+                    PaginaPrincipalController controller = ((PaginaPrincipalController) loader.getController());
+
+                    controller.setStage(new Stage());
+                    controller.setSesionCliente(sesionCliente);
+                    controller.initStage(root);
+                    LOGGER.info("Welcome window opened");
+                }
             } catch (Exception ex) {
                 Logger.getLogger(SignInController.class.getName()).log(Level.SEVERE, null, ex);
             }
+
             //Si se lanza alguna excepcion la mostrare por un alert.
         } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());

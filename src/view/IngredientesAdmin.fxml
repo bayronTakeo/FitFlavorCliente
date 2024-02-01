@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFF#e5e5e5FFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.IngredientesAdminController">
+   <children>
+      <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Text fx:id="labelInvalidName" fill="RED" layoutX="859.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="249.9999934732914">
+         <font>
+            <Font name="Rockwell" size="12.0" />
+         </font>
+      </Text>
+      <Button fx:id="botonEliminar" layoutX="1132.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Eliminar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="397.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agregados recientemente:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <ScrollPane layoutX="378.0" layoutY="63.0" prefHeight="210.0" prefWidth="983.0">
+         <content>
+            <HBox prefHeight="194.0" prefWidth="1004.0">
+               <children>
+                  <HBox prefHeight="194.0" prefWidth="1004.0" />
+               </children>
+            </HBox>
+         </content>
+      </ScrollPane>
+      <Text fx:id="textBienvenido2" fill="#56bfac" layoutX="397.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <TableView fx:id="tablaIngredientes" layoutX="378.0" layoutY="342.0" prefHeight="384.0" prefWidth="987.0">
+         <columns>
+            <TableColumn fx:id="columnaTipo" prefWidth="140.0" text="Tipo" />
+            <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre" />
+            <TableColumn fx:id="columnaPrecio" prefWidth="113.0" text="Precio" />
+            <TableColumn fx:id="columnaKcal" prefWidth="149.0" text="KiloCalorias" />
+            <TableColumn fx:id="columnaCarb" minWidth="0.0" prefWidth="175.0" text="Carbohidratos" />
+            <TableColumn fx:id="columnaProteinas" prefWidth="113.0" text="Proteinas" />
+            <TableColumn fx:id="columnaGrasas" prefWidth="128.0" text="Grasas" />
+         </columns>
+      </TableView>
+      <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Button fx:id="botonEditar" layoutX="896.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Editar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Pane fx:id="paneFiltrar" layoutX="1366.0" layoutY="2.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
+         <children>
+            <Text fx:id="textBienvenido3" fill="#56bfac" layoutX="24.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros:">
+               <font>
+                  <Font name="System Bold Italic" size="28.0" />
+               </font>
+            </Text>
+            <Slider fx:id="sliderProte" layoutX="42.0" layoutY="323.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="38.0" layoutY="306.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Proteinas(max):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="40.0" layoutY="450.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <ComboBox fx:id="comboTipo" layoutX="44.0" layoutY="467.0" prefHeight="25.0" prefWidth="205.0" />
+            <Button fx:id="botonAplicar" layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
+            <Button fx:id="botonResetear" layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Resetear" />
+            <Slider fx:id="sliderCarb" layoutX="42.0" layoutY="251.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="38.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Carbohidratos(max):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Slider fx:id="sliderKcal" blockIncrement="0.0" layoutX="42.0" layoutY="179.0" majorTickUnit="50.0" max="600.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="38.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KCAL(max):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Slider fx:id="sliderPrecio" layoutX="42.0" layoutY="107.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="38.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio(max):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Slider fx:id="sliderGrasas" layoutX="40.0" layoutY="395.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="36.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Grasas(max):">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="botonCerrar" layoutX="229.0" layoutY="21.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="40.0" style="-fx-background-color: none;" stylesheets="@../resources/ingredientesCSS.css">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </Button>
+            <Label fx:id="labelPrecio" layoutX="145.0" layoutY="77.0" />
+            <Label fx:id="labelKcal" layoutX="137.0" layoutY="148.0" />
+            <Label fx:id="labelGrasas" layoutX="144.0" layoutY="364.0" />
+            <Label fx:id="labelProteinas" layoutX="170.0" layoutY="292.0" />
+            <Label fx:id="labelCab" layoutX="206.0" layoutY="220.0" />
+         </children>
+      </Pane>
+      <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Filtros">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+     <fx:include fx:id="menuLateral"  source="MenuLateralAdmin.fxml" />
+   </children>
+</Pane>

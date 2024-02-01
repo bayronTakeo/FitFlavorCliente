@@ -10,6 +10,7 @@
     -fx-background-color: #449889;
     -fx-font-size: 16px;
 }
+
 #botonEditar {
     -fx-background-image: url('contrato.png'); 
     -fx-background-size: 38px 26px;
@@ -49,4 +50,10 @@
 }
 #botonFiltros :hover { 
     -fx-background-size: 40px 28px;
+}
+#barraBusqueda {
+    -fx-background-image: url('transparencia.png'); 
+    -fx-background-size: 36px 32px;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right center; 
 }

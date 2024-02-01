@@ -7,11 +7,13 @@ package objects;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.Date;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlSeeAlso;
 
 /**
  * Esta clase contiene toda la informacion del usuario
@@ -19,6 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Bayron
  */
 @XmlRootElement(name = "usuario")
+@XmlSeeAlso({Cliente.class, Admin.class})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -29,28 +32,40 @@ public class Usuario implements Serializable {
 
     private SimpleStringProperty nombreCompleto;
 
-    private ObjectProperty<LocalDate> fechaNacimiento;
+    private ObjectProperty<Date> fechaNacimiento;
 
-    private SimpleIntegerProperty telefono;
+    private SimpleStringProperty telefono;
 
     private SimpleStringProperty direccion;
 
-    private SimpleIntegerProperty codigoPostal;
+    private SimpleStringProperty codigoPostal;
 
     private SimpleStringProperty contrasenia;
 
     private SimpleObjectProperty<EnumPrivilegios> privilegio;
 
-    public Usuario(Integer user_id, String email, String nombreCompleto, LocalDate fechaNacimiento, int telefono, String direccion, int codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
+    public Usuario(Integer user_id, String email, String nombreCompleto, Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
         this.user_id = new SimpleIntegerProperty(user_id);
         this.email = new SimpleStringProperty(email);
         this.nombreCompleto = new SimpleStringProperty(nombreCompleto);
         this.fechaNacimiento = new SimpleObjectProperty<>(fechaNacimiento);
-        this.telefono = new SimpleIntegerProperty(telefono);
+        this.telefono = new SimpleStringProperty(telefono);
         this.direccion = new SimpleStringProperty(direccion);
-        this.codigoPostal = new SimpleIntegerProperty(codigoPostal);
+        this.codigoPostal = new SimpleStringProperty(codigoPostal);
         this.contrasenia = new SimpleStringProperty(contrasenia);
         this.privilegio = new SimpleObjectProperty<>(privilegio);
+    }
+
+    public Usuario() {
+        this.user_id = new SimpleIntegerProperty();
+        this.email = new SimpleStringProperty();
+        this.nombreCompleto = new SimpleStringProperty();
+        this.fechaNacimiento = new SimpleObjectProperty<>();
+        this.telefono = new SimpleStringProperty();
+        this.direccion = new SimpleStringProperty();
+        this.codigoPostal = new SimpleStringProperty();
+        this.contrasenia = new SimpleStringProperty();
+        this.privilegio = new SimpleObjectProperty<>();
     }
 
     // Setters
@@ -66,11 +81,11 @@ public class Usuario implements Serializable {
         this.nombreCompleto.set(nombreCompleto);
     }
 
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+    public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento.set(fechaNacimiento);
     }
 
-    public void setTelefono(int telefono) {
+    public void setTelefono(String telefono) {
         this.telefono.set(telefono);
     }
 
@@ -78,7 +93,7 @@ public class Usuario implements Serializable {
         this.direccion.set(direccion);
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setCodigoPostal(String codigoPostal) {
         this.codigoPostal.set(codigoPostal);
     }
 
@@ -103,11 +118,11 @@ public class Usuario implements Serializable {
         return nombreCompleto.get();
     }
 
-    public LocalDate getFechaNacimiento() {
+    public Date getFechaNacimiento() {
         return fechaNacimiento.get();
     }
 
-    public int getTelefono() {
+    public String getTelefono() {
         return telefono.get();
     }
 
@@ -115,7 +130,7 @@ public class Usuario implements Serializable {
         return direccion.get();
     }
 
-    public int getCodigoPostal() {
+    public String getCodigoPostal() {
         return codigoPostal.get();
     }
 
@@ -125,14 +140,6 @@ public class Usuario implements Serializable {
 
     public EnumPrivilegios getPrivilegio() {
         return privilegio.get();
-    }
-
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
-
-    public Usuario() {
-
     }
 
     @Override
@@ -157,7 +164,17 @@ public class Usuario implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "Usuario{"
+                + "user_id=" + user_id.get()
+                + ", email='" + email.get() + '\''
+                + ", nombreCompleto='" + nombreCompleto + '\''
+                + ", fechaNacimiento=" + fechaNacimiento
+                + ", telefono=" + telefono
+                + ", direccion='" + direccion + '\''
+                + ", codigoPostal=" + codigoPostal
+                + ", contrasenia='" + contrasenia + '\''
+                + ", privilegio=" + privilegio
+                + '}';
     }
 
 }

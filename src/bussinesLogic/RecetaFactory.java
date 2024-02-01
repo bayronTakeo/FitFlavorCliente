@@ -5,19 +5,19 @@
  */
 package bussinesLogic;
 
-import services.UsuarioRESTCliente;
+import services.RecetaFacadeREST;
 
 /**
  *
- * @author bayron
+ * @author paula
  */
-public class UsuarioFactory {
+public class RecetaFactory {
 
-    public static UsuarioInterfaz modelo;
+    public static RecetaInterfaz modelo;
 
-    public static UsuarioInterfaz getModelo() {
+    public static RecetaInterfaz getModelo() {
         if (modelo == null) {
-            modelo = new UsuarioRESTCliente();
+            modelo = (RecetaInterfaz) new RecetaFacadeREST();
         }
         return modelo;
     }

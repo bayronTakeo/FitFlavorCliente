@@ -16,9 +16,43 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFF#e5e5e5FFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="-5.0" prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
+      <Button fx:id="botonEliminar" layoutX="1261.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Eliminar" />
+      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="387.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recomendadas para ti:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <ScrollPane layoutX="378.0" layoutY="56.0" prefHeight="210.0" prefWidth="988.0">
+         <content>
+            <HBox prefHeight="194.0" prefWidth="1004.0" />
+         </content>
+      </ScrollPane>
+      <Text fx:id="textBienvenido2" fill="#56bfac" layoutX="387.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todas:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <TableView layoutX="378.0" layoutY="332.0" prefHeight="384.0" prefWidth="987.0">
+        <columns>
+          <TableColumn prefWidth="99.0" text="Tipo" />
+          <TableColumn prefWidth="96.0" text="Nombre" />
+            <TableColumn prefWidth="133.0" text="Duracion" />
+            <TableColumn prefWidth="353.0" text="Ingredientes" />
+            <TableColumn minWidth="0.0" prefWidth="109.0" text="Precio" />
+            <TableColumn prefWidth="103.0" text="Es vegetariano" />
+            <TableColumn prefWidth="88.0" text="Es vegano" />
+        </columns>
+      </TableView>
+      <Button fx:id="botonAgregar" layoutX="1151.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Agregar" />
+      <ImageView fitHeight="34.0" fitWidth="46.0" layoutX="1054.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@contrato.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="botonEditar" layoutX="1036.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Editar" />
+      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
          <children>
             <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
                <font>
@@ -46,7 +80,7 @@
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
             </Button>
-            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;"  text="Cerrar Sesión" textFill="WHITE">
+            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
                <font>
                   <Font name="Circular Std Regular" size="20.0" />
                </font>
@@ -75,50 +109,7 @@
             </Button>
          </children>
       </Pane>
-      <Text fx:id="labelInvalidEmail" fill="RED" layoutX="605.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="509.0000167787075">
-         <font>
-            <Font name="Rockwell" size="12.0" />
-         </font>
-      </Text>
-      <Text fx:id="labelInvalidName" fill="RED" layoutX="859.0" layoutY="181.0" strokeType="OUTSIDE" strokeWidth="0.0" text="" visible="true" wrappingWidth="249.9999934732914">
-         <font>
-            <Font name="Rockwell" size="12.0" />
-         </font>
-      </Text>
-      <Button fx:id="botonEliminar" layoutX="1132.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Eliminar" />
-      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="397.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Agregados recientemente:">
-         <font>
-            <Font name="System Bold Italic" size="28.0" />
-         </font>
-      </Text>
-      <ScrollPane layoutX="378.0" layoutY="63.0" prefHeight="210.0" prefWidth="983.0">
-         <content>
-            <HBox prefHeight="194.0" prefWidth="1004.0">
-               <children>
-                  <HBox prefHeight="194.0" prefWidth="1004.0" />
-               </children>
-            </HBox>
-         </content>
-      </ScrollPane>
-      <Text fx:id="textBienvenido2" fill="#56bfac" layoutX="397.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todos:">
-         <font>
-            <Font name="System Bold Italic" size="28.0" />
-         </font>
-      </Text>
-      <TableView layoutX="378.0" layoutY="342.0" prefHeight="384.0" prefWidth="987.0">
-         <columns>
-            <TableColumn prefWidth="140.0" text="Tipo" />
-            <TableColumn prefWidth="163.0" text="Nombre" />
-            <TableColumn prefWidth="113.0" text="Precio" />
-            <TableColumn prefWidth="149.0" text="Kcal" />
-            <TableColumn minWidth="0.0" prefWidth="175.0" text="Carbohidratos" />
-            <TableColumn prefWidth="113.0" text="Proteinas" />
-            <TableColumn prefWidth="128.0" text="Grasas" />
-         </columns>
-      </TableView>
-      <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Agregar" />
-      <Button fx:id="botonEditar" layoutX="896.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Editar" />
-      <Pane layoutX="1366.0" layoutY="-1.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
+      <Pane layoutX="1366.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
          <children>
             <Text fx:id="textBienvenido3" fill="#56bfac" layoutX="24.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros:">
                <font>
@@ -167,6 +158,5 @@
             <Button layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
          </children>
       </Pane>
-      <Button fx:id="botonFiltros" layoutX="1249.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@recetasCSS.css" text="Filtros" />
    </children>
 </Pane>

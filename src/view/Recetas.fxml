@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.RecetaController">
+   <children>
+      <Button fx:id="botonEliminar" layoutX="1261.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Eliminar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Text fx:id="textBienvenido" fill="#56bfac" layoutX="387.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Recomendadas para ti:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <ScrollPane layoutX="378.0" layoutY="56.0" prefHeight="210.0" prefWidth="988.0">
+         <content>
+            <HBox prefHeight="194.0" prefWidth="1004.0" />
+         </content>
+      </ScrollPane>
+      <Text fx:id="textBienvenido2" fill="#56bfac" layoutX="387.0" layoutY="314.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Todas:">
+         <font>
+            <Font name="System Bold Italic" size="28.0" />
+         </font>
+      </Text>
+      <TableView fx:id="tablaRecetas" layoutX="383.0" layoutY="352.0" prefHeight="384.0" prefWidth="969.0">
+        <columns>
+          <TableColumn fx:id="columnaTipo" prefWidth="99.0" text="Tipo" />
+          <TableColumn fx:id="columnaNombre" prefWidth="96.0" text="Nombre" />
+            <TableColumn fx:id="columnaDuracion" prefWidth="133.0" text="Duracion" />
+            <TableColumn fx:id="columnaIngredientes" prefWidth="143.2000732421875" text="Ingredientes" />
+            <TableColumn fx:id="columnaPasos" prefWidth="75.0" text="Pasos" />
+            <TableColumn fx:id="columnaPrecio" minWidth="0.0" prefWidth="83.199951171875" text="Precio" />
+            <TableColumn fx:id="columnaVegetariano" prefWidth="140.0001220703125" text="Es vegetariano" />
+            <TableColumn fx:id="columnaVegano" prefWidth="291.1998291015625" text="Es vegano" />
+        </columns>
+      </TableView>
+      <Button fx:id="botonAgregar" layoutX="1151.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <ImageView fitHeight="34.0" fitWidth="46.0" layoutX="1054.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@contrato.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="botonEditar" layoutX="1036.0" layoutY="291.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Editar">
+         <stylesheets>
+            <URL value="@recetasCSS.css" />
+            <URL value="@../resources/recetasCSS.css" />
+         </stylesheets></Button>
+      <Pane layoutX="1352.0" prefHeight="768.0" prefWidth="288.0" style="-fx-background-color: #56BFAC;">
+         <children>
+            <Text fx:id="textBienvenido3" fill="#56bfac" layoutX="24.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Filtros:">
+               <font>
+                  <Font name="System Bold Italic" size="28.0" />
+               </font>
+            </Text>
+            <Text layoutX="24.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vegano:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="23.0" layoutY="165.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vegetariano:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Slider layoutX="30.0" layoutY="215.0" majorTickUnit="5.0" prefHeight="32.0" prefWidth="205.0" showTickLabels="true" />
+            <Text layoutX="26.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="28.0" layoutY="287.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tipo:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <ComboBox layoutX="32.0" layoutY="304.0" prefHeight="25.0" prefWidth="205.0" />
+            <RadioButton layoutX="108.0" layoutY="95.0" mnemonicParsing="false" text="Si" />
+            <RadioButton layoutX="160.0" layoutY="95.0" mnemonicParsing="false" text="No" />
+            <RadioButton layoutX="133.0" layoutY="150.0" mnemonicParsing="false" text="Si" />
+            <RadioButton layoutX="185.0" layoutY="150.0" mnemonicParsing="false" text="No" />
+            <Text layoutX="28.0" layoutY="368.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredientes:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <ComboBox layoutX="30.0" layoutY="384.0" prefHeight="25.0" prefWidth="205.0" />
+            <Text layoutX="28.0" layoutY="446.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Duración:">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Spinner layoutX="36.0" layoutY="464.0" prefHeight="25.0" prefWidth="205.0" />
+            <Button layoutX="31.0" layoutY="729.0" mnemonicParsing="false" text="Aplicar" />
+            <Button layoutX="211.0" layoutY="729.0" mnemonicParsing="false" text="Cancelar" />
+         </children>
+      </Pane>
+      <fx:include fx:id="menuLateral" source="MenuLateralAdmin.fxml" />
+   </children>
+</Pane>
