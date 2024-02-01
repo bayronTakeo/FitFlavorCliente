@@ -40,15 +40,14 @@ public class Receta implements Serializable {
 
     private SimpleStringProperty pasos;
 
-    private List<Ingrediente> ingredientes;
+    private List<RecetaIngrediente> ingredientes;
 
     private List<Diario> listaDiariosR;
 
-   
-   
+    private Cliente cliente;
 
     public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, String pasos,
-            List<Ingrediente> ingredientes, List<Diario> listaDiariosR) {
+            List<RecetaIngrediente> ingredientes, List<Diario> listaDiariosR, Cliente cliente) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoReceta = new SimpleObjectProperty(tipoReceta);
         this.nombre = new SimpleStringProperty(nombre);
@@ -59,24 +58,35 @@ public class Receta implements Serializable {
         this.pasos = new SimpleStringProperty(pasos);
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
-        
+        this.cliente = cliente;
     }
-    
-    public Receta() {
+
+    public Receta(Cliente cli) {
         this.id = new SimpleIntegerProperty();
-        this.tipoReceta = new SimpleObjectProperty(TipoReceta.Entrante);
+        this.tipoReceta = new SimpleObjectProperty(TipoReceta.Principal);
         this.nombre = new SimpleStringProperty("NombreReceta");
         this.duracion = new SimpleFloatProperty();
         this.esVegetariano = new SimpleBooleanProperty(false);
         this.esVegano = new SimpleBooleanProperty(false);
         this.precio = new SimpleFloatProperty(22);
         this.pasos = new SimpleStringProperty("gg");
-        this.ingredientes = ingredientes;
-        this.listaDiariosR = listaDiariosR;
-        
+        this.ingredientes = null;
+        this.listaDiariosR = null;
+        this.cliente = cli;
     }
 
-    
+    public Receta() {
+
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public Integer getId() {
         return id.get();
     }
@@ -141,11 +151,11 @@ public class Receta implements Serializable {
         this.pasos.set(pasos);
     }
 
-    public List<Ingrediente> getIngredientes() {
+    public List<RecetaIngrediente> getIngredientes() {
         return ingredientes;
     }
 
-    public void setIngredientes(List<Ingrediente> ingredientes) {
+    public void setIngredientes(List<RecetaIngrediente> ingredientes) {
         this.ingredientes = ingredientes;
     }
 
@@ -182,22 +192,19 @@ public class Receta implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
-       return "Receta{" +
-            "id=" + id.get() +
-            ", tipoReceta=" + tipoReceta.get() +
-            ", nombre='" + nombre.get() + '\'' +
-            ", duracion=" + duracion.get() +
-            ", esVegetariano=" + esVegetariano.get() +
-            ", esVegano=" + esVegano.get() +
-            ", precio=" + precio.get() +
-            ", pasos='" + pasos.get() + '\'' +
-            ", ingredientes=" + ingredientes +
-            ", listaDiariosR=" + listaDiariosR +
-            '}'; 
+        return "Receta{"
+                + "id=" + id.get()
+                + ", tipoReceta=" + tipoReceta.get()
+                + ", nombre='" + nombre.get() + '\''
+                + ", duracion=" + duracion.get()
+                + ", esVegetariano=" + esVegetariano.get()
+                + ", esVegano=" + esVegano.get()
+                + ", precio=" + precio.get()
+                + ", pasos='" + pasos.get() + '\''
+                + ", ingredientes=" + ingredientes
+                + ", listaDiariosR=" + listaDiariosR
+                + '}';
     }
-
 }

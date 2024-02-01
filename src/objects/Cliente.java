@@ -23,6 +23,7 @@ public class Cliente extends Usuario implements Serializable {
     private SimpleFloatProperty peso;
     private SimpleObjectProperty<EnumObjetivo> objetivo;
     private SimpleStringProperty altura;
+    private List<Receta> recetasUsu;
 
     public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto,
             Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
@@ -32,7 +33,7 @@ public class Cliente extends Usuario implements Serializable {
         this.peso = new SimpleFloatProperty(peso);
         this.objetivo = new SimpleObjectProperty<>(objetivo);
         this.altura = new SimpleStringProperty(altura);
-
+        this.recetasUsu = recetasUsu;
     }
 
     // Constructor por defecto sin argumentos
@@ -45,6 +46,10 @@ public class Cliente extends Usuario implements Serializable {
     }
 
     // Setters
+    public void setRecetasUsu(List<Receta> recetasUsu) {
+        this.recetasUsu = recetasUsu;
+    }
+
     public void setSexo(EnumSexo sexo) {
         this.sexo.set(sexo);
     }
@@ -62,8 +67,8 @@ public class Cliente extends Usuario implements Serializable {
     }
 
     // Getters
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public List<Receta> getRecetasUsu() {
+        return recetasUsu;
     }
 
     public EnumSexo getSexo() {

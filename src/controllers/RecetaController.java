@@ -30,8 +30,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import objects.Cliente;
 import objects.Ingrediente;
 import objects.Receta;
+import objects.TipoReceta;
+import objects.Usuario;
 
 /**
  *
@@ -47,7 +50,7 @@ public class RecetaController {
     @FXML
     private TableView tablaRecetas;
     @FXML
-    private TableColumn<Receta, String> columnaTipo;
+    private TableColumn<Receta, TipoReceta> columnaTipo;
     @FXML
     private TableColumn<Receta, String> columnaNombre;
     @FXML
@@ -69,12 +72,14 @@ public class RecetaController {
 
     private List<Ingrediente> ingredientes;
 
+    private Usuario cliente;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
-    public Stage getStage() {
-        return stage;
+    public void setUsuario(Usuario cliente) {
+        this.cliente = cliente;
     }
 
     public void initStage(Parent root) {
@@ -110,13 +115,13 @@ public class RecetaController {
             LOGGER.log(Level.SEVERE, ex.getMessage());
             tablaRecetas.refresh();
         }
-        for (Receta receta : informacionRecetas) {
-            LOGGER.info("Entra al for");
-            if (receta.getIngredientes().size() != 0) {
-                LOGGER.info("Entra al if");
-                ingredientes = receta.getIngredientes();
-            }
-        }
+//        for (Receta receta : informacionRecetas) {
+//            LOGGER.info("Entra al for");
+//            if (receta.getIngredientes().size() != 0) {
+//                LOGGER.info("Entra al if");
+//                ingredientes = receta.getIngredientes();
+//            }
+//        }
 //        for (Ingrediente ing : ingredientes) {
 //            LOGGER.info(ing.toString());
 //        }
@@ -256,7 +261,7 @@ public class RecetaController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Receta re = new Receta();
+            Receta re = new Receta((Cliente) cliente);
             RecetaFactory.getModelo().createReceta(re);
             informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
             }));
