@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="0bec7560-7969-4256-b37f-e90ec84ec2d7">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <field name="nombre" class="java.lang.String"/>
+    <field name="precio" class="java.lang.Float"/>
+    <field name="kcal" class="java.lang.Float"/>
+    <field name="carbohidratos" class="java.lang.Float"/>
+    <field name="proteinas" class="java.lang.Float"/>
+    <field name="grasas" class="java.lang.Float"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="79" splitType="Stretch"/>
+    </title>
+    <pageHeader>
+        <band height="35" splitType="Stretch">
+            <staticText>
+                <reportElement x="216" y="0" width="140" height="35" uuid="0c40cb5c-2485-4c2c-b7d8-e56e0744d157"/>
+                <textElement>
+                    <font fontName="Franklin Gothic Medium" size="24"/>
+                </textElement>
+                <text><![CDATA[Ingredientes]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="61" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="23" width="100" height="20" uuid="81887695-b737-4137-a54d-449d8283b932"/>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="100" y="23" width="100" height="20" uuid="d280a9cf-f417-4f2c-97ee-364dfe186065"/>
+                <text><![CDATA[Precio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="200" y="23" width="100" height="20" uuid="b16dc2bc-a54f-4332-9a19-bb3344d95a59"/>
+                <text><![CDATA[Kcal]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="300" y="23" width="100" height="20" uuid="44337028-aff6-47b8-bc25-d7467f39b47c"/>
+                <text><![CDATA[Carbohidratos]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="400" y="23" width="100" height="20" uuid="f7ba1323-254b-4964-ba6d-aadde5ad8412"/>
+                <text><![CDATA[Proteinas]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="500" y="23" width="100" height="20" uuid="939cb4bb-d22c-4e72-9ea8-d0f7fd2cbe52"/>
+                <text><![CDATA[Grasas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="55" width="100" height="20" uuid="1b7ac09c-17af-436e-86a3-18fcb9113d13"/>
+                <textFieldExpression><![CDATA[$F{$nombre}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="100" y="55" width="100" height="20" uuid="6c274939-0347-4191-94c5-42d347b14c84"/>
+                <textFieldExpression><![CDATA[$F{$precio}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="200" y="55" width="100" height="20" uuid="0a071f84-99ef-44f5-b55f-e8871099ee04"/>
+                <textFieldExpression><![CDATA[$F{$kcal}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="300" y="55" width="100" height="20" uuid="16cf921d-3c5f-431e-b6e7-90111a7a22dd"/>
+                <textFieldExpression><![CDATA[$F{$carbohidratos}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="400" y="55" width="100" height="20" uuid="118e500c-fe54-45ba-bd8f-5fbd96ffa5dc"/>
+                <textFieldExpression><![CDATA[$F{$proteinas}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="500" y="55" width="100" height="20" uuid="3b79082d-d854-43c5-a7d1-3aca0bc53ad0"/>
+                <textFieldExpression><![CDATA[$F{$grasas}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>

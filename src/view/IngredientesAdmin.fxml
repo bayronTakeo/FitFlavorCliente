@@ -134,5 +134,6 @@
             <URL value="@../resources/recetasCSS.css" />
          </stylesheets></Button>
      <fx:include fx:id="menuLateral"  source="MenuLateralAdmin.fxml" />
+      <Button fx:id="botonInforme" layoutX="776.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Informe" />
    </children>
 </Pane>

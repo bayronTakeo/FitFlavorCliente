@@ -7,7 +7,10 @@ package controllers;
 
 import bussinesLogic.EjercicioFactory;
 import exceptions.BusinessLogicException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
@@ -36,6 +39,13 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import objects.Admin;
 import objects.Ejercicio;
 import objects.TipoEjercicio;
@@ -79,7 +89,7 @@ public class EjercicioAdminController {
     @FXML
     private Spinner spinnerDuracion;
     @FXML
-    private Button botonEditar, botonAgregar, botonEliminar, botonFiltros, botonCerrar, botonAplicar;
+    private Button botonEditar, botonAgregar, botonEliminar, botonFiltros, botonCerrar, botonAplicar, botonInforme;
 
     private ObservableList<Ejercicio> informacionEjercicios;
 
@@ -275,9 +285,33 @@ public class EjercicioAdminController {
         botonEliminar.setOnAction(this::DeleteAction);
         //botonAplicar.setOnAction(this::buscarEjercicio);
 
+        botonInforme.setOnAction(this::InformeAction);
+
         stage.show();
         LOGGER.info("Administracion Ejercicios iniciado");
 
+    }
+
+    @FXML
+    private void InformeAction(ActionEvent event) {
+        try {
+            LOGGER.info("Beginning printing action...");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/EjercicioControllerReport.jrxml"));
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Ejercicio>) this.tablaEjercicios.getItems());
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+
+            LOGGER.log(Level.SEVERE,
+                    "EjercicioController: Error printing report: {0}",
+                    ex.getMessage());
+        }
     }
 
     private void EditarAction(ActionEvent action) {

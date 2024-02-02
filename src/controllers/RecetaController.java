@@ -35,11 +35,22 @@ import objects.Ingrediente;
 import objects.Receta;
 import objects.TipoReceta;
 import objects.Usuario;
+mport net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import java.util.Collection;
+import java.util.HashMap;
 
 /**
  *
  * @author paula
  */
+
+
 public class RecetaController {
 
     private Stage stage;
@@ -66,7 +77,7 @@ public class RecetaController {
     @FXML
     private TableColumn<Receta, Boolean> columnaVegano;
     @FXML
-    private Button botonAgregar, botonEliminar, botonEditar;
+    private Button botonAgregar, botonEliminar, botonEditar, botonInforme;
 
     private ObservableList<Receta> informacionRecetas;
 
@@ -244,6 +255,42 @@ public class RecetaController {
         botonEliminar.setOnAction(this::DeleteAction);
         stage.show();
         LOGGER.info("Recetas iniciado");
+        botonInforme.setOnAction(this::InformeAction);
+    }
+
+    @FXML
+    private void InformeAction(ActionEvent event) {
+        try {
+            LOGGER.info("Beginning printing action...");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/RecetaControllerReport.jrxml"));
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Receta>) this.tablaRecetas.getItems());
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+
+            LOGGER.log(Level.SEVERE,
+                    "RecetaController: Error printing report: {0}",
+                    ex.getMessage());
+        }
+    }
+
+    private void EditarAction(ActionEvent action) {
+        // Obtiene la fila seleccionada
+        Receta selectedReceta = (Receta) tablaRecetas.getSelectionModel().getSelectedItem();
+        if (selectedReceta != null) {
+            //Activar el modo edicion de la fila
+            tablaRecetas.edit(tablaRecetas.getSelectionModel().getSelectedIndex(), columnaNombre);
+        } else {
+            // Muestra un mensaje si no hay fila seleccionada
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione una receta para editar.");
+            alert.show();
+        }
     }
 
     private void EditarAction(ActionEvent action) {

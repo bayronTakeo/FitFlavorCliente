@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f44c2ff-b8c7-414b-ae3f-7df6219792d6">
+    <property name="ireport.zoom" value="1.0"/>
+    <property name="ireport.x" value="0"/>
+    <property name="ireport.y" value="0"/>
+    <field name="tipoEjercicio" class="java.lang.String"/>
+    <field name="nombre" class="java.lang.String"/>
+    <field name="descripcion" class="java.lang.String"/>
+    <field name="duracion" class="java.lang.Float"/>
+    <field name="kcalQuemadas" class="java.lang.int"/>
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+    <title>
+        <band height="79" splitType="Stretch"/>
+    </title>
+    <pageHeader>
+        <band height="35" splitType="Stretch">
+            <staticText>
+                <reportElement x="236" y="0" width="103" height="35" uuid="61e8e87e-f3e7-47a9-800a-9b711dbbdea1"/>
+                <textElement>
+                    <font fontName="Franklin Gothic Medium" size="24"/>
+                </textElement>
+                <text><![CDATA[Ejercicios]]></text>
+            </staticText>
+        </band>
+    </pageHeader>
+    <columnHeader>
+        <band height="62" splitType="Stretch">
+            <staticText>
+                <reportElement x="24" y="23" width="100" height="20" uuid="01fe31fb-a23d-4a3c-bec6-05381e052c79"/>
+                <text><![CDATA[Tipo Ejercicio]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="124" y="23" width="100" height="20" uuid="feafa643-a743-48de-a771-d240d6176ec2"/>
+                <text><![CDATA[Nombre]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="224" y="23" width="100" height="20" uuid="b370dcd8-123f-4197-bff3-ccc6fbaba6c2"/>
+                <text><![CDATA[Descripcion]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="324" y="23" width="100" height="20" uuid="9fd0c137-070e-4cd8-99f1-f015bee8f367"/>
+                <text><![CDATA[Duracion]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="424" y="23" width="100" height="20" uuid="50c2c33f-27be-48b6-ae91-cdb5b1df8883"/>
+                <text><![CDATA[Kcal Quemadas]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <textField>
+                <reportElement x="24" y="50" width="100" height="20" uuid="c264637a-a9b0-42c9-819a-78caa9478cea"/>
+                <textFieldExpression><![CDATA[$F{$tipoEjercicio}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="124" y="50" width="100" height="20" uuid="db4c3927-7031-4d3e-b4aa-fe8f9bde417e"/>
+                <textFieldExpression><![CDATA[$F{$nombre}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="224" y="50" width="100" height="20" uuid="20eea67e-d58a-4fcf-8cc4-0da10e7d3faf"/>
+                <textFieldExpression><![CDATA[$F{$descripcion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="324" y="50" width="100" height="20" uuid="1dde1931-923d-4611-8f5f-8106e9211ec8"/>
+                <textFieldExpression><![CDATA[$F{$duracion}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="424" y="50" width="100" height="20" uuid="54427ba0-343f-43a1-9890-28cc9a86c1d7"/>
+                <textFieldExpression><![CDATA[$F{$kcalQuemadas}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+    <columnFooter>
+        <band height="45" splitType="Stretch"/>
+    </columnFooter>
+    <pageFooter>
+        <band height="54" splitType="Stretch"/>
+    </pageFooter>
+    <summary>
+        <band height="42" splitType="Stretch"/>
+    </summary>
+</jasperReport>
