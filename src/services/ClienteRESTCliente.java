@@ -5,6 +5,7 @@
  */
 package services;
 
+import Encriptacion.Hash;
 import bussinesLogic.ClienteInterfaz;
 import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
@@ -127,6 +128,15 @@ public class ClienteRESTCliente implements ClienteInterfaz {
     public void recuperarContrasenia(Cliente cliente) throws BusinessLogicException {
         try {
             webTarget.path("recoverPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarContraseña(Cliente cliente) throws BusinessLogicException {
+        try {
+            webTarget.path("editPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
         } catch (Exception ex) {
             throw new BusinessLogicException("An error occurred while trying to edit the clients password:" + ex.getMessage());
         }

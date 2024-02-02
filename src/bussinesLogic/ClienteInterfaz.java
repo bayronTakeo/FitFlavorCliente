@@ -30,4 +30,6 @@ public interface ClienteInterfaz {
     public <T> T buscarCliente(GenericType<T> respuesta, String usrValor) throws BusinessLogicException;
 
     public void recuperarContrasenia(Cliente cliente) throws BusinessLogicException;
+
+    public void actualizarContraseña(Cliente cliente) throws BusinessLogicException;
 }

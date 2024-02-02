@@ -5,8 +5,10 @@
  */
 package controllers;
 
+import Encriptacion.Hash;
 import bussinesLogic.ClienteFactory;
 import exceptions.BusinessLogicException;
+import files.AsymmetricCliente;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -22,10 +24,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import javax.ws.rs.core.GenericType;
+import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
 import objects.EnumObjetivo;
 import objects.EnumSexo;
@@ -53,6 +60,10 @@ public class ModificarPerfil {
 
     @FXML
     private Button botonCambiar;
+
+    @FXML
+    private Hyperlink cambiarContraseña;
+
     private Usuario cliente;
 
     public void setStage(Stage stage) {
@@ -104,8 +115,49 @@ public class ModificarPerfil {
         objetivo.setValue(cli.getObjetivo());
 
         botonCambiar.setOnAction(this::cambiarCli);
+
+        cambiarContraseña.setOnAction(this::cambiar);
         stage.show();
         LOGGER.info("Diario iniciado!");
+    }
+
+    private void cambiar(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Cambiar contraseña");
+        alert.setHeaderText("Introduce tu nueva contraseña: ");
+
+        GridPane grid = new GridPane();
+
+        TextField contraseña = new TextField();
+        contraseña.setPromptText("");
+
+        grid.add(contraseña, 0, 0);
+
+        alert.getDialogPane().setContent(grid);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    Cliente client = ClienteFactory.getModelo().buscarCliente(new GenericType<Cliente>() {
+                    }, cliente.getEmail());
+                    LOGGER.log(Level.INFO, "Cliente encontrado");
+                    byte[] passwordBytes = new AsymmetricCliente().cipher(contraseña.getText());
+                    cliente.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
+                    ClienteFactory.getModelo().actualizarContraseña(client);
+
+                    // Muestra un segundo Alert indicando que el correo ha sido enviado con éxito
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Éxito!");
+                    successAlert.setHeaderText("Correo enviado");
+                    successAlert.setContentText("Se ha actualizado tu contraseña correctamente!.");
+                    successAlert.showAndWait();
+
+                } catch (BusinessLogicException ex) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                    alerta.show();
+                    LOGGER.log(Level.SEVERE, ex.getMessage());
+                }
+            }
+        });
     }
 
     public void cambiarCli(ActionEvent event) {
