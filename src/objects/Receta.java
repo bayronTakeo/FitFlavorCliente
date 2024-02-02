@@ -44,10 +44,9 @@ public class Receta implements Serializable {
 
     private List<Diario> listaDiariosR;
 
-    private Cliente cliente;
-
+//    private SimpleObjectProperty<Cliente> cliente;
     public Receta(Integer id, TipoReceta tipoReceta, String nombre, float duracion, boolean esVegetariano, boolean esVegano, float precio, String pasos,
-            List<RecetaIngrediente> ingredientes, List<Diario> listaDiariosR, Cliente cliente) {
+            List<RecetaIngrediente> ingredientes, List<Diario> listaDiariosR) {
         this.id = new SimpleIntegerProperty(id);
         this.tipoReceta = new SimpleObjectProperty(tipoReceta);
         this.nombre = new SimpleStringProperty(nombre);
@@ -58,10 +57,10 @@ public class Receta implements Serializable {
         this.pasos = new SimpleStringProperty(pasos);
         this.ingredientes = ingredientes;
         this.listaDiariosR = listaDiariosR;
-        this.cliente = cliente;
+//        this.cliente = new SimpleObjectProperty<>(cliente);
     }
 
-    public Receta(Cliente cli) {
+    public Receta() {
         this.id = new SimpleIntegerProperty();
         this.tipoReceta = new SimpleObjectProperty(TipoReceta.Principal);
         this.nombre = new SimpleStringProperty("NombreReceta");
@@ -72,21 +71,16 @@ public class Receta implements Serializable {
         this.pasos = new SimpleStringProperty("gg");
         this.ingredientes = null;
         this.listaDiariosR = null;
-        this.cliente = cli;
+//        this.cliente = new SimpleObjectProperty<>(cliente);
     }
 
-    public Receta() {
-
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
-
+//    public Cliente getCliente() {
+//        return cliente.get();
+//    }
+//
+//    public void setCliente(Cliente cliente) {
+//        this.cliente.get();
+//    }
     public Integer getId() {
         return id.get();
     }

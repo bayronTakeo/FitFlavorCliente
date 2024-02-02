@@ -79,7 +79,7 @@ public class ClienteRESTCliente implements ClienteInterfaz {
             throw new BusinessLogicException("No se encontro ningun cliente" + ex.getMessage());
         }
     }
-    
+
     @Override
     public <T> T buscarPorTelefono(GenericType<T> respuesta, int telefono) throws BusinessLogicException {
         try {
@@ -120,6 +120,15 @@ public class ClienteRESTCliente implements ClienteInterfaz {
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(respuesta);
         } catch (Exception ex) {
             throw new BusinessLogicException("Ha ocurrido un error al cargar los datos de los clientes:" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void recuperarContrasenia(Cliente cliente) throws BusinessLogicException {
+        try {
+            webTarget.path("recoverPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("An error occurred while trying to edit the clients password:" + ex.getMessage());
         }
     }
 

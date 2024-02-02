@@ -28,4 +28,6 @@ public interface ClienteInterfaz {
     public <T> T buscarPorTelefono(GenericType<T> respuesta, int telefono) throws BusinessLogicException;
 
     public <T> T buscarCliente(GenericType<T> respuesta, String usrValor) throws BusinessLogicException;
+
+    public void recuperarContrasenia(Cliente cliente) throws BusinessLogicException;
 }

@@ -2,9 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -12,10 +10,10 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="768.0" prefWidth="1366.0" style="-fx-background-color: FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ModificarPerfil">
    <children>
-      <TextField fx:id="ageTextField11" layoutX="605.0" layoutY="246.0" prefHeight="39.0" prefWidth="509.0" promptText="Email:" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SignUpCSS.css" />
-      <TextField fx:id="ageTextField1" layoutX="605.0" layoutY="168.0" prefHeight="39.0" prefWidth="509.0" promptText="Nombre:" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SignUpCSS.css" />
+      <TextField fx:id="email" layoutX="605.0" layoutY="246.0" prefHeight="39.0" prefWidth="509.0" promptText="Email:" />
+      <TextField fx:id="nombre" layoutX="605.0" layoutY="168.0" prefHeight="39.0" prefWidth="509.0" promptText="Nombre:" />
       <Text fx:id="textBienvenido" fill="#56bfac" layoutX="815.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Perfil">
          <font>
             <Font name="System Bold Italic" size="42.0" />
@@ -46,20 +44,15 @@
             <Font name="Rockwell" size="12.0" />
          </font>
       </Text>
-      <TextField fx:id="heightTextField" layoutX="609.0" layoutY="338.0" prefHeight="39.0" prefWidth="237.0" promptText="1.70" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SignUpCSS.css" />
-      <TextField fx:id="ageTextField" layoutX="874.0" layoutY="338.0" prefHeight="39.0" prefWidth="237.0" promptText="64kg" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SignUpCSS.css" />
+      <TextField fx:id="altura" layoutX="609.0" layoutY="338.0" prefHeight="39.0" prefWidth="237.0" promptText="1.70" />
+      <TextField fx:id="peso" layoutX="874.0" layoutY="338.0" prefHeight="39.0" prefWidth="237.0" promptText="64kg" />
       <Label layoutX="608.0" layoutY="316.0" text="Altura:">
          <font>
             <Font name="Rockwell" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="607.0" layoutY="473.0" text="Edad:">
-         <font>
-            <Font name="Rockwell" size="14.0" />
-         </font>
-      </Label>
-      <ComboBox fx:id="genreComboBox" layoutX="610.0" layoutY="422.0" prefHeight="37.0" prefWidth="237.0" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/comboBox.css" />
-      <ComboBox fx:id="goalComboBox" layoutX="873.0" layoutY="422.0" prefHeight="37.0" prefWidth="237.0" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/comboBox.css" />
+      <ComboBox fx:id="genero" layoutX="610.0" layoutY="422.0" prefHeight="37.0" prefWidth="237.0" />
+      <ComboBox fx:id="objetivo" layoutX="873.0" layoutY="422.0" prefHeight="37.0" prefWidth="237.0" />
       <Label layoutX="609.0" layoutY="399.0" text="Genero:">
          <font>
             <Font name="Rockwell" size="14.0" />
@@ -85,7 +78,6 @@
             <Font name="Rockwell" size="14.0" />
          </font>
       </Label>
-      <DatePicker fx:id="calendarioEditar" layoutX="612.0" layoutY="496.0" prefHeight="39.0" prefWidth="237.0" />
       <ImageView fx:id="ageImg" fitHeight="26.0" fitWidth="27.0" layoutX="877.0" layoutY="343.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../Downloads/bascula.png" />
@@ -96,69 +88,8 @@
             <Font name="Rockwell" size="14.0" />
          </font>
       </Label>
-      <Button layoutX="873.0" layoutY="629.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="237.0" style="-fx-background-color: #56BFAC;" text="Cambiar" />
+      <Button fx:id="botonCambiar" layoutX="741.0" layoutY="570.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="237.0" style="-fx-background-color: #56BFAC;" text="Cambiar" />
       <Button layoutX="612.0" layoutY="629.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="237.0" style="-fx-background-color: #56BFAC;" text="Cambiar" />
-      <Pane prefHeight="768.0" prefWidth="383.0" style="-fx-background-color: #56BFAC;">
-         <children>
-            <Text fx:id="textBienvenido1" fill="WHITE" layoutX="110.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fit Flavor">
-               <font>
-                  <Font name="Serif Regular" size="34.0" />
-               </font>
-            </Text>
-            <Text fill="#fcf8f8" layoutX="12.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Menú">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Text>
-            <Separator layoutX="12.0" layoutY="188.0" prefHeight="4.0" prefWidth="288.0" />
-            <ImageView fitHeight="116.0" fitWidth="122.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@wI7-8i2XDmRJL2JmQ4aUE-removebg-preview.png" />
-               </image>
-            </ImageView>
-            <Button fx:id="botonDiario" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="250.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Diario" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonPerfil" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="366.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Perfil" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonOverview21" alignment="BASELINE_LEFT" defaultButton="true" layoutX="2.0" layoutY="694.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" style="-fx-background-color: #56BFAC;" stylesheets="@../MyHealthyDiet-Client-master/src/ui/resources/SidebarCSS.css" text="Cerrar Sesión" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-               <graphic>
-                  <ImageView fitHeight="39.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@cerrar-sesion%20(2).png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button fx:id="botonPrincipal" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="192.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Principal" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonRecetas" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="308.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Recetas" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonIngredientes" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="424.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ingredientes" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-            <Button fx:id="botonEjercicio" alignment="BASELINE_LEFT" defaultButton="true" layoutX="6.0" layoutY="482.0" mnemonicParsing="false" prefHeight="63.0" prefWidth="376.0" stylesheets="@menuLateralCSS.css" text="Ejercicios" textFill="WHITE">
-               <font>
-                  <Font name="Circular Std Regular" size="20.0" />
-               </font>
-            </Button>
-         </children>
-      </Pane>
+       <fx:include fx:id="menuLateral" source="MenuLateralAdmin.fxml" />
    </children>
 </Pane>

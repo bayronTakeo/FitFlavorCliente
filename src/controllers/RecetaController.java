@@ -261,7 +261,7 @@ public class RecetaController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Receta re = new Receta((Cliente) cliente);
+            Receta re = new Receta();
             RecetaFactory.getModelo().createReceta(re);
             informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
             }));

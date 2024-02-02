@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import objects.Cliente;
 import objects.Usuario;
 
 public class MenuLateralControlller {
@@ -100,17 +101,32 @@ public class MenuLateralControlller {
     @FXML
     public void handleButtonClientsAction(ActionEvent event) {
         try {
-            LOGGER.info("Entrando");
-            ((Stage) this.menuLateral.getScene().getWindow()).close();
-            // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
-            Parent root = (Parent) loader.load();
+            if (cliente2 instanceof Cliente) {
+                LOGGER.info("Entrando");
+                ((Stage) this.menuLateral.getScene().getWindow()).close();
+                // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/ModificarPerfil.fxml"));
+                Parent root = (Parent) loader.load();
 
-            administradorClientesController controller = ((administradorClientesController) loader.getController());
-            controller.setCliente(cliente2);
-            controller.setStage(stage);
+                ModificarPerfil controller = ((ModificarPerfil) loader.getController());
+                controller.setCliente(cliente2);
+                controller.setStage(stage);
 
-            controller.initStage(root);
+                controller.initStage(root);
+            } else {
+                LOGGER.info("Entrando");
+                ((Stage) this.menuLateral.getScene().getWindow()).close();
+                // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
+                Parent root = (Parent) loader.load();
+
+                administradorClientesController controller = ((administradorClientesController) loader.getController());
+                controller.setCliente(cliente2);
+                controller.setStage(stage);
+
+                controller.initStage(root);
+            }
+
         } catch (IOException | IllegalStateException ex) {
             // Si hay un error al intentar cambiar la vista, muestra una alerta.
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
