@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e4e3fe5d-c3c7-414c-9bbe-cb67aa59b07e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+        <field name="tipoReceta" class="java.lang.String"/>
+	<field name="nombre" class="java.lang.String"/>
+	<field name="precio" class="java.lang.Float"/>
+	<field name="duracion" class="java.lang.Float"/>
+	<field name="esVegano" class="java.lang.boolean"/>
+        <field name="esVegetariano" class="java.lang.boolean"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="250" y="0" width="74" height="35" uuid="a0c2c55b-c292-4463-b67b-e62dcef2a401"/>
+				<textElement>
+					<font fontName="Franklin Gothic Medium" size="24"/>
+				</textElement>
+				<text><![CDATA[Receta]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="22" width="100" height="20" uuid="97e24626-e6c8-4647-845d-63cbef60a9f3"/>
+				<text><![CDATA[Tipo Receta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="22" width="100" height="20" uuid="cc8acbcc-d124-4947-a13d-104fdcef1cf8"/>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="200" y="22" width="100" height="20" uuid="0c35b4c3-40e6-4a0c-8660-df137aaab9f3"/>
+				<text><![CDATA[Duracion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="22" width="100" height="20" uuid="a6d27597-f3aa-4c70-87b2-6fcc810b5e9e"/>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="22" width="100" height="20" uuid="65c226c1-19ca-48cc-b9e6-16d93e463c36"/>
+				<text><![CDATA[Vegano]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="22" width="100" height="20" uuid="fc5e2634-aa33-4f62-9ad2-259b7050658c"/>
+				<text><![CDATA[Static text]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="31" width="100" height="20" uuid="8b3e0e2e-a3cc-4c4d-acbc-5d1119aa3f32"/>
+				<textFieldExpression><![CDATA[$F{$tipoReceta}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="31" width="100" height="20" uuid="e86429d5-87b1-4d83-ab4e-dce798f7b70b"/>
+				<textFieldExpression><![CDATA[$F{$nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="31" width="100" height="20" uuid="31233c29-03e1-432a-b51c-2fe91797720b"/>
+				<textFieldExpression><![CDATA[$F{$duracion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="31" width="100" height="20" uuid="732a03bf-918b-4b5f-bc1e-cc4855e5a870"/>
+				<textFieldExpression><![CDATA[$F{$precio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="31" width="100" height="20" uuid="21effd15-20ed-4a2b-ada2-db0100266ca5"/>
+				<textFieldExpression><![CDATA[$F{$esVegano}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="31" width="100" height="20" uuid="2db8fe0f-4d4f-42a6-9106-c293e983d57f"/>
+				<textFieldExpression><![CDATA[$F{$esVegetariano}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

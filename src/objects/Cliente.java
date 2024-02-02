@@ -23,9 +23,9 @@ public class Cliente extends Usuario implements Serializable {
     private SimpleFloatProperty peso;
     private SimpleObjectProperty<EnumObjetivo> objetivo;
     private SimpleStringProperty altura;
-    private List<Receta> recetasUsu;
+    private SimpleObjectProperty<List<Receta>> receta;
 
-    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> recetasUsu, Integer user_id, String email, String nombreCompleto,
+    public Cliente(EnumSexo sexo, float peso, EnumObjetivo objetivo, String altura, List<Receta> receta, Integer user_id, String email, String nombreCompleto,
             Date fechaNacimiento, String telefono, String direccion, String codigoPostal, String contrasenia, EnumPrivilegios privilegio) {
 
         super(user_id, email, nombreCompleto, fechaNacimiento, telefono, direccion, codigoPostal, contrasenia, privilegio);
@@ -33,21 +33,22 @@ public class Cliente extends Usuario implements Serializable {
         this.peso = new SimpleFloatProperty(peso);
         this.objetivo = new SimpleObjectProperty<>(objetivo);
         this.altura = new SimpleStringProperty(altura);
-        this.recetasUsu = recetasUsu;
+        this.receta = new SimpleObjectProperty<>(receta);
     }
 
     // Constructor por defecto sin argumentos
     public Cliente() {
-        super(0, "usuario@gmail.com", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
+        super(0, "", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
         this.sexo = new SimpleObjectProperty<>(EnumSexo.HOMBRE);
         this.peso = new SimpleFloatProperty(33);
         this.objetivo = new SimpleObjectProperty<>(EnumObjetivo.MANTENERSE);
         this.altura = new SimpleStringProperty("174");
+        this.receta = new SimpleObjectProperty<>();
     }
 
     // Setters
-    public void setRecetasUsu(List<Receta> recetasUsu) {
-        this.recetasUsu = recetasUsu;
+    public void setReceta(List<Receta> receta) {
+        this.receta.set(receta);
     }
 
     public void setSexo(EnumSexo sexo) {
@@ -67,8 +68,8 @@ public class Cliente extends Usuario implements Serializable {
     }
 
     // Getters
-    public List<Receta> getRecetasUsu() {
-        return recetasUsu;
+    public List<Receta> getReceta() {
+        return receta.get();
     }
 
     public EnumSexo getSexo() {

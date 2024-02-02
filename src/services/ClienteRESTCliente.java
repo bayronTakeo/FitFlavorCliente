@@ -5,6 +5,7 @@
  */
 package services;
 
+import Encriptacion.Hash;
 import bussinesLogic.ClienteInterfaz;
 import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
@@ -79,7 +80,7 @@ public class ClienteRESTCliente implements ClienteInterfaz {
             throw new BusinessLogicException("No se encontro ningun cliente" + ex.getMessage());
         }
     }
-    
+
     @Override
     public <T> T buscarPorTelefono(GenericType<T> respuesta, int telefono) throws BusinessLogicException {
         try {
@@ -123,8 +124,43 @@ public class ClienteRESTCliente implements ClienteInterfaz {
         }
     }
 
+    @Override
+    public void recuperarContrasenia(Cliente cliente) throws BusinessLogicException {
+        try {
+            webTarget.path("recoverPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+        }
+    }
+
+    @Override
+    public void actualizarContraseña(Cliente cliente) throws BusinessLogicException {
+        try {
+            webTarget.path("editPassword").request(javax.ws.rs.core.MediaType.APPLICATION_XML).put(javax.ws.rs.client.Entity.entity(cliente, javax.ws.rs.core.MediaType.APPLICATION_XML), Cliente.class);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("An error occurred while trying to edit the clients password:" + ex.getMessage());
+        }
+    }
+
     public void close() {
         client.close();
+    }
+
+    @Override
+    public <T> T buscarNombre(GenericType<T> responseType, String nombre) throws BusinessLogicException {
+        try {
+            WebTarget resource = webTarget;
+            LOGGER.info("Intentnado buscar cliente");
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("busquedaNombre/{0}", new Object[]{nombre}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("No se encontro ningun cliente.");
+        }
     }
 
 }

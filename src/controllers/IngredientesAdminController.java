@@ -7,10 +7,14 @@ package controllers;
 
 import bussinesLogic.IngredienteFactory;
 import exceptions.BusinessLogicException;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,18 +36,25 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 import objects.Admin;
-import objects.Cliente;
 import objects.Ingrediente;
 import objects.TipoIngrediente;
 import objects.Usuario;
 
 /**
  *
- * @author bayro
+ * @author bayron
  */
 public class IngredientesAdminController {
 
@@ -57,7 +68,7 @@ public class IngredientesAdminController {
     @FXML
     private AnchorPane p;
     @FXML
-    private Button botonFiltros, botonResetear, botonAgregar, botonEliminar, botonEditar, botonAplicar, botonCerrar;
+    private Button botonFiltros, botonResetear, botonAgregar, botonEliminar, botonEditar, botonAplicar, botonCerrar, botonInforme;
     @FXML
     private Slider sliderKcal, sliderPrecio, sliderCarb, sliderProte, sliderGrasas;
     @FXML
@@ -100,6 +111,8 @@ public class IngredientesAdminController {
         stage.setScene(scene);
         stage.setTitle("Pagina Principal");
         stage.setResizable(false);
+
+        stage.setOnCloseRequest(this::handleExitAction);
 
         // Configurar un ChangeListener para el Slider
         sliderPrecio.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -368,8 +381,31 @@ public class IngredientesAdminController {
         botonAgregar.setOnAction(this::AgregarAction);
 
         botonAplicar.setOnAction(this::buscarCliente);
+        botonInforme.setOnAction(
+                this::InformeAction);
         stage.show();
         LOGGER.info("Pagina principal iniciada");
+    }
+
+    private void InformeAction(ActionEvent event) {
+        try {
+            LOGGER.info("Beginning printing action...");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/IngredienteControllerReport.jrxml"));
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Ingrediente>) this.tablaIngredientes.getItems());
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+
+            LOGGER.log(Level.SEVERE,
+                    "IngredienteController: Error printing report: {0}",
+                    ex.getMessage());
+        }
     }
 
     private void resetearFiltros(ActionEvent action) {
@@ -504,5 +540,22 @@ public class IngredientesAdminController {
         });
         LOGGER.info("aqui llega");
 
+    }
+
+    private void handleExitAction(WindowEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de salir?Cerraras la app.");
+        a.showAndWait();
+        try {
+            if (a.getResult().equals(ButtonType.CANCEL)) {
+                event.consume();
+            } else {
+                Platform.exit();
+            }
+        } catch (Exception e) {
+            String msg = "Error closing the app: " + e.getMessage();
+            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+            alert.show();
+            LOGGER.log(Level.SEVERE, msg);
+        }
     }
 }

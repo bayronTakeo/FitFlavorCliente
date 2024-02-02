@@ -3,19 +3,22 @@ package controllers;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import objects.Cliente;
 import objects.Usuario;
 
 public class MenuLateralControlller {
 
-    private Stage stage;
+    private Stage stage = new Stage();
     private SesionCliente sesionCliente = SesionCliente.getInstance();
 
     private Usuario cliente2 = sesionCliente.getCliente();
@@ -28,6 +31,42 @@ public class MenuLateralControlller {
 
     public void setStage(Stage stage) {
         this.stage = stage;
+    }
+
+    @FXML
+    public void cerrarSesion(ActionEvent event) {
+        try {
+            Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de cerrar sesion?");
+            a.showAndWait();
+            try {
+                if (a.getResult().equals(ButtonType.CANCEL)) {
+                    event.consume();
+                } else {
+                    LOGGER.info("Entrando");
+                    ((Stage) this.menuLateral.getScene().getWindow()).close();
+                    // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+                    FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/SignIn.fxml"));
+                    Parent root = (Parent) loader.load();
+
+                    SignInController controller = ((SignInController) loader.getController());
+                    //controller.setUsuario(cliente2);
+                    controller.setStage(stage);
+
+                    controller.initStage(root);
+                }
+            } catch (Exception e) {
+                String msg = "Error closing the app: " + e.getMessage();
+                Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+                alert.show();
+                LOGGER.log(Level.SEVERE, msg);
+            }
+
+        } catch (IllegalStateException ex) {
+            // Si hay un error al intentar cambiar la vista, muestra una alerta.
+            Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+            alert.show();
+            LOGGER.log(Level.SEVERE, "Error al intentar abrir la ventana de clientes: {0}", ex.getMessage());
+        }
     }
 
     @FXML
@@ -100,17 +139,32 @@ public class MenuLateralControlller {
     @FXML
     public void handleButtonClientsAction(ActionEvent event) {
         try {
-            LOGGER.info("Entrando");
-            ((Stage) this.menuLateral.getScene().getWindow()).close();
-            // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
-            Parent root = (Parent) loader.load();
+            if (cliente2 instanceof Cliente) {
+                LOGGER.info("Entrando");
+                ((Stage) this.menuLateral.getScene().getWindow()).close();
+                // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/ModificarPerfil.fxml"));
+                Parent root = (Parent) loader.load();
 
-            administradorClientesController controller = ((administradorClientesController) loader.getController());
-            controller.setCliente(cliente2);
-            controller.setStage(stage);
+                ModificarPerfil controller = ((ModificarPerfil) loader.getController());
+                controller.setCliente(cliente2);
+                controller.setStage(stage);
 
-            controller.initStage(root);
+                controller.initStage(root);
+            } else {
+                LOGGER.info("Entrando");
+                ((Stage) this.menuLateral.getScene().getWindow()).close();
+                // Cambiar la lógica según lo que quieras hacer con el botón "Perfil"
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("view/administradorClientes.fxml"));
+                Parent root = (Parent) loader.load();
+
+                administradorClientesController controller = ((administradorClientesController) loader.getController());
+                controller.setCliente(cliente2);
+                controller.setStage(stage);
+
+                controller.initStage(root);
+            }
+
         } catch (IOException | IllegalStateException ex) {
             // Si hay un error al intentar cambiar la vista, muestra una alerta.
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());

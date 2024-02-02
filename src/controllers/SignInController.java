@@ -30,6 +30,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
@@ -57,7 +58,7 @@ public class SignInController {
     @FXML
     private PasswordField passwordSignIn;
     @FXML
-    private Hyperlink hyperLinkSignUp;
+    private Hyperlink hyperLinkSignUp, recuperarContra;
     @FXML
     private Button buttonSignIn;
     @FXML
@@ -124,6 +125,7 @@ public class SignInController {
         // HyperLnk //
         //Accion de dirigir a la ventana SignUp
         hyperLinkSignUp.setOnAction(this::SignUp);
+        recuperarContra.setOnAction(this::recuperarContra);
 
         // ButtonSignIn //
         //Accion de dirigir a la ventana de Welcome
@@ -154,6 +156,43 @@ public class SignInController {
         stage.show();
         LOGGER.info("SingIn window initialized");
 
+    }
+
+    private void recuperarContra(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Recuperar contraseña");
+        alert.setHeaderText("Introduce tu correo: ");
+
+        GridPane grid = new GridPane();
+
+        TextField textFieldEmail = new TextField();
+        textFieldEmail.setPromptText("ejemplo@mail.com");
+
+        grid.add(textFieldEmail, 0, 0);
+
+        alert.getDialogPane().setContent(grid);
+        alert.showAndWait().ifPresent(response -> {
+            if (response == ButtonType.OK) {
+                try {
+                    Cliente client = ClienteFactory.getModelo().buscarCliente(new GenericType<Cliente>() {
+                    }, textFieldEmail.getText());
+                    LOGGER.log(Level.INFO, "Cliente encontrado");
+                    ClienteFactory.getModelo().recuperarContrasenia(client);
+
+                    // Muestra un segundo Alert indicando que el correo ha sido enviado con éxito
+                    Alert successAlert = new Alert(Alert.AlertType.INFORMATION);
+                    successAlert.setTitle("Éxito!");
+                    successAlert.setHeaderText("Correo enviado");
+                    successAlert.setContentText("Se ha enviado un correo con las instrucciones para recuperar la contraseña.");
+                    successAlert.showAndWait();
+
+                } catch (BusinessLogicException ex) {
+                    Alert alerta = new Alert(Alert.AlertType.ERROR, ex.getMessage());
+                    alerta.show();
+                    LOGGER.log(Level.SEVERE, ex.getMessage());
+                }
+            }
+        });
     }
 
     /**

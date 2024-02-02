@@ -80,5 +80,11 @@
             </ImageView>
          </graphic>
       </ToggleButton>
+      <Label layoutX="873.0" layoutY="421.0" prefHeight="46.0" prefWidth="225.0" text="¿Has olvidado tu contraseña?" textFill="#56bfac">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Hyperlink fx:id="recuperarContra" layoutX="1085.0" layoutY="433.0" text="Click here" />
    </children>
 </Pane>

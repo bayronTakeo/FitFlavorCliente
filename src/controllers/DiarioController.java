@@ -7,6 +7,7 @@ package controllers;
 
 import bussinesLogic.DiarioFactory;
 import bussinesLogic.EjercicioFactory;
+import bussinesLogic.RecetaFactory;
 import exceptions.BusinessLogicException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,10 +32,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.util.converter.DefaultStringConverter;
 import javax.ws.rs.core.GenericType;
 import objects.Cliente;
 import objects.Diario;
 import objects.Ejercicio;
+import objects.Ingrediente;
+import objects.Receta;
+import objects.RecetaIngrediente;
+import objects.TipoReceta;
 import objects.Usuario;
 
 /**
@@ -48,6 +55,19 @@ public class DiarioController {
 
     @FXML
     private TableView<Ejercicio> tablaDiarioEjercicios;
+    @FXML
+    private TableView<Receta> tablaRecetas;
+
+    @FXML
+    private TableColumn<Receta, String> columnaNombreR;
+    @FXML
+    private TableColumn<Receta, TipoReceta> columnaTipo;
+    @FXML
+    private TableColumn<Receta, List<RecetaIngrediente>> columnaIngredientes;
+    @FXML
+    private TableColumn<Receta, Float> columnaPrecio;
+    @FXML
+    private TableColumn<Receta, Boolean> columnaAñadirR;
 
     @FXML
     private TableColumn<Ejercicio, String> columnaNombre;
@@ -72,10 +92,12 @@ public class DiarioController {
         this.cliente = cliente;
     }
     private ObservableList<Ejercicio> informacionEjercicios;
+    private ObservableList<Receta> informacionRecetas;
 
     private ObservableList<Diario> informacionDiario;
 
     private List<Ejercicio> ejerciciosEnDiario;
+    private List<Receta> recetasEnDiario;
     private Diario diario = new Diario();
 
     public void initStage(Parent root) {
@@ -87,8 +109,96 @@ public class DiarioController {
         stage.setResizable(false);
 
         ejerciciosEnDiario = new ArrayList<>();
-
+        recetasEnDiario = new ArrayList<>();
         fechaDiario.valueProperty().addListener(this::recogerDiario);
+
+        //Try para llamar al metodo que recoge las recetas
+        try {
+            //Recojo los datos de ejercicios y los guardo en el observableList
+            informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
+            }));
+        } catch (BusinessLogicException ex) {
+            //Si algo va mal lo muestro en un alert
+            Alert alert = new Alert(Alert.AlertType.ERROR, "La informacion no ha podido ser cargada.");
+            alert.show();
+            LOGGER.log(Level.SEVERE, ex.getMessage());
+            tablaDiarioEjercicios.refresh();
+        }
+        for (Receta rec : informacionRecetas) {
+            LOGGER.info(rec.toString());
+        }
+        //Cargo y configuro la tabla recetas
+        tablaDiarioEjercicios.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        columnaNombreR.setCellValueFactory(new PropertyValueFactory("nombre"));
+        columnaTipo.setCellValueFactory(new PropertyValueFactory("tipoReceta"));
+        columnaPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
+        columnaAñadirR.setCellValueFactory(param -> {
+
+            SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(param.getValue() != null && diario != null && diario.getListaEjercicios() != null
+                    && diario.getListaEjercicios().stream().anyMatch(infoEjercicio -> param.getValue().getId().equals(infoEjercicio.getId())));
+            Receta receta = param.getValue();
+
+            booleanProperty.addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+
+                try {
+                    if (newValue) {
+                        recetasEnDiario.add(receta);
+                        if (diario.getId() == null) {
+                            LOGGER.info("Entra al id null");
+                            ZoneId zoneId = ZoneId.systemDefault();
+                            // Combinar LocalDate con LocalTime a medianoche
+                            Date date = Date.from(fechaDiario.getValue().atStartOfDay(zoneId).toInstant());
+                            diario.setDia(date);
+                            diario.setCliente((Cliente) cliente);
+
+                            diario.setListaRecetas(recetasEnDiario);
+                            diario.setComentarios("prueba");
+                            ejerciciosEnDiario.forEach((ejer) -> {
+                                LOGGER.info("datos dentro de if null" + ejer.toString());
+                            });
+                        }
+                        ejerciciosEnDiario.forEach((ejer) -> {
+                            LOGGER.info("datos dentro de if" + ejer.toString());
+                        });
+                        diario.setListaRecetas(recetasEnDiario);
+                        DiarioFactory.getModelo().actualizarDiario(diario);
+
+                        String fecha = fechaDiario.getValue().toString();
+                        diario = DiarioFactory.getModelo().buscarPorFecha(new GenericType<Diario>() {
+                        }, fecha, cliente.getUser_id());
+
+                    } else {
+
+                        recetasEnDiario.remove(receta);
+
+                        LOGGER.info("Entra al else ");
+
+                        diario.setListaRecetas(recetasEnDiario);
+                        DiarioFactory.getModelo().actualizarDiario(diario);
+                        tablaDiarioEjercicios.refresh();
+                    }
+                } catch (BusinessLogicException ex) {
+                    Logger.getLogger(DiarioController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+
+            return booleanProperty;
+        });
+        // Configura el CellFactory para la columna
+        columnaAñadirR.setCellFactory(CheckBoxTableCell.forTableColumn(columnaAñadirR));
+        // Configurar las celdas de la columna de ingredientes para ser editables
+        columnaIngredientes.setCellFactory(column -> new IngredienteTableCell());
+
+        // Configurar cómo mostrar la lista de ingredientes en la celda
+        columnaIngredientes.setCellValueFactory(cellData
+                -> new SimpleObjectProperty<List<RecetaIngrediente>>(cellData.getValue().getIngredientes())
+        );
+
+        //Añado los objetos ejercicios a la tabla
+        tablaRecetas.setItems(informacionRecetas);
+        //Hago la tabla editable
+        tablaRecetas.setEditable(true);
 
         //Try para llamar al metodo que recoge los ejercicios
         try {
@@ -145,17 +255,6 @@ public class DiarioController {
                         diario = DiarioFactory.getModelo().buscarPorFecha(new GenericType<Diario>() {
                         }, fecha, cliente.getUser_id());
 
-//                        Ejercicio ejer = EjercicioFactory.getModelo().buscarPorId(new GenericType<Ejercicio>() {
-//                        }, ejercicio.getId().toString());
-//                        List<Diario> diarios = new ArrayList<>();
-//                        diarios.add(diario);
-//                        ejer.setListaDiariosE(diarios);
-//                        EjercicioFactory.getModelo().actualizarEjercicio(ejer);
-//                        LOGGER.info(ejercicio.toString());
-//                        List<Diario> diarios = new ArrayList<>();
-//                        diarios.add(diario);
-//                        ejercicio.setListaDiariosE(diarios);
-//                        EjercicioFactory.getModelo().actualizarEjercicio(ejercicio);
                     } else {
                         LOGGER.info(ejercicio.toString());
                         ejerciciosEnDiario.remove(ejercicio);
@@ -198,10 +297,12 @@ public class DiarioController {
                 diario = DiarioFactory.getModelo().buscarPorFecha(new GenericType<Diario>() {
                 }, fecha, cliente.getUser_id());
                 ejerciciosEnDiario = diario.getListaEjercicios();
+                recetasEnDiario = diario.getListaRecetas();
                 LOGGER.info(diario.toString());
                 tablaDiarioEjercicios.refresh();
             } catch (BusinessLogicException ex) {
                 ejerciciosEnDiario.clear();
+                recetasEnDiario.clear();
                 diario = new Diario();
                 tablaDiarioEjercicios.refresh();
             }

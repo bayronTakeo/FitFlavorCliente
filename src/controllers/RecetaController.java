@@ -30,11 +30,20 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
-import objects.Cliente;
 import objects.Ingrediente;
 import objects.Receta;
 import objects.TipoReceta;
 import objects.Usuario;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.view.JasperViewer;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -66,7 +75,7 @@ public class RecetaController {
     @FXML
     private TableColumn<Receta, Boolean> columnaVegano;
     @FXML
-    private Button botonAgregar, botonEliminar, botonEditar;
+    private Button botonAgregar, botonEliminar, botonEditar, botonInforme;
 
     private ObservableList<Receta> informacionRecetas;
 
@@ -244,6 +253,29 @@ public class RecetaController {
         botonEliminar.setOnAction(this::DeleteAction);
         stage.show();
         LOGGER.info("Recetas iniciado");
+        botonInforme.setOnAction(this::InformeAction);
+    }
+
+    @FXML
+    private void InformeAction(ActionEvent event) {
+        try {
+            LOGGER.info("Beginning printing action...");
+            JasperReport report = JasperCompileManager.compileReport(getClass().getResourceAsStream("/reports/RecetaControllerReport.jrxml"));
+
+            JRBeanCollectionDataSource dataItems = new JRBeanCollectionDataSource((Collection<Receta>) this.tablaRecetas.getItems());
+
+            Map<String, Object> parameters = new HashMap<>();
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(report, parameters, dataItems);
+
+            JasperViewer jasperViewer = new JasperViewer(jasperPrint, false);
+            jasperViewer.setVisible(true);
+        } catch (JRException ex) {
+
+            LOGGER.log(Level.SEVERE,
+                    "RecetaController: Error printing report: {0}",
+                    ex.getMessage());
+        }
     }
 
     private void EditarAction(ActionEvent action) {
@@ -261,7 +293,7 @@ public class RecetaController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Receta re = new Receta((Cliente) cliente);
+            Receta re = new Receta();
             RecetaFactory.getModelo().createReceta(re);
             informacionRecetas = FXCollections.observableArrayList(RecetaFactory.getModelo().listaRecetas(new GenericType<List<Receta>>() {
             }));
