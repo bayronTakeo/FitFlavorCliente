@@ -146,4 +146,21 @@ public class ClienteRESTCliente implements ClienteInterfaz {
         client.close();
     }
 
+    @Override
+    public <T> T buscarNombre(GenericType<T> responseType, String nombre) throws BusinessLogicException {
+        try {
+            WebTarget resource = webTarget;
+            LOGGER.info("Intentnado buscar cliente");
+            LOGGER.log(Level.INFO, "URL de la solicitud: {0}", resource.getUri());
+            int statusCode = resource.request().get().getStatus();
+            LOGGER.log(Level.INFO, "Código de estado HTTP: {0}", statusCode);
+            String responseContent = resource.request().get(String.class);
+            LOGGER.log(Level.INFO, "Contenido de la respuesta: {0}", responseContent);
+            resource = resource.path(java.text.MessageFormat.format("busquedaNombre/{0}", new Object[]{nombre}));
+            return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
+        } catch (Exception ex) {
+            throw new BusinessLogicException("No se encontro ningun cliente.");
+        }
+    }
+
 }

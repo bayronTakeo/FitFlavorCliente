@@ -36,6 +36,7 @@ import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
+import objects.Ingrediente;
 import objects.Usuario;
 
 /**
@@ -83,7 +84,7 @@ public class administradorClientesController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
+        //Stage stage = new Stage();
         stage.setScene(scene);
         stage.setScene(scene);
 
@@ -261,7 +262,8 @@ public class administradorClientesController {
         LOGGER.info("Buscando clientes: ");
         try {
             if (!textfieldBuscar.getText().isEmpty()) {
-                informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().buscarCliente(new GenericType<List<Cliente>>() {
+
+                informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().buscarNombre(new GenericType<Cliente>() {
                 }, textfieldBuscar.getText()));
                 tablaUsuarios.setItems(informacionClientes);
                 tablaUsuarios.refresh();
@@ -345,4 +347,5 @@ public class administradorClientesController {
             LOGGER.log(Level.SEVERE, msg);
         }
     }
+
 }

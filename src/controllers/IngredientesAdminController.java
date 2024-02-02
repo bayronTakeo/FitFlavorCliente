@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,6 +36,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
@@ -52,7 +54,7 @@ import objects.Usuario;
 
 /**
  *
- * @author bayro
+ * @author bayron
  */
 public class IngredientesAdminController {
 
@@ -109,6 +111,8 @@ public class IngredientesAdminController {
         stage.setScene(scene);
         stage.setTitle("Pagina Principal");
         stage.setResizable(false);
+
+        stage.setOnCloseRequest(this::handleExitAction);
 
         // Configurar un ChangeListener para el Slider
         sliderPrecio.valueProperty().addListener((observable, oldValue, newValue) -> {
@@ -536,5 +540,22 @@ public class IngredientesAdminController {
         });
         LOGGER.info("aqui llega");
 
+    }
+
+    private void handleExitAction(WindowEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION, "¿Estas seguro de salir?Cerraras la app.");
+        a.showAndWait();
+        try {
+            if (a.getResult().equals(ButtonType.CANCEL)) {
+                event.consume();
+            } else {
+                Platform.exit();
+            }
+        } catch (Exception e) {
+            String msg = "Error closing the app: " + e.getMessage();
+            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+            alert.show();
+            LOGGER.log(Level.SEVERE, msg);
+        }
     }
 }

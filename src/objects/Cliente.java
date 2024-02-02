@@ -38,7 +38,7 @@ public class Cliente extends Usuario implements Serializable {
 
     // Constructor por defecto sin argumentos
     public Cliente() {
-        super(0, "usuario@gmail.com", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
+        super(0, "", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.USUARIO);
         this.sexo = new SimpleObjectProperty<>(EnumSexo.HOMBRE);
         this.peso = new SimpleFloatProperty(33);
         this.objetivo = new SimpleObjectProperty<>(EnumObjetivo.MANTENERSE);

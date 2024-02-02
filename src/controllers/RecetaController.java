@@ -30,12 +30,11 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import logicaTablas.floatFormateador;
-import objects.Cliente;
 import objects.Ingrediente;
 import objects.Receta;
 import objects.TipoReceta;
 import objects.Usuario;
-mport net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -44,13 +43,12 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author paula
  */
-
-
 public class RecetaController {
 
     private Stage stage;
@@ -277,19 +275,6 @@ public class RecetaController {
             LOGGER.log(Level.SEVERE,
                     "RecetaController: Error printing report: {0}",
                     ex.getMessage());
-        }
-    }
-
-    private void EditarAction(ActionEvent action) {
-        // Obtiene la fila seleccionada
-        Receta selectedReceta = (Receta) tablaRecetas.getSelectionModel().getSelectedItem();
-        if (selectedReceta != null) {
-            //Activar el modo edicion de la fila
-            tablaRecetas.edit(tablaRecetas.getSelectionModel().getSelectedIndex(), columnaNombre);
-        } else {
-            // Muestra un mensaje si no hay fila seleccionada
-            Alert alert = new Alert(Alert.AlertType.WARNING, "Seleccione una receta para editar.");
-            alert.show();
         }
     }
 

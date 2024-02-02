@@ -134,6 +134,7 @@ public class DiarioController {
         columnaTipo.setCellValueFactory(new PropertyValueFactory("tipoReceta"));
         columnaPrecio.setCellValueFactory(new PropertyValueFactory("precio"));
         columnaAñadirR.setCellValueFactory(param -> {
+
             SimpleBooleanProperty booleanProperty = new SimpleBooleanProperty(param.getValue() != null && diario != null && diario.getListaEjercicios() != null
                     && diario.getListaEjercicios().stream().anyMatch(infoEjercicio -> param.getValue().getId().equals(infoEjercicio.getId())));
             Receta receta = param.getValue();
