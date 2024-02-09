@@ -18,4 +18,9 @@ public class Admin extends Usuario {
 
     private SimpleObjectProperty<List<Receta>> recetas;
     private SimpleObjectProperty<List<Ingrediente>> ingredientes;
+
+    public Admin() {
+        super(0, "", "usuario", null, "123", "ejemplo", "123", "abcd*1234", EnumPrivilegios.ADMIN);
+
+    }
 }

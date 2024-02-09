@@ -4,7 +4,9 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
@@ -60,6 +62,15 @@
             <TableColumn fx:id="columnaProteinas" prefWidth="113.0" text="Proteinas" />
             <TableColumn fx:id="columnaGrasas" prefWidth="128.0" text="Grasas" />
          </columns>
+         <contextMenu>
+            <ContextMenu fx:id="menuContexto">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Agregar" />
+                  <MenuItem mnemonicParsing="false" text="Editar" />
+                  <MenuItem mnemonicParsing="false" text="Eliminar" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
       </TableView>
       <Button fx:id="botonAgregar" layoutX="1011.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" text="Agregar">
          <stylesheets>
@@ -133,7 +144,7 @@
             <URL value="@recetasCSS.css" />
             <URL value="@../resources/recetasCSS.css" />
          </stylesheets></Button>
-     <fx:include fx:id="menuLateral"  source="MenuLateralAdmin.fxml" />
+     <fx:include fx:id="menuLateral" source="MenuLateralAdmin.fxml" />
       <Button fx:id="botonInforme" layoutX="776.0" layoutY="302.0" mnemonicParsing="false" prefHeight="37.0" prefWidth="103.0" stylesheets="@../resources/recetasCSS.css" text="Informe" />
    </children>
 </Pane>

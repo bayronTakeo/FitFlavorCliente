@@ -10,6 +10,7 @@ import exceptions.BusinessLogicException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
@@ -56,8 +57,11 @@ public class UsuarioRESTCliente implements UsuarioInterfaz {
 
             return resource.request(javax.ws.rs.core.MediaType.APPLICATION_XML).get(responseType);
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "Error durante el inicio de sesión", e);
-            throw new BusinessLogicException("User not found");
+            if (e.getMessage().contains("Connection refused")) {
+                throw new BusinessLogicException("Servidor no disponible");
+            } else {
+                throw new BusinessLogicException("User not found");
+            }
         }
     }
 

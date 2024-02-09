@@ -1,13 +1,15 @@
 package cliente;
 
-import bussinesLogic.ClienteFactory;
-import bussinesLogic.ClienteInterfaz;
-import bussinesLogic.IngredienteFactory;
-import bussinesLogic.IngredienteInterfaz;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+import bussinesLogic.RecetaFactory;
+import bussinesLogic.RecetaInterfaz;
 import bussinesLogic.UsuarioFactory;
 import bussinesLogic.UsuarioInterfaz;
-import controllers.IngredientesAdminController;
-import controllers.administradorClientesController;
+import controllers.RecetaController;
 import exceptions.BusinessLogicException;
 import files.AsymmetricCliente;
 import java.util.List;
@@ -15,29 +17,24 @@ import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
 import objects.Cliente;
-import objects.Ingrediente;
+import objects.Receta;
+import objects.TipoReceta;
 import objects.Usuario;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
+import static org.junit.Assert.*;
+import org.junit.FixMethodOrder;
 import org.junit.runners.MethodSorters;
 import static org.testfx.api.FxAssert.verifyThat;
 import org.testfx.framework.junit.ApplicationTest;
@@ -46,19 +43,18 @@ import static org.testfx.matcher.base.NodeMatchers.isVisible;
 
 /**
  *
- * @author Bayron.
+ * @author paula
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class IngredienteController_Test extends ApplicationTest {
+public class RecetaControllerTest extends ApplicationTest {
 
-    private ObservableList<Ingrediente> ingrediente;
+    private ObservableList<Receta> ingrediente;
     private Usuario usuario;
 
-    private IngredienteInterfaz ri = IngredienteFactory.getModelo();
+    private RecetaInterfaz ri = RecetaFactory.getModelo();
 
     private UsuarioInterfaz usuIn = UsuarioFactory.getModelo();
-    private Button botonAgregar, botonEliminar, botonEditar, botonBuscar, botonFiltros, btnReport;
-    private TextField tfSearch;
+    private Button botonAgregar, botonEliminar, botonEditar;
     private TableView table;
 
     private Stage stage;
@@ -67,14 +63,13 @@ public class IngredienteController_Test extends ApplicationTest {
     public void start(Stage stage) throws Exception {
         byte[] passwordBytes = new AsymmetricCliente().cipher("abcd*1234");
         usuario = usuIn.signIn(new GenericType<Cliente>() {
-        }, "usuario4@gmail.com", DatatypeConverter.printHexBinary(passwordBytes));
+        }, "usuario3@gmail.com", DatatypeConverter.printHexBinary(passwordBytes));
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/IngredientesAdmin.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Recetas.fxml"));
         System.out.println(loader.getLocation());
         Parent root = loader.load();
-        IngredientesAdminController administrador = loader.getController();
+        RecetaController administrador = loader.getController();
         administrador.setStage(stage);
-        administrador.setCliente(usuario);
 
         administrador.initStage(root);
 
@@ -83,13 +78,12 @@ public class IngredienteController_Test extends ApplicationTest {
         botonAgregar = lookup("#botonAgregar").query();
         botonEliminar = lookup("#botonEliminar").query();
         botonEditar = lookup("#botonEditar").query();
-        botonFiltros = lookup("#botonFiltros").query();
 
-        table = lookup("#tablaIngredientes").queryTableView();
+        table = lookup("#tablaRecetas").queryTableView();
     }
 
     @Test
-    //@Ignore
+    // @Ignore
     public void test1_initStage() {
         verifyThat(botonAgregar, isVisible());
         verifyThat(botonAgregar, isEnabled());
@@ -97,30 +91,25 @@ public class IngredienteController_Test extends ApplicationTest {
         verifyThat(botonEliminar, isEnabled());
         verifyThat(botonEditar, isVisible());
         verifyThat(botonEditar, isEnabled());
-        // verifyThat(botonFiltros, isVisible());
-        //verifyThat(botonFiltros, isEnabled());
-//        verifyThat(btnReport, isVisible());
-//        verifyThat(btnReport, isEnabled());
-
     }
 
     @Test
     // @Ignore
-    public void createIngredient() {
+    public void createReceta() {
         try {
             int rowCount = table.getItems().size();
 
             clickOn(botonAgregar);
             System.out.println(table.getItems().size());
             assertEquals("La fila no se ha creado!!!", rowCount + 1, table.getItems().size());
-            List<Ingrediente> ingredientes = ri.findAll(new GenericType<List<Ingrediente>>() {
+            List<Receta> recetas = ri.listaRecetas(new GenericType<List<Receta>>() {
             });
 
-            Ingrediente ingredienteServer = ingredientes.get(ingredientes.size() - 1);
-            List<Ingrediente> ingredienteTabla = table.getItems();
+            Receta recetaServer = recetas.get(recetas.size() - 1);
+            List<Receta> recetaTabla = table.getItems();
 
             assertEquals("El recurrente no se ha añdido!!!",
-                    ingredienteTabla.stream().filter(c -> c.getId().equals(ingredienteServer.getId())).count(), 1);
+                    recetaTabla.stream().filter(c -> c.getId().equals(recetaServer.getId())).count(), 1);
 
         } catch (BusinessLogicException ex) {
             Logger.getLogger(ClienteController_Test.class.getName()).log(Level.SEVERE, null, ex);
@@ -129,7 +118,7 @@ public class IngredienteController_Test extends ApplicationTest {
     }
 
     @Test
-    // @Ignore
+    //@Ignore
     public void test3_handleModifyRecurrent() {
 
         int rowCount = table.getItems().size();
@@ -138,61 +127,67 @@ public class IngredienteController_Test extends ApplicationTest {
 
         Node tipoRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(0).query();
         Node nombreRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(1).query();
-        Node precioRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(2).query();
-        Node kiloRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(3).query();
-        Node carboRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(4).query();
-        Node proteinasRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(5).query();
-        Node grasasRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(6).query();
+        Node duracionRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(2).query();
+        Node ingredientesRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(3).query();
+        Node pasosRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(4).query();
+        Node preciosRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(5).query();
+        Node vegetarianoRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(6).query();
+        Node veganoRow = lookup(".table-row-cell").nth(0).lookup(".table-cell").nth(7).query();
 
         assertNotNull("El cliente es nullo, no se puede editar", nombreRow);
 
         clickOn(nombreRow);
-        Ingrediente ingredienteSeleccionado = (Ingrediente) table.getSelectionModel()
+        Receta recetaSeleccionado = (Receta) table.getSelectionModel()
                 .getSelectedItem();
         int selectedIndex = table.getSelectionModel().getSelectedIndex();
 
-        Ingrediente ingredienteModificado = ingredienteSeleccionado;
-        ingredienteModificado.setId(ingredienteSeleccionado.getId());
-        ingredienteModificado.setNombre(generateRandomString());
-        ingredienteModificado.setPrecio(Float.parseFloat(generateRandomNumber(0, 4) + ""));
-        ingredienteModificado.setKcal(Float.parseFloat(generateRandomNumber(0, 4) + ""));
-        ingredienteModificado.setCarbohidratos(Float.parseFloat(generateRandomNumber(0, 4) + ""));
-        ingredienteModificado.setProteinas(Float.parseFloat(generateRandomNumber(0, 4) + ""));
-        ingredienteModificado.setGrasas(Float.parseFloat(generateRandomNumber(0, 4) + ""));
+        Receta recetaModificado = recetaSeleccionado;
+        recetaModificado.setTipoReceta(TipoReceta.Postre);
+        recetaModificado.setNombre(generateRandomString());
+        recetaModificado.setDuracion(Float.parseFloat(generateRandomNumber(0, 4) + ""));
+        recetaModificado.setPasos(generateRandomString());
+        recetaModificado.setPrecio(Float.parseFloat(generateRandomNumber(0, 4) + ""));
+        recetaModificado.setEsVegetariano(Boolean.TRUE);
+        recetaModificado.setEsVegetariano(Boolean.FALSE);
+
+        doubleClickOn(tipoRow);
+        doubleClickOn(tipoRow);
+        write(recetaModificado.getTipoReceta() + "");
+        type(KeyCode.ENTER);
 
         doubleClickOn(nombreRow);
         doubleClickOn(nombreRow);
-        write(ingredienteModificado.getNombre());
+        write(recetaModificado.getNombre() + "");
         type(KeyCode.ENTER);
 
-        doubleClickOn(precioRow);
-        doubleClickOn(precioRow);
-        write(ingredienteModificado.getPrecio() + "");
+        doubleClickOn(duracionRow);
+        doubleClickOn(duracionRow);
+        write(recetaModificado.getDuracion() + "");
         type(KeyCode.ENTER);
 
-        doubleClickOn(kiloRow);
-        doubleClickOn(kiloRow);
-        write(ingredienteModificado.getKcal() + "");
+        doubleClickOn(pasosRow);
+        doubleClickOn(pasosRow);
+        write(recetaModificado.getPasos() + "");
         type(KeyCode.ENTER);
 
-        doubleClickOn(carboRow);
-        doubleClickOn(carboRow);
-        write(ingredienteModificado.getCarbohidratos() + "");
+        doubleClickOn(preciosRow);
+        doubleClickOn(preciosRow);
+        write(recetaModificado.getPrecio() + "");
         type(KeyCode.ENTER);
 
-        doubleClickOn(proteinasRow);
-        doubleClickOn(proteinasRow);
-        write(ingredienteModificado.getProteinas() + "");
+        doubleClickOn(vegetarianoRow);
+        doubleClickOn(vegetarianoRow);
+        write(recetaModificado.getEsVegetariano() + "");
         type(KeyCode.ENTER);
 
-        doubleClickOn(grasasRow);
-        doubleClickOn(grasasRow);
-        write(ingredienteModificado.getGrasas() + "");
+        doubleClickOn(veganoRow);
+        doubleClickOn(veganoRow);
+        write(recetaModificado.getEsVegano() + "");
         type(KeyCode.ENTER);
 
         assertEquals("The user has not been modified!!!",
-                ingredienteModificado,
-                (Ingrediente) table.getItems().get(selectedIndex));
+                recetaModificado,
+                (Receta) table.getItems().get(selectedIndex));
 
     }
 
@@ -200,7 +195,7 @@ public class IngredienteController_Test extends ApplicationTest {
     //@Ignore
     public void test4_handleDeleteRecurrent() {
         int rowCount = table.getItems().size();
-        assertNotEquals("No existen ingredientes, no se puede eliminar nada",
+        assertNotEquals("No existen recetas, no se puede eliminar nada",
                 rowCount, 0);
 
         Node row = lookup(".table-row-cell").nth(0).query();
@@ -208,7 +203,7 @@ public class IngredienteController_Test extends ApplicationTest {
         clickOn(row);
         clickOn(botonEliminar);
         clickOn(ButtonType.OK.getText());
-        assertEquals("El ingrediente no se ha eliminado!!!",
+        assertEquals("La receta no se ha eliminado!!!",
                 rowCount - 1, table.getItems().size());
     }
 
@@ -231,4 +226,5 @@ public class IngredienteController_Test extends ApplicationTest {
 
         return sb.toString();
     }
+
 }

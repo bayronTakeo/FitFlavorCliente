@@ -93,7 +93,7 @@ public class RecetaController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
+        // Stage stage = new Stage();
         stage.setScene(scene);
 
         stage.setTitle("Recetas");
@@ -253,7 +253,7 @@ public class RecetaController {
         botonEliminar.setOnAction(this::DeleteAction);
         stage.show();
         LOGGER.info("Recetas iniciado");
-        botonInforme.setOnAction(this::InformeAction);
+        //botonInforme.setOnAction(this::InformeAction);
     }
 
     @FXML

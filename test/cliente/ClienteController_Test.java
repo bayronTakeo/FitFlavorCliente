@@ -83,7 +83,7 @@ public class ClienteController_Test extends ApplicationTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void test1_initStage() {
         verifyThat(botonAgregar, isVisible());
         verifyThat(botonAgregar, isEnabled());
@@ -99,7 +99,7 @@ public class ClienteController_Test extends ApplicationTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void test2_handleCreateRecurrent() {
         try {
             int rowCount = table.getItems().size();
@@ -186,7 +186,7 @@ public class ClienteController_Test extends ApplicationTest {
     }
 
     @Test
-    @Ignore
+    //@Ignore
     public void test4_handleDeleteRecurrent() {
         int rowCount = table.getItems().size();
         assertNotEquals("No existen clientes, no se puede eliminar nada",
@@ -202,7 +202,7 @@ public class ClienteController_Test extends ApplicationTest {
     }
 
     @Test
-    //@Ignore
+    @Ignore
     public void test_buscar() {
         int rowCount = table.getItems().size();
         clickOn("#textfieldBuscar");

@@ -176,7 +176,7 @@ public class SignInController {
                 try {
                     Cliente client = ClienteFactory.getModelo().buscarCliente(new GenericType<Cliente>() {
                     }, textFieldEmail.getText());
-                    LOGGER.log(Level.INFO, "Cliente encontrado");
+                    LOGGER.log(Level.INFO, "Cliente encontrado" + textFieldEmail.getText());
                     ClienteFactory.getModelo().recuperarContrasenia(client);
 
                     // Muestra un segundo Alert indicando que el correo ha sido enviado con éxito
@@ -331,15 +331,22 @@ public class SignInController {
             UsuarioInterfaz model = UsuarioFactory.getModelo();
             ClienteInterfaz modelC = ClienteFactory.getModelo();
             LOGGER.log(Level.INFO, textFieldPassword.getText());
+            Usuario user;
+            if (!textFieldEmail.getText().equals("admin@gmail.com")) {
+                byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
+                user = model.signIn(new GenericType<Cliente>() {
+                }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
+                sesionCliente = SesionCliente.getInstance();
+                sesionCliente.setCliente(user);
+            } else {
+                user = model.signIn(new GenericType<Cliente>() {
+                }, textFieldEmail.getText(), textFieldPassword.getText());
+                sesionCliente = SesionCliente.getInstance();
+                sesionCliente.setCliente(user);
+            }
 
-            byte[] passwordBytes = new AsymmetricCliente().cipher(textFieldPassword.getText());
-            Usuario user = model.signIn(new GenericType<Cliente>() {
-            }, textFieldEmail.getText(), DatatypeConverter.printHexBinary(passwordBytes));
-            sesionCliente = SesionCliente.getInstance();
-            sesionCliente.setCliente(user);
             //Usuario user = model.signIn(textFieldEmail.getText(), textFieldPassword.getText());
             //Si no ha devuelto ninguna excepción seguira con el codigo y abrira la ventana de Welcome
-
             try {
                 if (user instanceof Admin || textFieldEmail.getText().equals("admin@gmail.com") && textFieldPassword.getText().equals("abcd*1234")) {
 
@@ -376,6 +383,7 @@ public class SignInController {
         } catch (CommonException | BusinessLogicException ex) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ex.getMessage());
             alert.show();
+
             LOGGER.log(Level.SEVERE, ex.getMessage());
         }
     }

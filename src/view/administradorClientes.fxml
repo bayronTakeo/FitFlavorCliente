@@ -30,13 +30,14 @@
       </Text>
       <TableView fx:id="tablaUsuarios" layoutX="383.0" layoutY="223.0" prefHeight="479.0" prefWidth="987.0" stylesheets="@../resources/AdministradorClientesCSS.css">
          <columns>
-            <TableColumn fx:id="columnaEmail" prefWidth="140.0" text="Email" />
-            <TableColumn fx:id="columnaNombre" prefWidth="163.0" text="Nombre completo" />
-            <TableColumn fx:id="columnafecha" prefWidth="113.0" text="Fecha Nacimiento" />
-            <TableColumn fx:id="columnaTelefono" prefWidth="125.60003662109375" text="Telefono" />
-            <TableColumn fx:id="columnaDireccion" minWidth="0.0" prefWidth="199.20001220703125" text="Direccion" />
-            <TableColumn fx:id="columnaCodPostal" prefWidth="113.0" text="Cod. Postal" />
-            <TableColumn fx:id="columnaContrania" prefWidth="128.0" text="Contraseña" />
+            <TableColumn fx:id="columnaEmail" prefWidth="118.39996337890625" text="Email" />
+            <TableColumn fx:id="columnaNombre" prefWidth="124.0" text="Nombre completo" />
+            <TableColumn fx:id="columnafecha" prefWidth="107.20001220703125" text="Fecha Nacimiento" />
+            <TableColumn fx:id="columnaTelefono" prefWidth="134.4000244140625" text="Telefono" />
+            <TableColumn fx:id="columnaDireccion" minWidth="0.0" prefWidth="143.2000732421875" text="Direccion" />
+            <TableColumn fx:id="columnaCodPostal" prefWidth="101.59991455078125" text="Cod. Postal" />
+            <TableColumn fx:id="columnaContrania" prefWidth="144.800048828125" text="Contraseña" />
+            <TableColumn fx:id="columnaPermisos" prefWidth="109.4000244140625" text="Permisos" />
          </columns>
          <contextMenu>
             <ContextMenu fx:id="menuTabla">

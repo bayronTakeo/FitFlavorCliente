@@ -25,6 +25,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
@@ -89,7 +90,8 @@ public class IngredientesAdminController {
     private TableColumn<Ingrediente, Float> columnaProteinas;
     @FXML
     private TableColumn<Ingrediente, Float> columnaGrasas;
-
+    @FXML
+    private ContextMenu menuContexto;
     @FXML
     private Label labelPrecio, labelKcal, labelProteinas, labelGrasas, labelCab;
     private ObservableList<Ingrediente> informacionIngredientes;
@@ -107,7 +109,7 @@ public class IngredientesAdminController {
 
     public void initStage(Parent root) {
         Scene scene = new Scene(root);
-        Stage stage = new Stage();
+        //Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("Pagina Principal");
         stage.setResizable(false);
@@ -213,12 +215,19 @@ public class IngredientesAdminController {
             Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
             Float precio = seleccionado.getPrecio();
             try {
-                if (t.getNewValue() <= 9999) {
+                Float nuevoPrecio = t.getNewValue();
+                if (nuevoPrecio <= 9999 && nuevoPrecio >= 0) {
                     ((Ingrediente) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setPrecio(t.getNewValue());
                     IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
-                } else {
+                } else if (nuevoPrecio >= 9999) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El numero no puede ser negativo!");
                     alert.show();
                     informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
                     }));
@@ -246,12 +255,19 @@ public class IngredientesAdminController {
             Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
             Float precio = seleccionado.getPrecio();
             try {
-                if (t.getNewValue() <= 9999) {
+                Float nuevaKcal = t.getNewValue();
+                if (nuevaKcal <= 9999 && nuevaKcal >= 0) {
                     ((Ingrediente) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setKcal(t.getNewValue());
                     IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
-                } else {
+                } else if (nuevaKcal >= 9999) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El numero no puede ser negativo!");
                     alert.show();
                     informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
                     }));
@@ -280,12 +296,19 @@ public class IngredientesAdminController {
             Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
             Float precio = seleccionado.getPrecio();
             try {
-                if (t.getNewValue() <= 9999) {
+                Float nuevoPrecio = t.getNewValue();
+                if (nuevoPrecio <= 9999 && nuevoPrecio >= 0) {
                     ((Ingrediente) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setCarbohidratos(t.getNewValue());
                     IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
-                } else {
+                } else if (nuevoPrecio >= 9999) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El número no puede ser negativo");
                     alert.show();
                     informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
                     }));
@@ -314,12 +337,19 @@ public class IngredientesAdminController {
             Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
             Float precio = seleccionado.getPrecio();
             try {
-                if (t.getNewValue() <= 9999) {
+                Float proteinaNueva = t.getNewValue();
+                if (proteinaNueva <= 9999 && proteinaNueva >= 0) {
                     ((Ingrediente) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setProteinas(t.getNewValue());
                     IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
-                } else {
+                } else if (proteinaNueva >= 9999) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
+                    alert.show();
+                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                    }));
+                    tablaIngredientes.setItems(informacionIngredientes);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El numero no puede ser negativo!");
                     alert.show();
                     informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
                     }));
@@ -347,17 +377,21 @@ public class IngredientesAdminController {
             Ingrediente seleccionado = (Ingrediente) tablaIngredientes.getSelectionModel().getSelectedItem();
             Float precio = seleccionado.getPrecio();
             try {
-                if (t.getNewValue() <= 9999) {
+                Float nuevoGrasa = t.getNewValue();
+                if (nuevoGrasa <= 9999 && nuevoGrasa >= 0) {
                     ((Ingrediente) t.getTableView().getItems().get(
                             t.getTablePosition().getRow())).setGrasas(t.getNewValue());
                     IngredienteFactory.getModelo().updateIngrediente((Ingrediente) t.getTableView().getSelectionModel().getSelectedItem());
-                } else {
+                } else if (nuevoGrasa >= 9999) {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "El número maximo posible es de 4 digitos!");
                     alert.show();
-                    informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
-                    }));
-                    tablaIngredientes.setItems(informacionIngredientes);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "El numero no puede ser negativo!");
+                    alert.show();
                 }
+                informacionIngredientes = FXCollections.observableArrayList(IngredienteFactory.getModelo().findAll(new GenericType<List<Ingrediente>>() {
+                }));
+                tablaIngredientes.setItems(informacionIngredientes);
             } catch (BusinessLogicException ex) {
                 ((Ingrediente) t.getTableView().getItems().get(
                         t.getTablePosition().getRow())).setPrecio(precio);
@@ -383,6 +417,12 @@ public class IngredientesAdminController {
         botonAplicar.setOnAction(this::buscarCliente);
         botonInforme.setOnAction(
                 this::InformeAction);
+        menuContexto.getItems()
+                .get(0).setOnAction(this::AgregarAction);
+        menuContexto.getItems()
+                .get(1).setOnAction(this::EditarAction);
+        menuContexto.getItems()
+                .get(2).setOnAction(this::DeleteAction);
         stage.show();
         LOGGER.info("Pagina principal iniciada");
     }
@@ -505,11 +545,13 @@ public class IngredientesAdminController {
             if (e.getMessage() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "!Primero tienes que seleccionar un cliente!");
                 alert.show();
+            } else {
+                String msg = "Error eliminando el ingrediente: " + e.getMessage();
+                Alert alert = new Alert(Alert.AlertType.ERROR, msg);
+                alert.show();
+                LOGGER.log(Level.SEVERE, msg);
             }
-            String msg = "Error eliminando el ingrediente: " + e.getMessage();
-            Alert alert = new Alert(Alert.AlertType.ERROR, msg);
-            alert.show();
-            LOGGER.log(Level.SEVERE, msg);
+
         }
     }
 

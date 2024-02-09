@@ -5,6 +5,7 @@
  */
 package controllers;
 
+import bussinesLogic.AdminFactory;
 import bussinesLogic.ClienteFactory;
 import exceptions.BusinessLogicException;
 import files.AsymmetricCliente;
@@ -24,19 +25,24 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.ComboBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javax.ws.rs.core.GenericType;
 import javax.xml.bind.DatatypeConverter;
+import objects.Admin;
 import objects.Cliente;
+import objects.EnumPrivilegios;
 import objects.Ingrediente;
+import objects.TipoIngrediente;
 import objects.Usuario;
 
 /**
@@ -68,11 +74,17 @@ public class administradorClientesController {
     @FXML
     private TableColumn<Cliente, String> columnaContrania;
     @FXML
+    private TableColumn<Cliente, EnumPrivilegios> columnaPermisos;
+
+    @FXML
     private Button botonAgregar, botonEliminar, botonEditar, botonBuscar;
     @FXML
     private TextField textfieldBuscar;
 
     private ObservableList<Cliente> informacionClientes;
+
+    private ObservableList<EnumPrivilegios> opciones
+            = FXCollections.observableArrayList(EnumPrivilegios.values());
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -117,7 +129,7 @@ public class administradorClientesController {
         columnaDireccion.setCellValueFactory(new PropertyValueFactory("direccion"));
         columnaCodPostal.setCellValueFactory(new PropertyValueFactory("codigoPostal"));
         columnaContrania.setCellValueFactory(new PropertyValueFactory("contrasenia"));
-
+        columnaPermisos.setCellValueFactory(new PropertyValueFactory("privilegio"));
         try {
 
             informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
@@ -131,6 +143,26 @@ public class administradorClientesController {
         tablaUsuarios.setItems(informacionClientes);
         tablaUsuarios.setEditable(true);
 
+        //Editar tipo de ingrediente
+        columnaPermisos.setCellFactory(ComboBoxTableCell.<Cliente, EnumPrivilegios>forTableColumn(EnumPrivilegios.values()));
+        columnaPermisos.setOnEditCommit(
+                (TableColumn.CellEditEvent<Cliente, EnumPrivilegios> t) -> {
+
+                    Cliente tipoSeleccionado = (Cliente) tablaUsuarios.getSelectionModel().getSelectedItem();
+                    EnumPrivilegios valorOriginal = t.getOldValue();
+                    ComboBox<EnumPrivilegios> comboBox = new ComboBox<>();
+                    comboBox.setItems(opciones);
+                    try {
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setPrivilegio(t.getNewValue());
+                        ClienteFactory.getModelo().actualizarCliente((Cliente) t.getTableView().getSelectionModel().getSelectedItem());
+                    } catch (BusinessLogicException ex) {
+
+                        ((Cliente) t.getTableView().getItems().get(
+                                t.getTablePosition().getRow())).setPrivilegio(valorOriginal);
+                        tablaUsuarios.refresh();
+                    }
+                });
         //Editar columna nombreCompleto
         columnaNombre.setCellFactory(TextFieldTableCell.<Cliente>forTableColumn());
         columnaNombre.setOnEditCommit(
@@ -296,10 +328,43 @@ public class administradorClientesController {
 
     private void AgregarAction(ActionEvent action) {
         try {
-            Cliente client = new Cliente();
-            byte[] passwordBytes = new AsymmetricCliente().cipher("abcd*1234");
-            client.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
-            ClienteFactory.getModelo().crearCliente(client);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmación");
+            alert.setHeaderText("Elija una opción:");
+            alert.setContentText("¿Que quieres crear?");
+
+            ButtonType buttonTypeOne = new ButtonType("Cliente");
+            ButtonType buttonTypeTwo = new ButtonType("Admin");
+
+            alert.getButtonTypes().setAll(buttonTypeOne, buttonTypeTwo);
+
+            alert.showAndWait().ifPresent(buttonType -> {
+                if (buttonType == buttonTypeOne) {
+
+                    try {
+                        Cliente client = new Cliente();
+                        byte[] passwordBytes = new AsymmetricCliente().cipher("abcd*1234");
+                        client.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
+                        ClienteFactory.getModelo().crearCliente(client);
+                    } catch (BusinessLogicException ex) {
+                        Logger.getLogger(administradorClientesController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                } else if (buttonType == buttonTypeTwo) {
+                    try {
+                        Admin admin = new Admin();
+                        byte[] passwordBytes = new AsymmetricCliente().cipher("abcd*1234");
+                        admin.setContrasenia(DatatypeConverter.printHexBinary(passwordBytes));
+                        AdminFactory.getModelo().crearAdmin(admin);
+                    } catch (BusinessLogicException ex) {
+                        Logger.getLogger(administradorClientesController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    alert.close();
+
+                }
+            });
+
             informacionClientes = FXCollections.observableArrayList(ClienteFactory.getModelo().findAll(new GenericType<List<Cliente>>() {
             }));
             tablaUsuarios.setItems(informacionClientes);
